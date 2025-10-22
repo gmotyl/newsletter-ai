@@ -1,0 +1,43 @@
+{
+  "newsletterPatterns": [
+    {
+      "name": "daily.dev",
+      "from": "daily@daily.dev",
+      "subject": ["daily.dev", "Daily Digest"],
+      "enabled": true,
+      "maxArticles": 10
+    },
+    {
+      "name": "JavaScript Weekly",
+      "from": "javascriptweekly@cooperpress.com",
+      "subject": ["JavaScript Weekly"],
+      "enabled": true,
+      "maxArticles": 15
+    },
+    {
+      "name": "React Status",
+      "from": "react@cooperpress.com",
+      "subject": ["React Status"],
+      "enabled": true,
+      "maxArticles": 12
+    },
+    {
+      "name": "TypeScript Weekly",
+      "from": "typescript@cooperpress.com",
+      "subject": ["TypeScript Weekly"],
+      "enabled": false,
+      "maxArticles": 10
+    }
+  ],
+  "contentFilters": {
+    "skipTopics": ["Java", "JDK", "Spring Boot", "Maven"],
+    "focusTopics": ["frontend", "react", "TypeScript", "AI", "architecture", "performance", "testing"]
+  },
+  "scraperOptions": {
+    "timeout": 30000,
+    "userAgent": "Mozilla/5.0 (compatible; NewsletterBot/1.0)",
+    "retryAttempts": 3
+  },
+  "outputLanguage": "polish",
+  "narratorPersona": "thePrimeagen"
+}
