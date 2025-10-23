@@ -1,6 +1,6 @@
 # Newsletter AI
 
-AI-powered newsletter processor that automatically reads newsletters from Gmail, extracts article links, reads their content, and generates Polish audio-friendly summaries using Vercel AI SDK.
+AI-powered newsletter processor that automatically reads newsletters from Gmail, extracts article links, reads their content, and generates audio-friendly summaries in any language using Vercel AI SDK.
 
 ## Features
 
@@ -10,7 +10,7 @@ AI-powered newsletter processor that automatically reads newsletters from Gmail,
 - 🌐 Scrapes article content from web pages
 - 🤖 Generates audio-friendly summaries using LLM (OpenAI, Anthropic, etc.)
 - 🎭 Configurable narrator persona (thePrimeagen, Fireship, TheoT3, etc.)
-- 🇵🇱 Polish language output optimized for audio consumption
+- 🌍 Multi-language support - generate summaries in any language
 - 📝 Marks processed emails as read (optional)
 - 🗑️ Optional automated email deletion after processing
 
@@ -93,35 +93,46 @@ Available narrator styles:
 ```
 newsletter-ai/
 ├── src/
-│   ├── index.ts                 # Main entry point
-│   ├── services/
-│   │   ├── imap.service.ts      # IMAP email integration
-│   │   ├── llm.service.ts       # Vercel AI SDK wrapper
-│   │   ├── scraper.service.ts   # Article content extraction
-│   │   └── processor.service.ts # Newsletter processing orchestration
+│   ├── index.ts                 # Main entry point (composition root)
+│   ├── services/                # FP-style service modules
+│   │   ├── imap.service.ts      # IMAP email functions
+│   │   ├── llm.service.ts       # LLM functions (Vercel AI SDK)
+│   │   ├── scraper.service.ts   # Article scraping functions
+│   │   └── processor.service.ts # Processing orchestration functions
 │   ├── config/
-│   │   ├── config.ts            # Configuration loader
-│   │   └── newsletter-patterns.ts # Newsletter search patterns
+│   │   ├── config.ts            # Configuration functions (FP module)
+│   │   └── newsletter-patterns.ts # Newsletter pattern utilities
 │   └── types/
 │       └── index.ts             # TypeScript type definitions
 ├── .env                         # Credentials (create from .env.example)
 ├── config.json                  # Newsletter patterns and settings
-├── PROMPT_PL.md                 # LLM prompt template (Polish)
-├── PROMPT_EN.md                 # LLM prompt template (English)
+├── PROMPT.md                    # LLM prompt template (supports all languages)
 └── output/                      # Generated summaries
 ```
 
+### Architecture
+
+This project follows **Functional Programming (FP) principles**:
+- **Pure Functions**: Stateless functions with no side effects
+- **Immutability**: Data structures are never modified
+- **Function Composition**: Complex behaviors built from smaller functions
+- **Explicit Dependencies**: All dependencies passed as parameters
+- **No Classes**: All modules export pure functions directly
+
 ### Language Support
 
-The application automatically selects the correct prompt file based on the `OUTPUT_LANGUAGE` setting:
-- `polish` or `pl` → Uses [PROMPT_PL.md](PROMPT_PL.md)
-- `english` or `en` → Uses [PROMPT_EN.md](PROMPT_EN.md)
-- Unknown languages default to English
+The application uses a single `PROMPT.md` file that supports **any language** through the `{OUTPUT_LANGUAGE}` placeholder. Simply set your desired language in `.env` or `config.json`:
 
-You can customize the prompts by editing these files. The following placeholders are automatically replaced:
+```bash
+OUTPUT_LANGUAGE=polish    # or english, spanish, french, german, etc.
+```
+
+The following placeholders in `PROMPT.md` are automatically replaced:
 - `{NARRATOR_PERSONA}` - Replaced with configured narrator style
-- `{OUTPUT_LANGUAGE}` - Replaced with the output language
+- `{OUTPUT_LANGUAGE}` - Replaced with your chosen output language
 - `{NEWSLETTER_CONTENT}` - Replaced with the actual newsletter content
+
+You can customize the prompt template by editing [PROMPT.md](PROMPT.md) to fit your needs.
 
 ## Usage
 
@@ -151,15 +162,22 @@ The script will:
 - [x] Set up TypeScript configuration
 - [x] Create project structure
 
+**Phase 2: Configuration Management** ✅ COMPLETED
+- [x] FP-style configuration module with pure functions
+- [x] Environment variable management
+- [x] Newsletter patterns configuration
+- [x] Multi-language prompt support
+
 **Next Steps:**
-- Phase 2: Configuration Management
 - Phase 3: IMAP Email Integration
 - Phase 4: Web Scraping Service
-- Phase 5: LLM Integration
+- Phase 5: LLM Integration (in progress)
 - Phase 6: Processing Orchestration
 - Phase 7: CLI Interface
 - Phase 8: Output Formatting
 - Phase 9: Testing & Polish
+
+See [PLAN.md](PLAN.md) for detailed implementation roadmap.
 
 ## License
 
