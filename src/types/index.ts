@@ -74,3 +74,31 @@ export interface ArticleSummary {
   keyTakeaways: string[];
   url: string;
 }
+
+// IMAP-specific types
+export interface EmailMetadata {
+  uid: number;
+  from: string;
+  subject: string;
+  date: Date;
+}
+
+export interface EmailContent {
+  uid: number;
+  from: string;
+  subject: string;
+  date: Date;
+  html: string;
+  text: string;
+}
+
+// Connection wrapper type
+export interface IMAPConnection {
+  connection: any; // node-imap connection object
+  mailbox: string;
+}
+
+// Result types for better error handling
+export type Result<T, E = Error> =
+  | { ok: true; value: T }
+  | { ok: false; error: E };

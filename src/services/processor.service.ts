@@ -1,45 +1,68 @@
-// Newsletter processing orchestration service
+// Newsletter processing orchestration service - Functional Programming style
+// This is a stub for Phase 6 implementation
 
-import type { Newsletter, ProcessingOptions, Summary } from '../types/index.js';
-import { ImapService } from './imap.service.js';
-import { ScraperService } from './scraper.service.js';
-import { LLMService } from './llm.service.js';
+import type { Newsletter, ProcessingOptions, Summary } from "../types/index.js";
 
-export class ProcessorService {
-  private _imapService: ImapService;
-  private _scraperService: ScraperService;
-  private _llmService: LLMService;
-  private _options: ProcessingOptions;
+/**
+ * Processes a single newsletter
+ * TODO: Implement in Phase 6
+ */
+export const processNewsletter = async (
+  newsletter: Newsletter,
+  options: ProcessingOptions
+): Promise<Summary> => {
+  // TODO: Implement main processing pipeline
+  // 1. Extract article links
+  // 2. Scrape article content
+  // 3. Filter content
+  // 4. Generate summary with LLM
+  // 5. Mark as read/delete if enabled
+  throw new Error("Not implemented - Phase 6");
+};
 
-  constructor(
-    imapService: ImapService,
-    scraperService: ScraperService,
-    llmService: LLMService,
-    options: ProcessingOptions
-  ) {
-    this._imapService = imapService;
-    this._scraperService = scraperService;
-    this._llmService = llmService;
-    this._options = options;
-  }
+/**
+ * Processes multiple newsletters sequentially
+ * TODO: Implement in Phase 6
+ */
+export const processAllNewsletters = async (
+  newsletters: Newsletter[],
+  options: ProcessingOptions
+): Promise<Summary[]> => {
+  // TODO: Process all newsletters
+  throw new Error("Not implemented - Phase 6");
+};
 
-  async processNewsletter(_newsletter: Newsletter): Promise<Summary> {
-    // TODO: Implement main processing pipeline
-    // 1. Extract article links
-    // 2. Scrape article content
-    // 3. Filter content
-    // 4. Generate summary with LLM
-    // 5. Mark as read/delete if enabled
-    throw new Error('Not implemented');
-  }
+/**
+ * Filters articles based on focus/skip topics
+ * Pure function
+ * TODO: Implement in Phase 6
+ */
+export const filterByFocusTopics = (
+  articles: any[],
+  topics: string[]
+): any[] => {
+  // TODO: Implement filtering logic
+  throw new Error("Not implemented - Phase 6");
+};
 
-  private _filterArticles(_newsletter: Newsletter): Newsletter {
-    // TODO: Filter articles based on focus/skip topics
-    throw new Error('Not implemented');
-  }
+/**
+ * Filters out articles matching skip topics
+ * Pure function
+ * TODO: Implement in Phase 6
+ */
+export const filterBySkipTopics = (
+  articles: any[],
+  topics: string[]
+): any[] => {
+  // TODO: Implement filtering logic
+  throw new Error("Not implemented - Phase 6");
+};
 
-  private _extractLinks(_emailContent: string): string[] {
-    // TODO: Extract article URLs from email
-    throw new Error('Not implemented');
-  }
-}
+/**
+ * Limits the number of articles
+ * Pure function
+ * TODO: Implement in Phase 6
+ */
+export const limitArticles = (articles: any[], max: number): any[] => {
+  return articles.slice(0, max);
+};

@@ -90,11 +90,11 @@ newsletter-ai/
   - **Caching**: config.json cached after first load for performance
   - **No side effects**: All functions are pure (except cached file I/O)
 
-### Phase 3: IMAP Email Integration (FP Style)
-- [ ] Implement IMAP module using **functional approach**:
+### Phase 3: IMAP Email Integration (FP Style) ✅ COMPLETED
+- [x] Implement IMAP module using **functional approach**:
   - Connection as a resource (managed externally, passed to functions)
   - Pure functions that accept connection as parameter
-- [ ] Create **pure functions** in `src/services/imap.service.ts`:
+- [x] Create **pure functions** in `src/services/imap.service.ts`:
   - `createConnection(credentials: EmailCredentials): Promise<Connection>` - Factory function
   - `searchNewsletters(connection, pattern): Promise<EmailMetadata[]>` - Search emails (FROM, SUBJECT, UNSEEN)
   - `fetchEmailContent(connection, uid): Promise<EmailContent>` - Fetch and parse email body
@@ -102,11 +102,12 @@ newsletter-ai/
   - `deleteEmail(connection, uid): Promise<void>` - Delete email (side effect isolated)
   - `closeConnection(connection): Promise<void>` - Cleanup function
   - `withConnection<T>(credentials, fn): Promise<T>` - Higher-order function for connection lifecycle
-- [ ] **Parser functions** (pure):
+- [x] **Parser functions** (pure):
   - `parseEmailHtml(html: string): string[]` - Extract article links from HTML
   - `extractArticleLinks(email: EmailContent): string[]` - Get all article URLs
-- [ ] Error handling with explicit error types
-- [ ] Support common IMAP servers (Gmail, Outlook, custom)
+- [x] Error handling with explicit error types
+- [x] Support common IMAP servers (Gmail, Outlook, custom)
+- [x] **Unit tests**: Comprehensive test suite with 29 tests covering pure functions
 
 ### Phase 4: Web Scraping Service (FP Style)
 - [ ] Implement **pure scraping functions** in `src/services/scraper.service.ts`:
