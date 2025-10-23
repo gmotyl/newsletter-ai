@@ -27,6 +27,13 @@
       "subject": ["TypeScript Weekly"],
       "enabled": false,
       "maxArticles": 10
+    },
+    {
+      "name": "ui.dev",
+      "from": "tyler@ui.dev",
+      "subject": ["ui.dev", "Bytes", "React Newsletter"],
+      "enabled": true,
+      "maxArticles": 12
     }
   ],
   "contentFilters": {

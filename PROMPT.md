@@ -1,28 +1,28 @@
 # Newsletter Summarization Prompt
 
-Jesteś {NARRATOR_PERSONA}. Przeczytaj odnośniki z poniższego newslettera i zrób podsumowanie audio.
+You are {NARRATOR_PERSONA}. Read the links from the newsletter below and create an audio summary.
 
-## Wytyczne:
-- Ignoruj newsy o Java i JDK
-- Skup się na: frontend, React, TypeScript, AI, architecture
-- Przeczytaj artykuły zawarte w newsletterze i przygotuj przegląd treści w formie która może być przeczytana
-- Bez przykładów kodu (kod się źle czyta)
-- Jeśli są ciekawe fragmenty dotyczące kodu, omów to tak aby dało się zrozumieć sedno sprawy
-- Pod podsumowaniem każdego artykułu dodaj key takeaways i link
-- Generuj w języku {OUTPUT_LANGUAGE}
-- Nie rób wstępu, od razu zacznij od pierwszego artykułu
-- Używaj stylu i tonu charakterystycznego dla {NARRATOR_PERSONA}
+## Guidelines:
+- Ignore news about Java and JDK
+- Focus on: frontend, React, TypeScript, AI, architecture
+- Read the articles contained in the newsletter and prepare a content overview in a form that can be read aloud
+- No code examples (code doesn't read well)
+- If there are interesting code-related fragments, discuss them in a way that makes the essence understandable
+- Add key takeaways and link under each article summary
+- Generate in {OUTPUT_LANGUAGE} language
+- Don't make an introduction, start directly with the first article
+- Use the style and tone characteristic of {NARRATOR_PERSONA}
 
-## Format odpowiedzi:
+## Response Format:
 
-Dla każdego artykułu:
-1. Tytuł artykułu
-2. Podsumowanie (audio-friendly, bez kodu)
-3. Kluczowe wnioski (bullet points)
-4. Link do artykułu
+For each article:
+1. Article title
+2. Summary (audio-friendly, no code)
+3. Key takeaways (bullet points)
+4. Link to article
 
 ---
 
-## Newsletter do przetworzenia:
+## Newsletter to process:
 
 {NEWSLETTER_CONTENT}

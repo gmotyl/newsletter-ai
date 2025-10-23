@@ -106,9 +106,22 @@ newsletter-ai/
 │       └── index.ts             # TypeScript type definitions
 ├── .env                         # Credentials (create from .env.example)
 ├── config.json                  # Newsletter patterns and settings
-├── PROMPT.md                    # LLM prompt template
+├── PROMPT_PL.md                 # LLM prompt template (Polish)
+├── PROMPT_EN.md                 # LLM prompt template (English)
 └── output/                      # Generated summaries
 ```
+
+### Language Support
+
+The application automatically selects the correct prompt file based on the `OUTPUT_LANGUAGE` setting:
+- `polish` or `pl` → Uses [PROMPT_PL.md](PROMPT_PL.md)
+- `english` or `en` → Uses [PROMPT_EN.md](PROMPT_EN.md)
+- Unknown languages default to English
+
+You can customize the prompts by editing these files. The following placeholders are automatically replaced:
+- `{NARRATOR_PERSONA}` - Replaced with configured narrator style
+- `{OUTPUT_LANGUAGE}` - Replaced with the output language
+- `{NEWSLETTER_CONTENT}` - Replaced with the actual newsletter content
 
 ## Usage
 

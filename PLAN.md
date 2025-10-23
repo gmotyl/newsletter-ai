@@ -4,10 +4,11 @@
 A Node.js script that automatically reads newsletters from Gmail (like daily.dev), extracts article links, reads their content, and generates Polish audio-friendly summaries using Vercel AI SDK with configurable LLM models.
 
 ## Tech Stack
-- **Runtime**: Node.js
+- **Runtime**: Node.js with TypeScript
+- **Architecture**: Functional Programming style (pure functions, immutability, composition)
 - **AI SDK**: Vercel AI SDK (model-agnostic)
 - **Email**: IMAP (node-imap)
-- **Configuration**: dotenv for credentials, markdown files for prompts
+- **Configuration**: dotenv for credentials, JSON for app config, markdown for prompts
 - **Web Scraping**: Cheerio/Puppeteer for article content extraction
 
 ## Core Features
@@ -24,15 +25,15 @@ A Node.js script that automatically reads newsletters from Gmail (like daily.dev
 ```
 newsletter-ai/
 ├── src/
-│   ├── index.ts                 # Main entry point
+│   ├── index.ts                 # Main entry point (composition root)
 │   ├── services/
-│   │   ├── imap.service.ts      # IMAP email integration
-│   │   ├── llm.service.ts       # Vercel AI SDK wrapper
-│   │   ├── scraper.service.ts   # Article content extraction
-│   │   └── processor.service.ts # Newsletter processing orchestration
+│   │   ├── imap.service.ts      # IMAP email functions (FP module)
+│   │   ├── llm.service.ts       # LLM functions (FP module)
+│   │   ├── scraper.service.ts   # Article scraping functions (FP module)
+│   │   └── processor.service.ts # Processing orchestration (FP module)
 │   ├── config/
-│   │   ├── config.ts            # Configuration loader
-│   │   └── newsletter-patterns.ts # Newsletter search patterns
+│   │   ├── config.ts            # Configuration functions (FP module)
+│   │   └── newsletter-patterns.ts # Newsletter pattern utilities
 │   └── types/
 │       └── index.ts             # TypeScript type definitions
 ├── .env                         # Credentials (gitignored)
@@ -42,6 +43,15 @@ newsletter-ai/
 ├── package.json
 └── tsconfig.json
 ```
+
+## Architectural Principles (FP Style)
+- **Pure Functions**: Functions without side effects that return the same output for the same input
+- **Immutability**: Data structures are never modified; new structures are created instead
+- **Function Composition**: Complex behaviors built by composing smaller functions
+- **Explicit Dependencies**: All dependencies passed as function parameters
+- **Stateless Modules**: No class instances; export pure functions directly
+- **Lazy Evaluation**: Load resources (config files, connections) only when needed
+- **Error Handling**: Use Result/Either types or throw errors consistently
 
 ## Implementation Phases
 
@@ -60,155 +70,151 @@ newsletter-ai/
 - [x] Set up TypeScript configuration
 - [x] Create project structure
 
-### Phase 2: Configuration Management
-- [ ] Create `.env.example` with required variables:
-  ```
-  # Email IMAP Credentials
-  IMAP_HOST=imap.gmail.com
-  IMAP_PORT=993
-  IMAP_USER=your-email@gmail.com
-  IMAP_PASSWORD=your-app-specific-password  # For Gmail: create app-specific password
+### Phase 2: Configuration Management ✅ COMPLETED (FP Style)
+- [x] Create `.env.example` with required variables (includes IMAP, LLM, processing options)
+- [x] Create `config.json` for newsletter patterns with:
+  - Newsletter patterns (daily.dev, JavaScript Weekly, React Status, TypeScript Weekly)
+  - Content filters (skipTopics, focusTopics)
+  - Scraper options (timeout, userAgent, retryAttempts)
+  - Output language and narrator persona
+- [x] Create `PROMPT.md` with customizable prompt template (Polish audio-friendly format)
+- [x] Build configuration module (`src/config/config.ts`) using **FP style**:
+  - **Pure exported functions** (no class instances):
+    - `getEmailCredentials(): EmailCredentials` - loads IMAP settings from env
+    - `getLLMConfig(): LLMConfig` - loads AI provider and model settings from env
+    - `getProcessingOptions(): ProcessingOptions` - loads newsletter processing options from env
+    - `getAppConfig(): AppConfig` - loads config.json with patterns and filters
+    - `getOutputLanguage(): string` - gets output language (env priority over config.json)
+    - `getNarratorPersona(): string` - gets narrator persona (env priority over config.json)
+  - **Lazy loading**: config.json loaded only when first accessed
+  - **Caching**: config.json cached after first load for performance
+  - **No side effects**: All functions are pure (except cached file I/O)
 
-  # LLM Configuration
-  LLM_PROVIDER=openai  # or anthropic, etc.
-  LLM_MODEL=gpt-4
-  LLM_API_KEY=
-
-  # Processing Options
-  MAX_ARTICLES_PER_NEWSLETTER=10
-  OUTPUT_LANGUAGE=polish
-  NARRATOR_PERSONA=thePrimeagen  # Options: thePrimeagen, Fireship, TheoT3, Kent C. Dodds, Dan Abramov, Scott Hanselman
-  MARK_AS_READ=true              # Mark processed emails as read
-  AUTO_DELETE_AFTER_PROCESSING=false  # Automatically delete emails after processing (default: false)
-  ```
-- [ ] Create `config.json` for newsletter patterns:
-  ```json
-  {
-    "newsletterPatterns": [
-      {
-        "name": "daily.dev",
-        "from": "daily@daily.dev",
-        "subject": ["daily.dev"],
-        "enabled": true
-      },
-      {
-        "name": "JavaScript Weekly",
-        "from": "javascriptweekly@cooperpress.com",
-        "subject": ["JavaScript Weekly"],
-        "enabled": true
-      }
-    ],
-    "contentFilters": {
-      "skipTopics": ["Java", "JDK"],
-      "focusTopics": ["frontend", "react", "TypeScript", "AI", "architecture"]
-    },
-    "outputLanguage": "polish",
-    "narratorPersona": "thePrimeagen"
-  }
-  ```
-- [ ] Create `PROMPT.md` with customizable prompt template
-- [ ] Build configuration loader service
-
-### Phase 3: IMAP Email Integration
-- [ ] Implement IMAP connection using node-imap
-  - Connect to IMAP server with credentials from .env
-  - Handle connection errors and retries
-- [ ] Create service methods:
-  - `connect()` - Establish IMAP connection
-  - `searchNewsletters(pattern)` - Search emails matching patterns (FROM, SUBJECT, UNSEEN)
-  - `getEmailContent(uid)` - Fetch email body and parse with mailparser
-  - `markAsRead(uid)` - Mark email as read (if enabled in config)
-  - `deleteEmail(uid)` - Delete processed email (if auto-delete enabled)
-  - `disconnect()` - Close IMAP connection
-- [ ] Parse HTML email content to extract article links
-- [ ] Handle multiple newsletters in inbox
+### Phase 3: IMAP Email Integration (FP Style)
+- [ ] Implement IMAP module using **functional approach**:
+  - Connection as a resource (managed externally, passed to functions)
+  - Pure functions that accept connection as parameter
+- [ ] Create **pure functions** in `src/services/imap.service.ts`:
+  - `createConnection(credentials: EmailCredentials): Promise<Connection>` - Factory function
+  - `searchNewsletters(connection, pattern): Promise<EmailMetadata[]>` - Search emails (FROM, SUBJECT, UNSEEN)
+  - `fetchEmailContent(connection, uid): Promise<EmailContent>` - Fetch and parse email body
+  - `markAsRead(connection, uid): Promise<void>` - Mark email as read (side effect isolated)
+  - `deleteEmail(connection, uid): Promise<void>` - Delete email (side effect isolated)
+  - `closeConnection(connection): Promise<void>` - Cleanup function
+  - `withConnection<T>(credentials, fn): Promise<T>` - Higher-order function for connection lifecycle
+- [ ] **Parser functions** (pure):
+  - `parseEmailHtml(html: string): string[]` - Extract article links from HTML
+  - `extractArticleLinks(email: EmailContent): string[]` - Get all article URLs
+- [ ] Error handling with explicit error types
 - [ ] Support common IMAP servers (Gmail, Outlook, custom)
 
-### Phase 4: Web Scraping Service
-- [ ] Implement article content extraction
-  - Try Cheerio first (fast, for static content)
-  - Fallback to Puppeteer for JavaScript-rendered content
-- [ ] Extract main article content (strip ads, headers, footers)
-- [ ] Handle common article formats:
-  - Medium articles
-  - Dev.to posts
-  - Personal blogs
-  - GitHub repositories
-- [ ] Implement rate limiting and retries
-- [ ] Cache scraped content to avoid re-fetching
+### Phase 4: Web Scraping Service (FP Style)
+- [ ] Implement **pure scraping functions** in `src/services/scraper.service.ts`:
+  - `scrapeWithCheerio(url: string, options): Promise<ArticleContent>` - Fast static scraping
+  - `scrapeWithPuppeteer(url: string, options): Promise<ArticleContent>` - JavaScript-rendered content
+  - `scrapeArticle(url: string, options): Promise<ArticleContent>` - Smart function (tries Cheerio first)
+- [ ] **Content extraction functions** (pure):
+  - `extractMainContent(html: string): string` - Strip ads, headers, footers
+  - `extractTitle(html: string): string` - Get article title
+  - `extractMetadata(html: string): ArticleMetadata` - Extract meta information
+- [ ] **Site-specific extractors** (pure functions):
+  - `extractMediumArticle(html: string): ArticleContent`
+  - `extractDevToArticle(html: string): ArticleContent`
+  - `extractGitHubReadme(html: string): ArticleContent`
+- [ ] **Utility functions** (pure):
+  - `retry<T>(fn: () => Promise<T>, attempts: number): Promise<T>` - Higher-order retry function
+  - `withRateLimit<T>(fn: () => Promise<T>, delay: number): Promise<T>` - Rate limiting wrapper
+- [ ] Simple in-memory cache using closure for scraped content
 
-### Phase 5: LLM Integration
-- [ ] Create Vercel AI SDK wrapper service
-- [ ] Support multiple providers (OpenAI, Anthropic, etc.)
-- [ ] Load prompt from `PROMPT.md` and replace placeholders:
-  - `{OUTPUT_LANGUAGE}` with configured language
-  - `{NARRATOR_PERSONA}` with configured persona
-- [ ] Implement token management and chunking for large newsletters
-- [ ] Format input for LLM:
+### Phase 5: LLM Integration ✅ PARTIALLY COMPLETED (FP Style)
+- [x] Create LLM module (`src/services/llm.service.ts`) using **FP style**:
+  - **Pure exported functions** (no class instances)
+- [x] **Prompt functions** (implemented):
+  - `loadPrompt(newsletterContent: string): string` - Loads PROMPT.md and replaces placeholders:
+    - `{OUTPUT_LANGUAGE}` with configured language
+    - `{NARRATOR_PERSONA}` with configured persona
+    - `{NEWSLETTER_CONTENT}` with actual content
+- [ ] **LLM functions** (to implement):
+  - `generateSummary(config: LLMConfig, prompt: string): Promise<string>` - Generate summary with Vercel AI SDK
+  - `createLLMProvider(config: LLMConfig): Provider` - Factory for OpenAI/Anthropic/etc.
+  - `streamSummary(config: LLMConfig, prompt: string): AsyncIterable<string>` - Streaming generation
+- [ ] **Formatting functions** (pure):
+  - `formatNewsletterForLLM(newsletter: Newsletter): string` - Structure newsletter content
+  - `formatArticlesForLLM(articles: Article[]): string` - Format articles with titles, URLs, content
+  - `chunkContent(content: string, maxTokens: number): string[]` - Split large content
+- [ ] **Parsing functions** (pure):
+  - `parseLLMResponse(response: string): SummaryOutput` - Structure LLM output
+- [ ] Support multiple providers (OpenAI, Anthropic) via Vercel AI SDK
+
+### Phase 6: Processing Orchestration (FP Style)
+- [ ] Create **orchestration functions** in `src/services/processor.service.ts`:
+  - `processNewsletter(newsletter: Newsletter, config): Promise<Summary>` - Main pipeline function
+  - `processAllNewsletters(newsletters: Newsletter[], config): Promise<Summary[]>` - Process multiple
+- [ ] **Pipeline composition** using pure functions:
+  ```typescript
+  const pipeline = pipe(
+    extractArticleLinks,           // Newsletter -> string[]
+    urls => Promise.all(urls.map(scrapeArticle)), // string[] -> Article[]
+    filterByTopics(config),         // Article[] -> Article[]
+    formatArticlesForLLM,           // Article[] -> string
+    prompt => generateSummary(config, prompt), // string -> Promise<string>
+  );
   ```
-  Newsletter: [Newsletter Name]
-  Date: [Date]
+- [ ] **Filter functions** (pure):
+  - `filterByFocusTopics(articles: Article[], topics: string[]): Article[]`
+  - `filterBySkipTopics(articles: Article[], topics: string[]): Article[]`
+  - `limitArticles(articles: Article[], max: number): Article[]`
+- [ ] **Higher-order functions** for orchestration:
+  - `withErrorHandling<T>(fn: () => Promise<T>): Promise<Result<T>>` - Wrap with error handling
+  - `withProgress<T>(fn: () => Promise<T>, label: string): Promise<T>` - Add progress indicator
+  - `withUserConfirmation<T>(fn: () => Promise<T>, prompt: string): Promise<T>` - User prompt wrapper
+- [ ] Error handling with Result/Either pattern or consistent error throwing
+- [ ] Progress indicators for long operations using callbacks/events
 
-  Article 1: [Title]
-  URL: [URL]
-  Content: [Extracted Content]
-
-  Article 2: ...
-  ```
-- [ ] Parse LLM response and structure output
-
-### Phase 6: Processing Orchestration
-- [ ] Main processing pipeline:
-  1. Load configuration and credentials
-  2. Connect to email via IMAP
-  3. Search for newsletters matching patterns
-  4. For each newsletter:
-     - Extract article links
-     - Scrape article content
-     - Filter content based on focus/skip topics
-     - Send to LLM for summarization
-     - Display summary
-     - Mark as read (if enabled in config)
-     - Delete email (only if AUTO_DELETE_AFTER_PROCESSING=true)
-     - Prompt user: "Process next newsletter? (y/n)"
-- [ ] Error handling and logging
-- [ ] Progress indicators for long operations
-
-### Phase 7: CLI Interface
-- [ ] Interactive prompts using inquirer:
-  - Select which newsletter pattern to process
-  - Continue to next newsletter
-- [ ] Display formatted output:
-  - Newsletter title and date
-  - Article summaries with key takeaways
-  - Links to original articles
-- [ ] Add command-line flags:
+### Phase 7: CLI Interface (FP Style)
+- [ ] Create **CLI utility functions** (can have side effects for I/O):
+  - `promptUserChoice(choices: string[]): Promise<string>` - Select newsletter pattern
+  - `confirmAction(message: string): Promise<boolean>` - Yes/no confirmation
+  - `displaySummary(summary: Summary): void` - Format and print summary
+  - `displayProgress(message: string): ProgressHandle` - Show spinner/progress
+- [ ] **Formatting functions** (pure):
+  - `formatSummaryForDisplay(summary: Summary): string` - Format summary output
+  - `formatArticleList(articles: Article[]): string` - Format article list
+  - `colorizeOutput(text: string, style: Style): string` - Add colors using chalk
+- [ ] **CLI argument parsing** (pure):
+  - `parseCLIArgs(args: string[]): CLIOptions` - Parse command-line arguments
+  - `validateCLIOptions(options: CLIOptions): Result<CLIOptions>` - Validate options
+- [ ] Command-line flags:
   - `--dry-run` - Process without marking as read or deleting
   - `--pattern <name>` - Process specific newsletter pattern
   - `--model <name>` - Override LLM model
   - `--auto-delete` - Enable auto-delete for this run (overrides config)
 
-### Phase 8: Output Formatting
-- [ ] Format LLM output for audio-friendly reading:
-  - Remove code examples
-  - Simplify technical explanations
-  - Polish language output
-  - Clear article separation
-- [ ] Structure per article:
-  ```
-  Artykuł: [Title]
-  [Summary in audio-friendly format]
+### Phase 8: Output Formatting (FP Style)
+- [ ] **Output formatting functions** (pure) - most likely in LLM or processor module:
+  - `formatForAudio(text: string): string` - Make text audio-friendly
+  - `removeCodeBlocks(text: string): string` - Strip code examples
+  - `simplifyTechnicalTerms(text: string): string` - Simplify explanations
+  - `separateArticles(summary: string): Article[]` - Split by article boundaries
+- [ ] **Article formatting** (pure):
+  - `formatArticle(article: Article): string` - Format single article with structure:
+    ```
+    Artykuł: [Title]
+    [Summary in audio-friendly format]
 
-  Kluczowe wnioski:
-  - Wniosek 1
-  - Wniosek 2
+    Kluczowe wnioski:
+    - Wniosek 1
+    - Wniosek 2
 
-  Link: [URL]
+    Link: [URL]
 
-  ---
-  ```
-- [ ] Save output to file (optional):
-  - `output/[newsletter-name]-[date].md`
+    ---
+    ```
+  - `formatAllArticles(articles: Article[]): string` - Format all with separators
+- [ ] **File output functions** (side effects):
+  - `saveToFile(content: string, filename: string): Promise<void>` - Save to file
+  - `generateFilename(newsletter: Newsletter, date: Date): string` - Pure filename generator
+  - `ensureOutputDir(): Promise<void>` - Create output directory if needed
 
 ### Phase 9: Testing & Polish
 - [ ] Test with different newsletter formats
