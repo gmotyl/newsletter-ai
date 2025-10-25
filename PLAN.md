@@ -160,30 +160,29 @@ newsletter-ai/
 - [x] **Comprehensive test suite**: 47 tests covering all pure functions, all passing ✅
 - [x] **Build verification**: TypeScript compilation successful with no errors ✅
 
-### Phase 6: Processing Orchestration (FP Style)
-- [ ] Create **orchestration functions** in `src/services/processor.service.ts`:
-  - `processNewsletter(newsletter: Newsletter, config): Promise<Summary>` - Main pipeline function
-  - `processAllNewsletters(newsletters: Newsletter[], config): Promise<Summary[]>` - Process multiple
-- [ ] **Pipeline composition** using pure functions:
-  ```typescript
-  const pipeline = pipe(
-    extractArticleLinks,           // Newsletter -> string[]
-    urls => Promise.all(urls.map(scrapeArticle)), // string[] -> Article[]
-    filterByTopics(config),         // Article[] -> Article[]
-    formatArticlesForLLM,           // Article[] -> string
-    prompt => generateSummary(config, prompt), // string -> Promise<string>
-  );
-  ```
-- [ ] **Filter functions** (pure):
-  - `filterByFocusTopics(articles: Article[], topics: string[]): Article[]`
-  - `filterBySkipTopics(articles: Article[], topics: string[]): Article[]`
-  - `limitArticles(articles: Article[], max: number): Article[]`
-- [ ] **Higher-order functions** for orchestration:
-  - `withErrorHandling<T>(fn: () => Promise<T>): Promise<Result<T>>` - Wrap with error handling
-  - `withProgress<T>(fn: () => Promise<T>, label: string): Promise<T>` - Add progress indicator
-  - `withUserConfirmation<T>(fn: () => Promise<T>, prompt: string): Promise<T>` - User prompt wrapper
-- [ ] Error handling with Result/Either pattern or consistent error throwing
-- [ ] Progress indicators for long operations using callbacks/events
+### Phase 6: Processing Orchestration (FP Style) ✅ COMPLETED
+- [x] Create **orchestration functions** in `src/services/processor.service.ts`:
+  - `processNewsletter(newsletter, urls, filters, llmConfig, options, onProgress): Promise<Summary>` - Main pipeline function
+  - `processAllNewsletters(newsletters, urls, filters, llmConfig, options, onProgress): Promise<Summary[]>` - Process multiple
+  - `markNewsletterAsProcessed(conn, uid, options): Promise<void>` - Mark as read/delete (isolated side effects)
+- [x] **Pipeline composition** using pure functions:
+  - Main pipeline: Extract URLs → Scrape articles → Apply filters → Format for LLM → Generate summary → Parse response
+  - Functional composition with explicit steps and error handling
+- [x] **Filter functions** (pure):
+  - `filterByFocusTopics(articles: Article[], topics: string[]): Article[]` - Include articles matching focus topics
+  - `filterBySkipTopics(articles: Article[], topics: string[]): Article[]` - Exclude articles matching skip topics
+  - `limitArticles(articles: Article[], max: number): Article[]` - Limit article count
+  - `applyContentFilters(articles, filters, maxArticles): Article[]` - Composition of all filters
+  - `articleMatchesTopics(article, topics): boolean` - Pure predicate helper (private)
+- [x] **Higher-order functions** for orchestration:
+  - `withErrorHandling<T>(fn): Promise<Result<T>>` - Wrap with Result type error handling
+  - `withProgress<T>(fn, label, onProgress): Promise<T>` - Add progress callbacks
+  - `ProgressCallback` type for progress updates
+  - `Result<T>` type for better error handling
+- [x] Error handling with Result type pattern for explicit error cases
+- [x] Progress indicators using callback functions (onProgress parameter)
+- [x] **Comprehensive test suite**: 35 tests covering all pure functions, all passing ✅
+- [x] **Build verification**: TypeScript compilation successful with no errors ✅
 
 ### Phase 7: CLI Interface (FP Style)
 - [ ] Create **CLI utility functions** (can have side effects for I/O):
