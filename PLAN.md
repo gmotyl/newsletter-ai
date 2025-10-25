@@ -109,23 +109,23 @@ newsletter-ai/
 - [x] Support common IMAP servers (Gmail, Outlook, custom)
 - [x] **Unit tests**: Comprehensive test suite with 29 tests covering pure functions
 
-### Phase 4: Web Scraping Service (FP Style)
-- [ ] Implement **pure scraping functions** in `src/services/scraper.service.ts`:
-  - `scrapeWithCheerio(url: string, options): Promise<ArticleContent>` - Fast static scraping
-  - `scrapeWithPuppeteer(url: string, options): Promise<ArticleContent>` - JavaScript-rendered content
-  - `scrapeArticle(url: string, options): Promise<ArticleContent>` - Smart function (tries Cheerio first)
-- [ ] **Content extraction functions** (pure):
-  - `extractMainContent(html: string): string` - Strip ads, headers, footers
-  - `extractTitle(html: string): string` - Get article title
-  - `extractMetadata(html: string): ArticleMetadata` - Extract meta information
-- [ ] **Site-specific extractors** (pure functions):
-  - `extractMediumArticle(html: string): ArticleContent`
-  - `extractDevToArticle(html: string): ArticleContent`
-  - `extractGitHubReadme(html: string): ArticleContent`
-- [ ] **Utility functions** (pure):
-  - `retry<T>(fn: () => Promise<T>, attempts: number): Promise<T>` - Higher-order retry function
-  - `withRateLimit<T>(fn: () => Promise<T>, delay: number): Promise<T>` - Rate limiting wrapper
-- [ ] Simple in-memory cache using closure for scraped content
+### Phase 4: Web Scraping Service (FP Style - Minimal Implementation) ✅ COMPLETED
+- [x] **Minimal scraping using @extractus/article-extractor**:
+  - `scrapeArticle(url: string): Promise<Article>` - Intelligent content extraction
+  - `scrapeArticleWithRetry(url, retryAttempts): Promise<Article>` - With retry logic
+  - `scrapeMultiple(urls, maxConcurrent, retryAttempts): Promise<Article[]>` - Parallel scraping with concurrency control
+  - `scrapeAndValidate(urls, ...): Promise<Article[]>` - Scrape and filter valid articles
+- [x] **Pure content processing functions**:
+  - `cleanContent(content: string): string` - Remove HTML tags, normalize whitespace
+  - `isValidArticle(article, minLength): boolean` - Validation predicate
+- [x] **Pure utility functions**:
+  - `filterArticles(predicate): (articles) => Article[]` - Higher-order filter function
+  - `sortByContentLength(articles, ascending): Article[]` - Sort by content size
+  - `limitArticles(articles, max): Article[]` - Limit article count
+  - `retry<T>(fn, attempts, delayMs): Promise<T>` - Exponential backoff retry with HOF
+- [x] **Concurrency control**: Using `p-limit` for parallel processing
+- [x] **Unit tests**: 46 comprehensive tests covering all pure functions
+- [x] **Benefits**: ~100 lines of code vs 500+ for custom implementation, battle-tested library
 
 ### Phase 5: LLM Integration ✅ PARTIALLY COMPLETED (FP Style)
 - [x] Create LLM module (`src/services/llm.service.ts`) using **FP style**:
