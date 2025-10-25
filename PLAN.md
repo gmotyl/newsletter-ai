@@ -127,25 +127,38 @@ newsletter-ai/
 - [x] **Unit tests**: 46 comprehensive tests covering all pure functions
 - [x] **Benefits**: ~100 lines of code vs 500+ for custom implementation, battle-tested library
 
-### Phase 5: LLM Integration ✅ PARTIALLY COMPLETED (FP Style)
+### Phase 5: LLM Integration ✅ COMPLETED (FP Style)
 - [x] Create LLM module (`src/services/llm.service.ts`) using **FP style**:
   - **Pure exported functions** (no class instances)
+- [x] **Provider functions** (implemented):
+  - `createLLMProvider(config: LLMConfig): LanguageModel` - Factory for OpenAI/Anthropic providers
+  - `isValidLLMConfig(config: LLMConfig): boolean` - Configuration validation predicate
 - [x] **Prompt functions** (implemented):
   - `loadPrompt(newsletterContent: string): string` - Loads PROMPT.md and replaces placeholders:
     - `{OUTPUT_LANGUAGE}` with configured language
     - `{NARRATOR_PERSONA}` with configured persona
     - `{NEWSLETTER_CONTENT}` with actual content
-- [ ] **LLM functions** (to implement):
-  - `generateSummary(config: LLMConfig, prompt: string): Promise<string>` - Generate summary with Vercel AI SDK
-  - `createLLMProvider(config: LLMConfig): Provider` - Factory for OpenAI/Anthropic/etc.
-  - `streamSummary(config: LLMConfig, prompt: string): AsyncIterable<string>` - Streaming generation
-- [ ] **Formatting functions** (pure):
-  - `formatNewsletterForLLM(newsletter: Newsletter): string` - Structure newsletter content
-  - `formatArticlesForLLM(articles: Article[]): string` - Format articles with titles, URLs, content
-  - `chunkContent(content: string, maxTokens: number): string[]` - Split large content
-- [ ] **Parsing functions** (pure):
-  - `parseLLMResponse(response: string): SummaryOutput` - Structure LLM output
-- [ ] Support multiple providers (OpenAI, Anthropic) via Vercel AI SDK
+- [x] **LLM generation functions** (implemented):
+  - `generateSummary(config: LLMConfig, prompt: string): Promise<string>` - Generate complete summary with Vercel AI SDK
+  - `streamSummary(config: LLMConfig, prompt: string): AsyncIterable<string>` - Streaming generation for real-time output
+  - `generateChunkedSummary(config: LLMConfig, contentChunks: string[]): Promise<string>` - Process large content in chunks
+- [x] **Formatting functions** (pure):
+  - `formatArticleForLLM(article: Article): string` - Format single article with title, URL, content (3000 char limit)
+  - `formatArticlesForLLM(articles: Article[]): string` - Format multiple articles with header and count
+  - `formatNewsletterForLLM(newsletter): string` - Structure complete newsletter with date and articles
+  - `estimateTokens(content: string): number` - Token estimation (1 token ≈ 4 chars)
+  - `chunkContent(content: string, maxTokens: number): string[]` - Split large content by lines
+- [x] **Content cleaning functions** (pure - for audio output):
+  - `removeCodeBlocks(text: string): string` - Remove fenced and inline code blocks
+  - `simplifyTechnicalTerms(text: string): string` - Replace technical terms with phonetic equivalents
+  - `formatForAudio(text: string): string` - Combine all audio-friendly transformations
+- [x] **Parsing functions** (pure):
+  - `parseLLMResponse(response: string): ArticleSummary[]` - Extract structured article summaries from LLM output
+  - `isValidArticleSummary(summary: ArticleSummary): boolean` - Validation predicate for summaries
+  - `filterValidSummaries(summaries: ArticleSummary[]): ArticleSummary[]` - Filter out invalid summaries
+- [x] **Support for multiple providers**: OpenAI and Anthropic via Vercel AI SDK
+- [x] **Comprehensive test suite**: 47 tests covering all pure functions, all passing ✅
+- [x] **Build verification**: TypeScript compilation successful with no errors ✅
 
 ### Phase 6: Processing Orchestration (FP Style)
 - [ ] Create **orchestration functions** in `src/services/processor.service.ts`:
