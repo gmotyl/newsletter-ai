@@ -32,6 +32,7 @@ export interface AppConfig {
   scraperOptions: ScraperOptions;
   outputLanguage: string;
   narratorPersona: string;
+  verbose?: boolean;
 }
 
 export interface LLMConfig {

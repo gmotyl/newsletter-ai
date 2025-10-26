@@ -93,3 +93,14 @@ export const getNarratorPersona = (): string => {
     process.env.NARRATOR_PERSONA || appConfig.narratorPersona || "thePrimeagen"
   );
 };
+
+/**
+ * Gets verbose flag with env variable priority over config.json
+ */
+export const getVerboseMode = (): boolean => {
+  const appConfig = loadAppConfig();
+  if (process.env.VERBOSE !== undefined) {
+    return process.env.VERBOSE === "true";
+  }
+  return appConfig.verbose ?? false;
+};

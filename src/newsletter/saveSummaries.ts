@@ -4,6 +4,7 @@ import {
   displayError,
   displaySuccess,
   displayProgress,
+  displayVerbose,
 } from "../cli/utils/index.js";
 import type { ProcessedNewsletters } from "./types.js";
 
@@ -18,10 +19,12 @@ export const saveSummaries = async (
 
   try {
     const outputDir = getDefaultOutputDir();
+    displayVerbose(`\nSaving summaries to: ${outputDir}/`);
     const filepaths: string[] = [];
 
     for (const summary of processed.summaries) {
       const filepath = await saveSummaryToFile(summary, outputDir);
+      displayVerbose(`  ✓ Saved: ${filepath}`);
       filepaths.push(filepath);
     }
 

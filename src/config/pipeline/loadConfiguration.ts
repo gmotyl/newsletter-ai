@@ -5,7 +5,7 @@ import {
   getProcessingOptions,
   getAppConfig,
 } from "../config.js";
-import { displayProgress, type CLIOptions } from "../../cli/utils/index.js";
+import { displayProgress, displayVerbose, type CLIOptions } from "../../cli/utils/index.js";
 import type { AppState } from "./types.js";
 
 export const loadConfiguration = (cliOptions: CLIOptions): AppState => {
@@ -18,5 +18,6 @@ export const loadConfiguration = (cliOptions: CLIOptions): AppState => {
     appConfig: getAppConfig(),
   };
   spinner.succeed("Configuration loaded");
+  displayVerbose("Configuration loaded successfully");
   return state;
 };

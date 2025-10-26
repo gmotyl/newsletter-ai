@@ -46,5 +46,6 @@
     "retryAttempts": 3
   },
   "outputLanguage": "polish",
-  "narratorPersona": "thePrimeagen"
+  "narratorPersona": "thePrimeagen",
+  "verbose": true
 }

@@ -1,6 +1,7 @@
 // Display various message types
 import { formatError, formatSuccess, formatInfo, formatWarning } from "./formatMessages.js";
 import { formatHelpText } from "./formatHelpText.js";
+import { getVerboseMode } from "../../config/config.js";
 
 export const displayError = (message: string): void => {
   console.error(formatError(message));
@@ -24,4 +25,10 @@ export const displayHelp = (): void => {
 
 export const clearConsole = (): void => {
   console.clear();
+};
+
+export const displayVerbose = (message: string): void => {
+  if (getVerboseMode()) {
+    console.log(formatInfo(message));
+  }
 };

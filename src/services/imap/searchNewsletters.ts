@@ -8,6 +8,7 @@ import type {
   NewsletterPattern,
 } from "../../types/index.js";
 import { buildSearchCriteria } from "./buildSearchCriteria.js";
+import { displayVerbose } from "../../cli/utils/index.js";
 
 export const searchNewsletters = (
   conn: IMAPConnection,
@@ -15,6 +16,7 @@ export const searchNewsletters = (
 ): Promise<EmailMetadata[]> => {
   return new Promise((resolve, reject) => {
     const criteria = buildSearchCriteria(pattern);
+    displayVerbose(`Searching for emails matching pattern: ${pattern.name}`);
 
     conn.connection.search(criteria, (err: Error, uids: number[]) => {
       if (err) {
@@ -23,9 +25,12 @@ export const searchNewsletters = (
       }
 
       if (!uids || uids.length === 0) {
+        displayVerbose(`No emails found matching pattern: ${pattern.name}`);
         resolve([]);
         return;
       }
+
+      displayVerbose(`Found ${uids.length} email(s) matching pattern: ${pattern.name}`);
 
       const fetch = conn.connection.fetch(uids, {
         bodies: "HEADER.FIELDS (FROM SUBJECT DATE)",
@@ -34,7 +39,7 @@ export const searchNewsletters = (
 
       const emails: EmailMetadata[] = [];
 
-      fetch.on("message", (msg: any, seqno: number) => {
+      fetch.on("message", (msg: any) => {
         let uid = 0;
         let headers: any = {};
 
@@ -53,10 +58,12 @@ export const searchNewsletters = (
         });
 
         msg.once("end", () => {
+          const subject = headers.subject?.[0] || "";
+          displayVerbose(`  ✓ Email matched: "${subject}" (UID: ${uid})`);
           emails.push({
             uid,
             from: headers.from?.[0] || "",
-            subject: headers.subject?.[0] || "",
+            subject,
             date: new Date(headers.date?.[0] || Date.now()),
           });
         });

@@ -14,4 +14,4 @@ export { confirmAction } from "./confirmAction.js";
 export { promptInput } from "./promptInput.js";
 export { displaySummary, displaySummaries } from "./displaySummary.js";
 export { displayProgress } from "./displayProgress.js";
-export { displayError, displaySuccess, displayInfo, displayWarning, displayHelp, clearConsole } from "./displayMessages.js";
+export { displayError, displaySuccess, displayInfo, displayWarning, displayHelp, clearConsole, displayVerbose } from "./displayMessages.js";
