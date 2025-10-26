@@ -95,6 +95,7 @@ export const processNewsletter = async (
   displayVerbose(`  Sending request to LLM (${llmConfig.provider})...`);
   const rawSummary = await generateSummary(llmConfig, prompt);
   displayVerbose(`  ✓ Received LLM response (${rawSummary.length} chars)`);
+  displayVerbose(`\n  === LLM Raw Response ===\n${rawSummary}\n  === End of Response ===\n`);
 
   // Step 5: Parse and validate response
   const parsedSummaries = parseLLMResponse(rawSummary);

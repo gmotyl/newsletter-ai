@@ -6,6 +6,7 @@ export const parseCLIArgs = (args: string[]): CLIOptions => {
     dryRun: false,
     autoDelete: false,
     help: false,
+    // interactive is undefined by default - will be set from config or flags
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -17,6 +18,12 @@ export const parseCLIArgs = (args: string[]): CLIOptions => {
         break;
       case "--auto-delete":
         options.autoDelete = true;
+        break;
+      case "--interactive":
+        options.interactive = true;
+        break;
+      case "--no-interactive":
+        options.interactive = false;
         break;
       case "--pattern":
         if (i + 1 < args.length) {

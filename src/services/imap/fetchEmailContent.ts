@@ -15,11 +15,31 @@ export const fetchEmailContent = (
 
     let emailData: ParsedMail | null = null;
     let emailUid = uid;
+    let parsingComplete = false;
+    let bodyProcessed = false;
 
     fetch.on("message", (msg: any) => {
       msg.on("body", async (stream: any) => {
         try {
           emailData = await simpleParser(stream);
+          bodyProcessed = true;
+
+          // If end event already fired, resolve now
+          if (parsingComplete) {
+            if (!emailData) {
+              reject(new Error("No email data received"));
+              return;
+            }
+
+            resolve({
+              uid: emailUid,
+              from: emailData.from?.text || "",
+              subject: emailData.subject || "",
+              date: emailData.date || new Date(),
+              html: emailData.html?.toString() || "",
+              text: emailData.text || "",
+            });
+          }
         } catch (err) {
           reject(new Error(`Failed to parse email: ${err}`));
         }
@@ -30,19 +50,24 @@ export const fetchEmailContent = (
       });
 
       msg.once("end", () => {
-        if (!emailData) {
-          reject(new Error("No email data received"));
-          return;
-        }
+        parsingComplete = true;
 
-        resolve({
-          uid: emailUid,
-          from: emailData.from?.text || "",
-          subject: emailData.subject || "",
-          date: emailData.date || new Date(),
-          html: emailData.html?.toString() || "",
-          text: emailData.text || "",
-        });
+        // If body already processed, resolve now
+        if (bodyProcessed) {
+          if (!emailData) {
+            reject(new Error("No email data received"));
+            return;
+          }
+
+          resolve({
+            uid: emailUid,
+            from: emailData.from?.text || "",
+            subject: emailData.subject || "",
+            date: emailData.date || new Date(),
+            html: emailData.html?.toString() || "",
+            text: emailData.text || "",
+          });
+        }
       });
     });
 

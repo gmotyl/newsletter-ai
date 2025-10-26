@@ -20,6 +20,12 @@ ${chalk.bold("Options:")}
   ${chalk.cyan(
     "--auto-delete"
   )}      Enable auto-delete for this run (overrides config)
+  ${chalk.cyan(
+    "--interactive"
+  )}      Enable interactive mode (default: true)
+  ${chalk.cyan(
+    "--no-interactive"
+  )}   Disable interactive mode - process all newsletters
   ${chalk.cyan("--help, -h")}         Show this help message
 
 ${chalk.bold("Examples:")}
@@ -34,6 +40,9 @@ ${chalk.bold("Examples:")}
 
   ${chalk.dim("# Enable auto-delete for this run")}
   npm start -- --auto-delete
+
+  ${chalk.dim("# Disable interactive mode - process all at once")}
+  npm start -- --no-interactive
 
 ${chalk.bold("Environment Variables:")}
   See .env.example for required configuration

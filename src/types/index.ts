@@ -33,6 +33,7 @@ export interface AppConfig {
   outputLanguage: string;
   narratorPersona: string;
   verbose?: boolean;
+  interactive?: boolean;
 }
 
 export interface LLMConfig {
@@ -61,6 +62,7 @@ export interface ProcessingOptions {
   markAsRead: boolean;
   autoDelete: boolean;
   dryRun?: boolean;
+  interactive?: boolean;
 }
 
 export interface Summary {

@@ -26,7 +26,7 @@ Thumbs.db
 npm-debug.log*
 
 # Output
-output/*.md
+output/
 
 # Cache
 .cache/

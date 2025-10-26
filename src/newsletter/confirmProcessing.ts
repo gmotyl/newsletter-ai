@@ -5,16 +5,22 @@ import type { CollectedNewsletters } from "./types.js";
 export const confirmProcessing = async (
   collected: CollectedNewsletters
 ): Promise<CollectedNewsletters> => {
-  console.log("\n");
-  const shouldContinue = await confirmAction(
-    `Process ${collected.newsletters.length} newsletter(s)?`
-  );
+  // Only prompt if interactive mode is enabled
+  const isInteractive = collected.config.finalOptions.interactive;
 
-  if (!shouldContinue) {
-    displayInfo("Processing cancelled by user.");
-    process.exit(0);
+  if (isInteractive) {
+    console.log("\n");
+    const shouldContinue = await confirmAction(
+      `Process ${collected.newsletters.length} newsletter(s)?`
+    );
+
+    if (!shouldContinue) {
+      displayInfo("Processing cancelled by user.");
+      process.exit(0);
+    }
+
+    console.log("\n");
   }
 
-  console.log("\n");
   return collected;
 };

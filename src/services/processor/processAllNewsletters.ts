@@ -10,6 +10,8 @@ import type {
 } from "../../types/index.js";
 import { processNewsletter } from "./processNewsletter.js";
 import type { ProgressCallback } from "./withProgress.js";
+import { displaySummary } from "../../cli/utils/displaySummary.js";
+import { confirmAction } from "../../cli/utils/confirmAction.js";
 
 /**
  * @param newsletters - Array of newsletters to process
@@ -29,6 +31,7 @@ export const processAllNewsletters = async (
   onProgress?: ProgressCallback
 ): Promise<Summary[]> => {
   const summaries: Summary[] = [];
+  const isInteractive = options.interactive ?? false;
 
   for (let i = 0; i < newsletters.length; i++) {
     const newsletter = newsletters[i];
@@ -53,12 +56,43 @@ export const processAllNewsletters = async (
       );
 
       summaries.push(summary);
+
+      // In interactive mode, display the summary and ask for confirmation
+      if (isInteractive) {
+        console.log("\n");
+        displaySummary(summary);
+        console.log("\n");
+
+        // If there are more newsletters to process, ask for confirmation
+        if (i < newsletters.length - 1) {
+          const shouldContinue = await confirmAction(
+            "Continue to next newsletter?"
+          );
+
+          if (!shouldContinue) {
+            console.log("\nProcessing stopped by user.");
+            break;
+          }
+        }
+      }
     } catch (error) {
       // Log error but continue processing other newsletters
       if (onProgress) {
         onProgress(
           `Failed to process ${newsletter.pattern.name}: ${error instanceof Error ? error.message : String(error)}`
         );
+      }
+
+      // In interactive mode, ask if user wants to continue after an error
+      if (isInteractive && i < newsletters.length - 1) {
+        const shouldContinue = await confirmAction(
+          "An error occurred. Continue to next newsletter?"
+        );
+
+        if (!shouldContinue) {
+          console.log("\nProcessing stopped by user.");
+          break;
+        }
       }
     }
   }

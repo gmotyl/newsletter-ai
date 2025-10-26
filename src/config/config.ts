@@ -104,3 +104,14 @@ export const getVerboseMode = (): boolean => {
   }
   return appConfig.verbose ?? false;
 };
+
+/**
+ * Gets interactive flag with env variable priority over config.json
+ */
+export const getInteractiveMode = (): boolean => {
+  const appConfig = loadAppConfig();
+  if (process.env.INTERACTIVE !== undefined) {
+    return process.env.INTERACTIVE === "true";
+  }
+  return appConfig.interactive ?? false;
+};

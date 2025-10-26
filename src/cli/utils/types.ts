@@ -5,6 +5,7 @@ export interface CLIOptions {
   model?: string;
   autoDelete: boolean;
   help: boolean;
+  interactive?: boolean;
 }
 
 export interface ProgressHandle {

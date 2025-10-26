@@ -47,5 +47,6 @@
   },
   "outputLanguage": "polish",
   "narratorPersona": "thePrimeagen",
-  "verbose": true
+  "verbose": true,
+  "interactive": false
 }
