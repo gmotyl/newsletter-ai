@@ -11,7 +11,17 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "help": "npm start -- --help",
+    "process": "npm start --",
+    "process:dev": "npm run dev --",
+    "dry-run": "npm start -- --dry-run",
+    "dry-run:dev": "npm run dev -- --dry-run",
+    "process:daily": "npm start -- --pattern daily.dev",
+    "process:daily:dev": "npm run dev -- --pattern daily.dev",
+    "process:auto-delete": "npm start -- --auto-delete",
+    "process:gpt4": "npm start -- --model gpt-4-turbo-preview",
+    "process:claude": "npm start -- --model claude-3-5-sonnet-20241022"
   },
   "keywords": [
     "newsletter",

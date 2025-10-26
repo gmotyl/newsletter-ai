@@ -184,50 +184,68 @@ newsletter-ai/
 - [x] **Comprehensive test suite**: 35 tests covering all pure functions, all passing ✅
 - [x] **Build verification**: TypeScript compilation successful with no errors ✅
 
-### Phase 7: CLI Interface (FP Style)
-- [ ] Create **CLI utility functions** (can have side effects for I/O):
-  - `promptUserChoice(choices: string[]): Promise<string>` - Select newsletter pattern
-  - `confirmAction(message: string): Promise<boolean>` - Yes/no confirmation
-  - `displaySummary(summary: Summary): void` - Format and print summary
-  - `displayProgress(message: string): ProgressHandle` - Show spinner/progress
-- [ ] **Formatting functions** (pure):
-  - `formatSummaryForDisplay(summary: Summary): string` - Format summary output
-  - `formatArticleList(articles: Article[]): string` - Format article list
-  - `colorizeOutput(text: string, style: Style): string` - Add colors using chalk
-- [ ] **CLI argument parsing** (pure):
+### Phase 7: CLI Interface (FP Style) ✅ COMPLETED
+- [x] Create **CLI utility functions** (`src/cli/cli.service.ts`) with explicit I/O side effects:
+  - `promptUserChoice(message, choices): Promise<string>` - Select from list (inquirer)
+  - `promptMultipleChoice(message, choices): Promise<string[]>` - Select multiple choices
+  - `confirmAction(message): Promise<boolean>` - Yes/no confirmation
+  - `promptInput(message, defaultValue): Promise<string>` - Text input
+  - `displaySummary(summary): void` - Print formatted summary to console
+  - `displaySummaries(summaries): void` - Print multiple summaries
+  - `displayProgress(message): ProgressHandle` - Spinner with ora (returns handle with update/succeed/fail/stop)
+  - `displayError/Success/Info/Warning(message): void` - Colored message output
+  - `displayHelp(): void` - Show help text
+  - `clearConsole(): void` - Clear terminal
+- [x] **Formatting functions** (pure - no side effects):
+  - `formatArticleSummary(article): string` - Format single article with colors
+  - `formatSummaryForDisplay(summary): string` - Complete summary with header/footer
+  - `formatArticleList(articles): string` - Numbered article list
+  - `formatNewsletterPattern(pattern): string` - Pattern info with status
+  - `formatError/Success/Info/Warning(message): string` - Colored message formatters
+  - `formatHelpText(): string` - Help text with usage and examples
+- [x] **CLI argument parsing** (pure functions):
   - `parseCLIArgs(args: string[]): CLIOptions` - Parse command-line arguments
-  - `validateCLIOptions(options: CLIOptions): Result<CLIOptions>` - Validate options
-- [ ] Command-line flags:
-  - `--dry-run` - Process without marking as read or deleting
-  - `--pattern <name>` - Process specific newsletter pattern
-  - `--model <name>` - Override LLM model
-  - `--auto-delete` - Enable auto-delete for this run (overrides config)
+  - `validateCLIOptions(options): Result<CLIOptions>` - Validate parsed options
+  - `CLIOptions` type with all supported flags
+- [x] **Command-line flags** implemented:
+  - `--dry-run` - Process without marking as read or deleting ✅
+  - `--pattern <name>` - Process specific newsletter pattern ✅
+  - `--model <name>` - Override LLM model ✅
+  - `--auto-delete` - Enable auto-delete for this run (overrides config) ✅
+  - `--help, -h` - Show help message ✅
+- [x] **File output module** (`src/cli/output.service.ts`):
+  - Pure formatting functions: `formatArticleForFile`, `formatAllArticles`, `formatSummaryForFile`
+  - Pure filename generation: `generateFilename`, `generateFilePath`, `getDefaultOutputDir`
+  - I/O functions: `ensureOutputDir`, `saveToFile`, `saveSummaryToFile`, `saveSummariesToFiles`
+- [x] **Main CLI orchestration** (`src/index.ts`):
+  - Complete pipeline: Load config → Search emails → Confirm → Process → Save files → Mark as processed
+  - Error handling with try/catch and graceful failures
+  - Progress indicators for all long operations
+  - User confirmations before processing
+  - Dry-run mode support
+  - Pattern filtering support
+- [x] **Comprehensive test suite**: 73 tests (42 CLI + 31 output) covering all pure functions ✅
+- [x] **Build verification**: TypeScript compilation successful ✅
+- [x] **Total test count**: 460 tests passing across all modules ✅
 
-### Phase 8: Output Formatting (FP Style)
-- [ ] **Output formatting functions** (pure) - most likely in LLM or processor module:
-  - `formatForAudio(text: string): string` - Make text audio-friendly
+### Phase 8: Output Formatting (FP Style) ✅ COMPLETED (Implemented in Phase 5 & 7)
+- [x] **Audio-friendly formatting functions** (implemented in `src/services/llm.service.ts`):
+  - `formatForAudio(text: string): string` - Make text audio-friendly (combines all transformations)
   - `removeCodeBlocks(text: string): string` - Strip code examples
-  - `simplifyTechnicalTerms(text: string): string` - Simplify explanations
-  - `separateArticles(summary: string): Article[]` - Split by article boundaries
-- [ ] **Article formatting** (pure):
-  - `formatArticle(article: Article): string` - Format single article with structure:
-    ```
-    Artykuł: [Title]
-    [Summary in audio-friendly format]
-
-    Kluczowe wnioski:
-    - Wniosek 1
-    - Wniosek 2
-
-    Link: [URL]
-
-    ---
-    ```
-  - `formatAllArticles(articles: Article[]): string` - Format all with separators
-- [ ] **File output functions** (side effects):
-  - `saveToFile(content: string, filename: string): Promise<void>` - Save to file
-  - `generateFilename(newsletter: Newsletter, date: Date): string` - Pure filename generator
-  - `ensureOutputDir(): Promise<void>` - Create output directory if needed
+  - `simplifyTechnicalTerms(text: string): string` - Simplify technical terms for audio
+  - `parseLLMResponse(response: string): ArticleSummary[]` - Parse and separate articles from LLM output
+- [x] **Article formatting functions** (implemented in `src/cli/output.service.ts`):
+  - `formatArticleForFile(article): string` - Format single article for file output with structure:
+    - Title, summary, key takeaways (bullets), link, separator
+  - `formatAllArticles(articles): string` - Format all articles with separators
+  - `formatSummaryForFile(summary): string` - Complete file output with header/footer
+- [x] **File output functions** (implemented in `src/cli/output.service.ts`):
+  - `saveToFile(content, filepath): Promise<void>` - Save content to file (side effect)
+  - `generateFilename(newsletter, date): string` - Pure filename generator (sanitizes, formats date)
+  - `generateFilePath(outputDir, filename): string` - Pure path generator
+  - `ensureOutputDir(dir): Promise<void>` - Create directory if needed (side effect)
+  - `saveSummaryToFile(summary, outputDir): Promise<string>` - Complete save operation
+  - `saveSummariesToFiles(summaries, outputDir): Promise<string[]>` - Save multiple summaries
 
 ### Phase 9: Testing & Polish
 - [ ] Test with different newsletter formats

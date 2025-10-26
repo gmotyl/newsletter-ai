@@ -42,12 +42,112 @@ Edit `config.json` to customize:
 - Scraper options
 - Output language and narrator persona
 
-### 4. Run the Script
+### 4. Build the Project
 
-Development mode (with hot reload):
 ```bash
-pnpm dev
+npm run build
+# or
+pnpm build
 ```
+
+### 5. Run the Script
+
+```bash
+npm start
+# or
+pnpm start
+```
+
+## NPM Scripts Reference
+
+### Basic Commands
+
+```bash
+# Show help with all CLI options
+npm run help
+
+# Process newsletters (production build - requires npm run build first)
+npm start
+
+# Process newsletters (development mode - no build needed)
+npm run dev
+
+# Build TypeScript
+npm run build
+
+# Run all tests (460+ tests)
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+```
+
+### CLI Features as Scripts
+
+#### Dry-Run Mode (No Changes to Emails)
+
+```bash
+# Test without marking emails as read or deleting
+npm run dry-run
+
+# Dry-run in development mode
+npm run dry-run:dev
+```
+
+#### Process Specific Newsletter Pattern
+
+```bash
+# Process only daily.dev newsletters
+npm run process:daily
+npm run process:daily:dev  # Development mode
+
+# Or specify custom pattern
+npm start -- --pattern "JavaScript Weekly"
+npm run dev -- --pattern "React Status"
+```
+
+#### Auto-Delete Mode
+
+```bash
+# Enable auto-delete for this run (overrides config)
+npm run process:auto-delete
+
+# Test auto-delete with dry-run
+npm start -- --dry-run --auto-delete
+```
+
+#### Override LLM Model
+
+```bash
+# Use GPT-4 Turbo
+npm run process:gpt4
+
+# Use Claude 3.5 Sonnet
+npm run process:claude
+
+# Or specify any model
+npm start -- --model gpt-4
+npm start -- --model claude-3-opus-20240229
+```
+
+#### Combine Multiple Options
+
+```bash
+# Examples of combining flags
+npm start -- --dry-run --pattern "daily.dev" --model gpt-4
+npm run dev -- --auto-delete --pattern "daily.dev"
+npm start -- --dry-run --model gpt-4-turbo-preview
+```
+
+## Command-Line Options
+
+| Flag | Description | Example |
+|------|-------------|---------|
+| `--help`, `-h` | Show help message with all options | `npm start -- --help` |
+| `--dry-run` | Process without marking as read or deleting | `npm start -- --dry-run` |
+| `--pattern <name>` | Process specific newsletter pattern | `npm start -- --pattern "daily.dev"` |
+| `--model <name>` | Override LLM model for this run | `npm start -- --model gpt-4` |
+| `--auto-delete` | Enable auto-delete (overrides config) | `npm start -- --auto-delete` |
 
 Production mode:
 ```bash
