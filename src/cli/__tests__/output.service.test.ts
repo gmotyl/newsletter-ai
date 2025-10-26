@@ -9,7 +9,7 @@ import {
   generateFilename,
   generateFilePath,
   getDefaultOutputDir,
-} from "../output.service.js";
+} from "../output/index.js";
 
 // ============================================================================
 // Test Data Fixtures

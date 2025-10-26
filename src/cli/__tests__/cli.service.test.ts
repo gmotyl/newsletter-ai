@@ -1,7 +1,11 @@
 // Unit tests for CLI service - Pure functions only
 
 import { describe, it, expect } from "vitest";
-import type { Summary, ArticleSummary, NewsletterPattern } from "../../types/index.js";
+import type {
+  Summary,
+  ArticleSummary,
+  NewsletterPattern,
+} from "../../types/index.js";
 import {
   parseCLIArgs,
   validateCLIOptions,
@@ -15,7 +19,7 @@ import {
   formatWarning,
   formatHelpText,
   type CLIOptions,
-} from "../cli.service.js";
+} from "../utils/index.js";
 
 // ============================================================================
 // Test Data Fixtures
@@ -404,7 +408,11 @@ describe("cli.service - Edge Cases", () => {
 
   it("should handle very long titles", () => {
     const longTitle = "A".repeat(1000);
-    const article = createArticleSummary(longTitle, "Summary", "http://test.com");
+    const article = createArticleSummary(
+      longTitle,
+      "Summary",
+      "http://test.com"
+    );
     const result = formatArticleSummary(article);
     expect(result).toContain(longTitle);
   });
