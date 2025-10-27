@@ -69,9 +69,9 @@
   "outputLanguage": "polish",
   "narratorPersona": "thePrimeagen",
   "verbose": true,
-  "interactive": true,
+  "interactive": false,
   "processingOptions": {
-    "autoDelete": false,
+    "autoDelete": true,
     "markAsRead": true,
     "processAllMessages": false,
     "messageLimit": 2

@@ -3,6 +3,7 @@
 
 import type { IMAPConnection, ProcessingOptions } from "../../types/index.js";
 import { markAsRead, deleteEmail } from "../imap/index.js";
+import { displayVerbose } from "../../cli/utils/index.js";
 
 /**
  * @param conn - IMAP connection
@@ -17,11 +18,15 @@ export const markNewsletterAsProcessed = async (
 ): Promise<void> => {
   // Mark as read if enabled
   if (options.markAsRead && !options.dryRun) {
+    displayVerbose(`    → Marking UID ${newsletterUid} as read...`);
     await markAsRead(conn, newsletterUid);
+    displayVerbose(`    ✓ Marked as read`);
   }
 
   // Delete if enabled
   if (options.autoDelete && !options.dryRun) {
+    displayVerbose(`    → Deleting UID ${newsletterUid}...`);
     await deleteEmail(conn, newsletterUid);
+    displayVerbose(`    ✓ Deleted`);
   }
 };

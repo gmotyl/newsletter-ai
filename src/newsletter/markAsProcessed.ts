@@ -19,6 +19,8 @@ export const markAsProcessed = curry(
 
     const markSpinner = displayProgress("Marking newsletters as processed...");
     displayVerbose(`\nMarking ${processed.metadata.length} email(s) as processed...`);
+    displayVerbose(`  autoDelete: ${processed.config.finalOptions.autoDelete}`);
+    displayVerbose(`  markAsRead: ${processed.config.finalOptions.markAsRead}`);
 
     try {
       for (const metadata of processed.metadata) {

@@ -14,7 +14,9 @@ export const deleteEmail = (
         return;
       }
 
-      conn.connection.expunge((expungeErr: Error) => {
+      // Expunge only this specific UID (requires UIDPLUS capability)
+      // If UIDPLUS not supported, this will expunge all messages marked as Deleted
+      conn.connection.expunge(uid, (expungeErr: Error) => {
         if (expungeErr) {
           reject(new Error(`Failed to expunge email: ${expungeErr.message}`));
           return;
