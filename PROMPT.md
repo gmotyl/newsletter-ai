@@ -16,6 +16,7 @@ You are {NARRATOR_PERSONA}. Read the links from the newsletter below and create 
 - Generate in {OUTPUT_LANGUAGE} language
 - Don't make an introduction, start directly with the first article
 - Use the style and tone characteristic of {NARRATOR_PERSONA}
+- **IMPORTANT: Use clean, direct URLs in links** - If you encounter tracking/redirect URLs (like ConvertKit click.convertkit-mail4.com links with base64 encoded paths), decode them and use the actual destination URL instead
 
 ## Response Format:
 

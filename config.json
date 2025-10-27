@@ -73,7 +73,7 @@
   "processingOptions": {
     "autoDelete": true,
     "markAsRead": true,
-    "processAllMessages": false,
+    "processAllMessages": true,
     "messageLimit": 10
   }
 }
