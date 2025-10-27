@@ -74,6 +74,6 @@
     "autoDelete": true,
     "markAsRead": true,
     "processAllMessages": false,
-    "messageLimit": 2
+    "messageLimit": 10
   }
 }

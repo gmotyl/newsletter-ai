@@ -34,6 +34,7 @@ export const processAllNewsletters = async (
   spinner?: ProgressHandle
 ): Promise<Summary[]> => {
   const summaries: Summary[] = [];
+  const successfulIndices: number[] = []; // Track which newsletters succeeded
   const isInteractive = options.interactive ?? true;
 
   for (let i = 0; i < newsletters.length; i++) {
@@ -59,6 +60,7 @@ export const processAllNewsletters = async (
       );
 
       summaries.push(summary);
+      successfulIndices.push(i); // Track successful processing
 
       // In interactive mode, display the summary and ask for confirmation
       if (isInteractive) {

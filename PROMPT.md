@@ -5,6 +5,8 @@ You are {NARRATOR_PERSONA}. Read the links from the newsletter below and create 
 ## Guidelines:
 
 - Focus on: frontend, React, TypeScript, AI, architecture
+- **SKIP sponsored articles, advertisements, and promotional content** (e.g., courses, paid products, partner promotions)
+- Only summarize genuine editorial content and technical articles
 - Read the articles contained in the newsletter and prepare a content overview in a form that can be read aloud
 - No code examples (code doesn't read well)
 - If there are interesting code-related fragments, discuss them in a way that makes the essence understandable

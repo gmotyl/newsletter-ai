@@ -88,14 +88,30 @@ export const processNewsletter = async (
   });
 
   const prompt = loadPrompt(formattedContent);
-  displayVerbose(`  ✓ Formatted content for LLM (${prompt.length} chars)`);
+
+  // Estimate token count (rough estimate: 1 token ≈ 4 chars for English)
+  const estimatedTokens = Math.ceil(prompt.length / 4);
+
+  // Use maxTokens from LLMConfig, default to 200k if not specified
+  const maxAllowedTokens = llmConfig.maxTokens || 200000;
+
+  displayVerbose(`  ✓ Formatted content for LLM (${prompt.length} chars, ~${estimatedTokens} tokens)`);
+
+  // Validate prompt length before sending
+  // Reserve ~10% of tokens for the response
+  const maxInputTokens = Math.floor(maxAllowedTokens * 0.9);
+  if (estimatedTokens > maxInputTokens) {
+    throw new Error(
+      `Prompt is too long: ~${estimatedTokens} tokens > ${maxInputTokens} maximum (${maxAllowedTokens} total, reserving ${maxAllowedTokens - maxInputTokens} for response). ` +
+      `Try reducing maxArticles in config (currently ${options.maxArticles}) or increase LLM_MAX_TOKENS.`
+    );
+  }
 
   // Step 4: Generate summary with LLM
   if (onProgress) onProgress("Generating summary with LLM...", 4, 4);
   displayVerbose(`  Sending request to LLM (${llmConfig.provider})...`);
   const rawSummary = await generateSummary(llmConfig, prompt);
   displayVerbose(`  ✓ Received LLM response (${rawSummary.length} chars)`);
-  displayVerbose(`\n  === LLM Raw Response ===\n${rawSummary}\n  === End of Response ===\n`);
 
   // Step 5: Parse and validate response
   const parsedSummaries = parseLLMResponse(rawSummary);
