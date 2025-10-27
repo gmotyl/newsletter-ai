@@ -56,6 +56,7 @@ const sampleSummary: Summary = {
   newsletter: "daily.dev",
   date: new Date("2024-01-15"),
   articles: sampleArticles,
+  rawResponse: "---\ntitle: Test Newsletter\nslug: test-newsletter\n---\n\nTest content",
 };
 
 const samplePattern: NewsletterPattern = {
@@ -230,6 +231,7 @@ describe("cli.service - Pure Formatting Functions", () => {
         newsletter: "test",
         date: new Date(),
         articles: [],
+        rawResponse: "---\ntitle: Empty\nslug: empty\n---\n",
       };
       const result = formatSummaryForDisplay(emptySummary);
       expect(result).toContain("Znaleziono artykułów: 0");

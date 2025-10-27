@@ -106,5 +106,6 @@ export const processNewsletter = async (
     newsletter: newsletter.pattern.name,
     date: newsletter.date,
     articles: validSummaries,
+    rawResponse: rawSummary, // Include raw LLM response for markdown output
   };
 };

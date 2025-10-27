@@ -46,6 +46,7 @@ const sampleSummary: Summary = {
   newsletter: "daily.dev",
   date: new Date("2024-01-15"),
   articles: sampleArticles,
+  rawResponse: "---\ntitle: Daily Dev Newsletter\nslug: daily-dev-newsletter\n---\n\nTest content",
 };
 
 // ============================================================================
@@ -114,29 +115,25 @@ describe("output.service - Pure Formatting Functions", () => {
   });
 
   describe("formatSummaryForFile", () => {
-    it("should format complete summary", () => {
+    it("should return raw LLM response", () => {
       const result = formatSummaryForFile(sampleSummary);
-      expect(result).toContain("Newsletter: daily.dev");
-      expect(result).toContain("Liczba artykułów: 2");
-      expect(result).toContain("React 19 New Features");
-      expect(result).toContain("TypeScript 5.5 Released");
-      expect(result).toContain("Wygenerowano:");
+      expect(result).toBe(sampleSummary.rawResponse);
+      expect(result).toContain("Daily Dev Newsletter");
+      expect(result).toContain("slug: daily-dev-newsletter");
     });
 
-    it("should include header and footer separators", () => {
+    it("should include frontmatter in markdown format", () => {
       const result = formatSummaryForFile(sampleSummary);
-      const separators = result.match(/={80}/g);
-      expect(separators).toBeDefined();
-      expect(separators!.length).toBeGreaterThanOrEqual(2);
+      expect(result).toMatch(/^---\n/); // Starts with frontmatter
+      expect(result).toContain("title:");
+      expect(result).toContain("slug:");
     });
 
     it("should be a pure function", () => {
       const result1 = formatSummaryForFile(sampleSummary);
       const result2 = formatSummaryForFile(sampleSummary);
-      // Note: This may fail if the function includes current timestamp
-      // The implementation includes "Wygenerowano" with current date, so we test structure instead
-      expect(result1).toContain("Newsletter: daily.dev");
-      expect(result2).toContain("Newsletter: daily.dev");
+      expect(result1).toBe(result2);
+      expect(result1).toBe(sampleSummary.rawResponse);
     });
   });
 });
@@ -147,48 +144,55 @@ describe("output.service - Pure Formatting Functions", () => {
 
 describe("output.service - Filename Generation", () => {
   describe("generateFilename", () => {
-    it("should generate filename with date", () => {
+    it("should generate filename with slug when provided", () => {
+      const date = new Date("2024-01-15");
+      const result = generateFilename("daily.dev", date, "my-custom-slug");
+      expect(result).toBe("my-custom-slug.md");
+    });
+
+    it("should fallback to newsletter name and date when no slug", () => {
       const date = new Date("2024-01-15");
       const result = generateFilename("daily.dev", date);
-      expect(result).toBe("daily-dev-2024-01-15.txt");
+      expect(result).toBe("daily-dev-2024-01-15.md");
     });
 
-    it("should sanitize newsletter name", () => {
+    it("should sanitize newsletter name in fallback", () => {
       const date = new Date("2024-01-15");
       const result = generateFilename("Daily.dev Newsletter!", date);
-      expect(result).toBe("daily-dev-newsletter-2024-01-15.txt");
+      expect(result).toBe("daily-dev-newsletter-2024-01-15.md");
     });
 
-    it("should handle special characters", () => {
+    it("should handle special characters in fallback", () => {
       const date = new Date("2024-01-15");
       const result = generateFilename("Test@#$%Newsletter", date);
-      expect(result).toBe("test-newsletter-2024-01-15.txt");
+      expect(result).toBe("test-newsletter-2024-01-15.md");
     });
 
-    it("should pad single-digit dates", () => {
+    it("should pad single-digit dates in fallback", () => {
       const date = new Date("2024-01-05");
       const result = generateFilename("test", date);
-      expect(result).toBe("test-2024-01-05.txt");
+      expect(result).toBe("test-2024-01-05.md");
     });
 
     it("should be a pure function", () => {
       const date = new Date("2024-01-15");
-      const result1 = generateFilename("test", date);
-      const result2 = generateFilename("test", date);
+      const result1 = generateFilename("test", date, "test-slug");
+      const result2 = generateFilename("test", date, "test-slug");
       expect(result1).toBe(result2);
     });
 
-    it("should handle empty newsletter name", () => {
+    it("should use markdown extension for all outputs", () => {
       const date = new Date("2024-01-15");
-      const result = generateFilename("", date);
-      // Empty name results in a leading dash being removed, so just date
-      expect(result).toMatch(/^-?2024-01-15\.txt$/);
+      const withSlug = generateFilename("test", date, "my-slug");
+      const withoutSlug = generateFilename("test", date);
+      expect(withSlug).toMatch(/\.md$/);
+      expect(withoutSlug).toMatch(/\.md$/);
     });
 
-    it("should handle multiple consecutive special characters", () => {
+    it("should handle multiple consecutive special characters in fallback", () => {
       const date = new Date("2024-01-15");
       const result = generateFilename("test---newsletter", date);
-      expect(result).toBe("test-newsletter-2024-01-15.txt");
+      expect(result).toBe("test-newsletter-2024-01-15.md");
     });
   });
 
@@ -259,9 +263,9 @@ describe("output.service - Pure Function Properties", () => {
   it("filename generation should be deterministic", () => {
     const date = new Date("2024-01-15");
     for (let i = 0; i < 3; i++) {
-      expect(generateFilename("test", date)).toBe("test-2024-01-15.txt");
-      expect(generateFilePath("./output", "test.txt")).toBe(
-        generateFilePath("./output", "test.txt")
+      expect(generateFilename("test", date)).toBe("test-2024-01-15.md");
+      expect(generateFilePath("./output", "test.md")).toBe(
+        generateFilePath("./output", "test.md")
       );
     }
   });
@@ -290,7 +294,7 @@ describe("output.service - Edge Cases", () => {
     const date = new Date("2024-01-15");
     const result = generateFilename("test-émoji-🚀", date);
     expect(result).toBeDefined();
-    expect(result).toMatch(/\.txt$/);
+    expect(result).toMatch(/\.md$/);
   });
 
   it("should handle dates at year boundaries", () => {
@@ -300,8 +304,8 @@ describe("output.service - Edge Cases", () => {
     const result1 = generateFilename("test", date1);
     const result2 = generateFilename("test", date2);
 
-    expect(result1).toBe("test-2023-12-31.txt");
-    expect(result2).toBe("test-2024-01-01.txt");
+    expect(result1).toBe("test-2023-12-31.md");
+    expect(result2).toBe("test-2024-01-01.md");
   });
 
   it("should handle very long newsletter names", () => {
@@ -309,6 +313,6 @@ describe("output.service - Edge Cases", () => {
     const date = new Date("2024-01-15");
     const result = generateFilename(longName, date);
     expect(result).toBeDefined();
-    expect(result).toContain("2024-01-15.txt");
+    expect(result).toContain("2024-01-15.md");
   });
 });

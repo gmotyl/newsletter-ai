@@ -2,43 +2,64 @@
   "newsletterPatterns": [
     {
       "name": "daily.dev",
-      "from": "daily@daily.dev",
-      "subject": ["daily.dev", "Daily Digest"],
+      "from": "informer@daily.dev",
+      "subject": [
+        "Greg, your personal update from daily.dev is ready",
+        "Daily Digest"
+      ],
       "enabled": true,
-      "maxArticles": 10
+      "maxArticles": 15
     },
     {
       "name": "JavaScript Weekly",
       "from": "javascriptweekly@cooperpress.com",
-      "subject": ["JavaScript Weekly"],
+      "subject": [
+        "JavaScript Weekly"
+      ],
       "enabled": true,
       "maxArticles": 15
     },
     {
       "name": "React Status",
       "from": "react@cooperpress.com",
-      "subject": ["React Status"],
+      "subject": [
+        "React Status"
+      ],
       "enabled": true,
       "maxArticles": 12
     },
     {
       "name": "TypeScript Weekly",
       "from": "typescript@cooperpress.com",
-      "subject": ["TypeScript Weekly"],
+      "subject": [
+        "TypeScript Weekly"
+      ],
       "enabled": false,
       "maxArticles": 10
     },
     {
       "name": "ui.dev",
       "from": "tyler@ui.dev",
-      "subject": ["ui.dev", "Bytes", "React Newsletter"],
+      "subject": [
+        "ui.dev",
+        "Bytes",
+        "React Newsletter"
+      ],
       "enabled": true,
       "maxArticles": 12
     }
   ],
   "contentFilters": {
-    "skipTopics": ["Java", "JDK", "Spring Boot", "Maven"],
-    "focusTopics": ["frontend", "react", "TypeScript", "AI", "architecture", "performance", "testing"]
+    "skipTopics": [],
+    "focusTopics": [
+      "frontend",
+      "react",
+      "TypeScript",
+      "AI",
+      "architecture",
+      "performance",
+      "testing"
+    ]
   },
   "scraperOptions": {
     "timeout": 30000,
@@ -48,5 +69,5 @@
   "outputLanguage": "polish",
   "narratorPersona": "thePrimeagen",
   "verbose": true,
-  "interactive": false
+  "interactive": true
 }

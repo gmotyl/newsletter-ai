@@ -10,6 +10,7 @@ import type {
 } from "../../types/index.js";
 import { processNewsletter } from "./processNewsletter.js";
 import type { ProgressCallback } from "./withProgress.js";
+import type { ProgressHandle } from "../../cli/utils/types.js";
 import { displaySummary } from "../../cli/utils/displaySummary.js";
 import { confirmAction } from "../../cli/utils/confirmAction.js";
 
@@ -20,6 +21,7 @@ import { confirmAction } from "../../cli/utils/confirmAction.js";
  * @param llmConfig - LLM configuration
  * @param options - Processing options
  * @param onProgress - Optional progress callback
+ * @param spinner - Optional spinner handle to stop/start during interactive prompts
  * @returns Promise<Summary[]> with processed newsletters
  */
 export const processAllNewsletters = async (
@@ -28,10 +30,11 @@ export const processAllNewsletters = async (
   filters: ContentFilters,
   llmConfig: LLMConfig,
   options: ProcessingOptions,
-  onProgress?: ProgressCallback
+  onProgress?: ProgressCallback,
+  spinner?: ProgressHandle
 ): Promise<Summary[]> => {
   const summaries: Summary[] = [];
-  const isInteractive = options.interactive ?? false;
+  const isInteractive = options.interactive ?? true;
 
   for (let i = 0; i < newsletters.length; i++) {
     const newsletter = newsletters[i];
@@ -59,6 +62,11 @@ export const processAllNewsletters = async (
 
       // In interactive mode, display the summary and ask for confirmation
       if (isInteractive) {
+        // Stop spinner before showing interactive prompt
+        if (spinner) {
+          spinner.stop();
+        }
+
         console.log("\n");
         displaySummary(summary);
         console.log("\n");
@@ -85,6 +93,11 @@ export const processAllNewsletters = async (
 
       // In interactive mode, ask if user wants to continue after an error
       if (isInteractive && i < newsletters.length - 1) {
+        // Stop spinner before showing interactive prompt
+        if (spinner) {
+          spinner.stop();
+        }
+
         const shouldContinue = await confirmAction(
           "An error occurred. Continue to next newsletter?"
         );

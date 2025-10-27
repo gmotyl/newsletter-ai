@@ -17,3 +17,4 @@ export { generateChunkedSummary } from "./generateChunkedSummary.js";
 export { parseLLMResponse } from "./parseLLMResponse.js";
 export { isValidArticleSummary } from "./isValidArticleSummary.js";
 export { filterValidSummaries } from "./filterValidSummaries.js";
+export { extractSlugFromResponse } from "./extractSlugFromResponse.js";

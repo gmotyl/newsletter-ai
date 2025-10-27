@@ -16,7 +16,8 @@ export const processNewsletters = async (
       collected.contentFilters,
       collected.config.finalLLMConfig,
       collected.config.finalOptions,
-      createProgressCallback()
+      createProgressCallback(),
+      processingSpinner // Pass spinner handle to allow stopping during interactive prompts
     );
 
     processingSpinner.succeed(`Processed ${summaries.length} newsletter(s)`);

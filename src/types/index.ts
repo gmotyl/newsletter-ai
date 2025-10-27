@@ -69,6 +69,7 @@ export interface Summary {
   newsletter: string;
   date: Date;
   articles: ArticleSummary[];
+  rawResponse: string; // Raw LLM response with frontmatter for markdown output
 }
 
 export interface ArticleSummary {
