@@ -12,10 +12,11 @@ import { displayVerbose } from "../../cli/utils/index.js";
 
 export const searchNewsletters = (
   conn: IMAPConnection,
-  pattern: NewsletterPattern
+  pattern: NewsletterPattern,
+  processAllMessages: boolean = false
 ): Promise<EmailMetadata[]> => {
   return new Promise((resolve, reject) => {
-    const criteria = buildSearchCriteria(pattern);
+    const criteria = buildSearchCriteria(pattern, processAllMessages);
     displayVerbose(`Searching for emails matching pattern: ${pattern.name}`);
 
     conn.connection.search(criteria, (err: Error, uids: number[]) => {

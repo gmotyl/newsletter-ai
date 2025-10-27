@@ -63,13 +63,26 @@ export const getLLMConfig = (): LLMConfig => {
 };
 
 /**
- * Gets processing options from environment variables
+ * Gets processing options from config.json with environment variable fallback
  */
-export const getProcessingOptions = (): ProcessingOptions => ({
-  maxArticles: parseInt(process.env.MAX_ARTICLES_PER_NEWSLETTER || "15", 10),
-  markAsRead: process.env.MARK_AS_READ === "true",
-  autoDelete: process.env.AUTO_DELETE_AFTER_PROCESSING === "true",
-});
+export const getProcessingOptions = (): ProcessingOptions => {
+  const appConfig = loadAppConfig();
+  const configOptions = appConfig.processingOptions || {};
+
+  return {
+    maxArticles: parseInt(process.env.MAX_ARTICLES_PER_NEWSLETTER || "15", 10),
+    markAsRead:
+      process.env.MARK_AS_READ !== undefined
+        ? process.env.MARK_AS_READ === "true"
+        : configOptions.markAsRead ?? true,
+    autoDelete:
+      process.env.AUTO_DELETE_AFTER_PROCESSING !== undefined
+        ? process.env.AUTO_DELETE_AFTER_PROCESSING === "true"
+        : configOptions.autoDelete ?? false,
+    processAllMessages: configOptions.processAllMessages ?? false,
+    messageLimit: configOptions.messageLimit ?? 10,
+  };
+};
 
 /**
  * Gets the full app config from config.json

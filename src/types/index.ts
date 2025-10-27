@@ -34,6 +34,12 @@ export interface AppConfig {
   narratorPersona: string;
   verbose?: boolean;
   interactive?: boolean;
+  processingOptions?: {
+    autoDelete?: boolean;
+    markAsRead?: boolean;
+    processAllMessages?: boolean;
+    messageLimit?: number;
+  };
 }
 
 export interface LLMConfig {
@@ -61,6 +67,8 @@ export interface ProcessingOptions {
   maxArticles: number;
   markAsRead: boolean;
   autoDelete: boolean;
+  processAllMessages: boolean;
+  messageLimit: number;
   dryRun?: boolean;
   interactive?: boolean;
 }

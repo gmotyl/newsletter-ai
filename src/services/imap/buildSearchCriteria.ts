@@ -3,8 +3,11 @@
 
 import type { NewsletterPattern } from "../../types/index.js";
 
-export const buildSearchCriteria = (pattern: NewsletterPattern): any[] => {
-  const criteria: any[] = ["UNSEEN"]; // Only unread emails
+export const buildSearchCriteria = (
+  pattern: NewsletterPattern,
+  processAllMessages: boolean = false
+): any[] => {
+  const criteria: any[] = processAllMessages ? [] : ["UNSEEN"]; // Process all or only unread emails
 
   // Add FROM filter
   if (pattern.from) {
