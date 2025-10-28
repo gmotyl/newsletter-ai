@@ -40,18 +40,98 @@ Example for an article about React Query, Biome, and ESLint:
 hashtags: "#generated #en #react #typescript #frontend #react-query #biome #eslint #pnpm #sonarqube"
 ```
 
-Frontmatter rules:
+### Hashtag Guidelines (CRITICAL - READ CAREFULLY):
 
-- publishedAt: Use today's date in YYYY-MM-DD format
-- slug: Create URL-friendly slug from title (lowercase, hyphens, no special characters)
-- hashtags:
-  - ALWAYS include '#generated'
-  - Add language: '#pl' for Polish, '#en' for English, '#de' for German, etc.
-  - Add category hashtags like #frontend #backend #cloud #devops #architecture #ai #testing #performance
-  - Add SPECIFIC technology/tool hashtags mentioned in articles (e.g., #react-query #pnpm #biome #eslint #sonarqube #prettier)
-  - Use lowercase for all hashtags, with hyphens for multi-word technologies (e.g., #react-query not #ReactQuery)
-  - Include all major technologies, frameworks, libraries, and tools discussed in the articles
-  - Separate all hashtags with spaces
+**Your PRIMARY goal is to use EXISTING hashtags from the approved list below. Only create new hashtags for technologies that are genuinely missing from this list.**
+
+#### Hashtag Selection Process:
+
+1. **ALWAYS include these required tags:**
+
+   - `#generated` (mandatory for all generated articles)
+   - Language code: `#pl` (Polish), `#en` (English), `#de` (German), etc.
+
+2. **Select from EXISTING POPULAR hashtags (prefer these - Tier 1-3):**
+
+   **Tier 1 - Core Technologies (use when applicable):**
+
+   - Languages: `#javascript`, `#typescript`, `#rust`, `#python`, `#go`, `#java`, `#csharp`, `#kotlin`, `#swift`, `#php`, `#ruby`, `#elixir`, `#gleam`, `#zig`, `#cpp`, `#scala`, `#dart`, `#lua`
+   - Frontend Frameworks: `#react`, `#vue`, `#angular`, `#svelte`, `#solidjs`, `#preact`, `#lit`, `#qwik`, `#ember`, `#backbone`, `#alpinejs`
+   - Backend/Runtime: `#nodejs`, `#deno`, `#bun`, `#springboot`, `#laravel`, `#rails`, `#phoenix`, `#aspnet`
+   - Cloud: `#aws`, `#azure`, `#gcp`, `#vercel`, `#netlify`, `#cloudflare`, `#railway`, `#render`, `#fly-io`, `#digitalocean`
+   - Core Web: `#css`, `#html`, `#frontend`, `#backend`, `#fullstack`, `#webdev`
+   - Categories: `#ai`, `#ml`, `#llm`, `#architecture`, `#testing`, `#performance`, `#security`, `#mobile`, `#devops`, `#cicd`, `#monitoring`, `#observability`
+
+   **Tier 2 - Popular Tools & Frameworks:**
+
+   - Build Tools: `#vite`, `#webpack`, `#esbuild`, `#rspack`, `#turbopack`, `#rollup`, `#parcel`, `#swc`, `#babel`, `#tsc`
+   - Meta-frameworks: `#nextjs`, `#remix`, `#astro`, `#nuxt`, `#sveltekit`, `#analog`, `#fresh`, `#gatsby`
+   - Testing: `#jest`, `#vitest`, `#playwright`, `#cypress`, `#storybook`, `#testing-library`, `#mocha`, `#chai`, `#jasmine`, `#webdriverio`
+   - Styling: `#tailwind`, `#css-in-js`, `#sass`, `#less`, `#postcss`, `#styled-components`, `#emotion`, `#css-modules`, `#bootstrap`, `#bulma`, `#unocss`
+   - Backend/DB: `#firebase`, `#graphql`, `#rest`, `#grpc`, `#django`, `#fastapi`, `#flask`, `#express`, `#nestjs`, `#trpc`, `#prisma`, `#drizzle`, `#typeorm`, `#sequelize`, `#postgresql`, `#mongodb`, `#mysql`, `#redis`, `#supabase`, `#appwrite`, `#pocketbase`
+   - Mobile: `#react-native`, `#expo`, `#flutter`, `#ionic`, `#capacitor`, `#nativescript`, `#cordova`
+   - Desktop: `#electron`, `#tauri`, `#neutralino`, `#wails`
+   - DevTools: `#eslint`, `#prettier`, `#biome`, `#oxc`, `#npm`, `#pnpm`, `#yarn`, `#bun`, `#turbo`, `#nx`, `#lerna`, `#changesets`, `#git`, `#github`, `#gitlab`, `#bitbucket`, `#vscode`, `#webstorm`, `#intellij`, `#cursor`, `#windsurf`, `#zed`, `#github-copilot`, `#codeium`, `#tabnine`, `#docker`, `#kubernetes`, `#podman`, `#helm`, `#terraform`, `#ansible`, `#jenkins`, `#circleci`, `#github-actions`, `#gitlab-ci`
+
+   **Tier 3 - Growing/Established:**
+
+   - React ecosystem: `#react-query`, `#react-router`, `#react-compiler`, `#tanstack-query`, `#tanstack-router`, `#tanstack-form`, `#react-server-components`, `#react-19`, `#zustand`, `#jotai`, `#redux`, `#redux-toolkit`, `#recoil`, `#xstate`
+   - Vue ecosystem: `#pinia`, `#vuex`, `#vue-router`, `#nuxt-modules`, `#vueuse`
+   - State Management: `#mobx`, `#effector`, `#nanostores`
+   - Databases: `#database`, `#planetscale`, `#turso`, `#convex`, `#neon`, `#cockroachdb`, `#fauna`, `#dynamodb`, `#cassandra`, `#elasticsearch`, `#clickhouse`
+   - Tools: `#hono`, `#zod`, `#valibot`, `#effect`, `#arktype`, `#yup`, `#ajv`
+   - UI Libraries: `#htmx`, `#alpine-js`, `#shadcn`, `#radix`, `#headlessui`, `#chakra`, `#mantine`, `#antd`, `#material-ui`, `#primereact`, `#daisyui`, `#flowbite`
+   - Concepts: `#ssr`, `#ssg`, `#isr`, `#spa`, `#mpa`, `#server-components`, `#server-actions`, `#islands`, `#partial-hydration`, `#streaming`, `#caching`, `#cdn`, `#edge`, `#accessibility`, `#a11y`, `#ux`, `#dx`, `#seo`, `#web-performance`, `#core-web-vitals`, `#wcag`, `#aria`, `#i18n`, `#l10n`
+   - Auth/Cloud: `#auth`, `#oauth`, `#jwt`, `#saml`, `#amplify`, `#clerk`, `#auth0`, `#okta`, `#keycloak`, `#lucia`
+   - CMS: `#contentful`, `#sanity`, `#strapi`, `#payload`, `#directus`, `#ghost`, `#wordpress`
+
+3. **Additional approved hashtags (use when specifically mentioned):**
+   `#codehike`, `#codesandbox`, `#stackblitz`, `#replit`, `#container-queries`, `#popover-api`, `#view-transitions`, `#web-components`, `#custom-elements`, `#shadow-dom`, `#ollama`, `#langchain`, `#temporal`, `#rslib`, `#rsbuild`, `#shopify`, `#woocommerce`, `#magento`, `#figma`, `#sketch`, `#adobe-xd`, `#redwoodjs`, `#blitz`, `#solidstart`, `#nitro`, `#vinxi`, `#waku`, `#webcontainers`, `#intl-segmenter`, `#font-size-adjust`, `#lightning-css`, `#panda-css`, `#stylex`, `#pigment-css`, `#vanilla-extract`, `#sentry`, `#datadog`, `#newrelic`, `#snyk`, `#dependabot`, `#renovate`, `#sonarqube`, `#codecov`, `#nginx`, `#apache`, `#caddy`, `#traefik`, `#envoy`, `#istio`, `#linkerd`, `#prometheus`, `#grafana`, `#elk`, `#splunk`, `#opentelemetry`
+
+4. **When to CREATE NEW hashtags (RARE - only if necessary):**
+
+   - The technology/tool is GENUINELY NEW and not in the approved list above
+   - It's a major framework/tool mentioned prominently in multiple articles
+   - It's not a variation of an existing tag (e.g., don't create `#node-js` when `#nodejs` exists)
+   - Examples of when to create new: a brand new major framework release, a new programming language
+
+5. **Standardization Rules:**
+
+   - Use lowercase for all hashtags
+   - Use hyphens for multi-word names: `#react-query`, `#next-js`, `#web-components`
+   - Unified spellings (DO NOT create variations):
+     - Node.js → `#nodejs` (NOT `#node` or `#node-js`)
+     - Next.js → `#nextjs`
+     - React 19 → `#react-19`
+     - Web Components → `#web-components`
+     - AI → `#ai`
+     - UX → `#ux`
+   - Separate all hashtags with spaces
+   - Aim for 8-15 hashtags total (don't over-tag)
+
+6. **Examples:**
+
+   **GOOD - Uses existing popular tags:**
+
+   ```yaml
+   hashtags: "#generated #en #react #typescript #frontend #react-query #biome #eslint #architecture #performance"
+   ```
+
+   **BAD - Creates unnecessary new tags:**
+
+   ```yaml
+   hashtags: "#generated #en #react #typescript #frontend #tanstack-react-query #biome-formatter #eslint-v9 #software-architecture #web-performance"
+   ```
+
+   ❌ Why bad: `#tanstack-react-query` should be `#react-query`, `#biome-formatter` should be `#biome`, `#eslint-v9` should be `#eslint`, `#software-architecture` should be `#architecture`, `#web-performance` should be `#performance`
+
+   **GOOD - Adds new tag only when necessary:**
+
+   ```yaml
+   hashtags: "#generated #en #react #typescript #million-js #vite #performance"
+   ```
+
+   ✅ `#million-js` is new but justified if it's the main topic and not in approved list
 
 ### Article Summaries (after frontmatter):
 
@@ -71,10 +151,14 @@ For each article:
    - Bullet point 1
    - Bullet point 2
    - Bullet point 3
-5. **Tradeoffs:** Optional bullet points, if identified tradeofss with described technology or approach
-   - Bullet point 1
-   - Bullet point 2
-   - Bullet point 3
+5. **Tradeoffs:** Optional bullet points - ONLY include if there are clear architectural tradeoffs (what you gain vs. what you sacrifice)
+   - Format: "Gain [benefit] but sacrifice [cost]" or "[Decision] means [benefit] at the cost of [drawback]"
+   - Examples of valid tradeoffs:
+     - "Microservices increase scalability but sacrifice operational simplicity"
+     - "Server-side rendering improves SEO but increases server load and complexity"
+     - "Strong typing catches errors early but slows down initial development"
+   - DO NOT include general observations, concerns, or potential issues
+   - ONLY include items that show a clear exchange/compromise between two aspects
 6. **Link:** [original article title](URL)
 
 Output everything in markdown format.

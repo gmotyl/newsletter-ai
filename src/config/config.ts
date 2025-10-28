@@ -128,3 +128,10 @@ export const getInteractiveMode = (): boolean => {
   }
   return appConfig.interactive ?? false;
 };
+
+/**
+ * Gets output path from environment variable with default fallback
+ */
+export const getOutputPath = (): string => {
+  return process.env.OUTPUT_PATH || "./output";
+};

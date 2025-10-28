@@ -185,6 +185,7 @@ Available narrator styles:
 
 ### Email Processing Options
 
+- `OUTPUT_PATH=./output` - Directory where generated summaries will be saved (default: `./output`)
 - `MARK_AS_READ=true` - Mark emails as read after processing
 - `AUTO_DELETE_AFTER_PROCESSING=false` - Automatically delete emails (disabled by default)
 
@@ -207,7 +208,7 @@ newsletter-ai/
 ├── .env                         # Credentials (create from .env.example)
 ├── config.json                  # Newsletter patterns and settings
 ├── PROMPT.md                    # LLM prompt template (supports all languages)
-└── output/                      # Generated summaries
+└── output/                      # Generated summaries (configurable via OUTPUT_PATH)
 ```
 
 ### Architecture

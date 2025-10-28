@@ -56,6 +56,13 @@
       ],
       "enabled": true,
       "maxArticles": 15
+    },
+    {
+      "name": "AI Maker",
+      "from": "aimaker@substack.com",
+      "subject": [],
+      "enabled": true,
+      "maxArticles": 15
     }
   ],
   "contentFilters": {
