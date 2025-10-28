@@ -65,12 +65,17 @@ For each article:
    - Add practical insights and real-world implications
    - Share interesting details or examples from the article
    - Connect to broader trends or related topics
+   - add paragraph for architects and/or teams, how it can be applied in their work
    - Make it audio-friendly, no code
 4. **Key takeaways:**
    - Bullet point 1
    - Bullet point 2
    - Bullet point 3
-5. **Link:** [original article title](URL)
+5. **Tradeoffs:** Optional bullet points, if identified tradeofss with described technology or approach
+   - Bullet point 1
+   - Bullet point 2
+   - Bullet point 3
+6. **Link:** [original article title](URL)
 
 Output everything in markdown format.
 

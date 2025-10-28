@@ -1,18 +1,13 @@
 // Processes multiple newsletters sequentially
 // Orchestrates processing of multiple newsletters with error handling
 
-import type {
-  Newsletter,
-  ProcessingOptions,
-  Summary,
-  ContentFilters,
-  LLMConfig,
-} from "../../types/index.js";
-import { processNewsletter } from "./processNewsletter.js";
-import type { ProgressCallback } from "./withProgress.js";
-import type { ProgressHandle } from "../../cli/utils/types.js";
+import type { Summary } from "../../types/index.js";
+import { processNewsletterPipe } from "./pipeline/index.js";
 import { displaySummary } from "../../cli/utils/displaySummary.js";
 import { confirmAction } from "../../cli/utils/confirmAction.js";
+import { createProgressCallback } from "../../newsletter/createProgressCallback.js";
+import { displayProgress } from "../../cli/utils/displayProgress.js";
+import { CollectedNewsletters } from "../../newsletter/types.js";
 
 /**
  * @param newsletters - Array of newsletters to process
@@ -20,22 +15,18 @@ import { confirmAction } from "../../cli/utils/confirmAction.js";
  * @param filters - Content filters
  * @param llmConfig - LLM configuration
  * @param options - Processing options
- * @param onProgress - Optional progress callback
- * @param spinner - Optional spinner handle to stop/start during interactive prompts
  * @returns Promise<Summary[]> with processed newsletters
  */
 export const processAllNewsletters = async (
-  newsletters: Newsletter[],
-  urls: string[][],
-  filters: ContentFilters,
-  llmConfig: LLMConfig,
-  options: ProcessingOptions,
-  onProgress?: ProgressCallback,
-  spinner?: ProgressHandle
+  collected: CollectedNewsletters
 ): Promise<Summary[]> => {
+  const { newsletters, urls, contentFilters: filters } = collected;
+  const { llmConfig, finalOptions: options } = collected.config;
   const summaries: Summary[] = [];
   const successfulIndices: number[] = []; // Track which newsletters succeeded
   const isInteractive = options.interactive ?? true;
+  const onProgress = createProgressCallback();
+  const spinner = displayProgress("Processing newsletters...");
 
   for (let i = 0; i < newsletters.length; i++) {
     const newsletter = newsletters[i];
@@ -50,7 +41,7 @@ export const processAllNewsletters = async (
         );
       }
 
-      const summary = await processNewsletter(
+      const summary = await processNewsletterPipe(
         newsletter,
         newsletterUrls,
         filters,
@@ -89,7 +80,9 @@ export const processAllNewsletters = async (
       // Log error but continue processing other newsletters
       if (onProgress) {
         onProgress(
-          `Failed to process ${newsletter.pattern.name}: ${error instanceof Error ? error.message : String(error)}`
+          `Failed to process ${newsletter.pattern.name}: ${
+            error instanceof Error ? error.message : String(error)
+          }`
         );
       }
 
@@ -110,6 +103,11 @@ export const processAllNewsletters = async (
         }
       }
     }
+  }
+
+  // Stop the spinner after processing is complete
+  if (spinner) {
+    spinner.succeed(`Processed ${summaries.length} newsletter(s)`);
   }
 
   return summaries;

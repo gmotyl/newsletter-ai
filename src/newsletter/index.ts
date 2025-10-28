@@ -1,5 +1,5 @@
 // Newsletter Pipeline - Public API
-export { buildNewsletterPipeline } from "./pipeline.js";
+export { newsletterPipe as buildNewsletterPipeline } from "./pipeline.js";
 export type { CollectedNewsletters, ProcessedNewsletters } from "./types.js";
 export { createProgressCallback } from "./createProgressCallback.js";
 export { searchAndCollectNewsletters } from "./searchAndCollectNewsletters.js";

@@ -14,16 +14,16 @@ import type { PatternsState } from "../config/pipeline/types.js";
  * Newsletter Pipeline - Collects, processes, and manages newsletters
  * Uses proper FP composition with pipeAsync for left-to-right data flow
  */
-export const buildNewsletterPipeline = (conn: IMAPConnection) => async (
-  state: PatternsState
-): Promise<void> => {
-  await pipeAsync(
-    (s: PatternsState) => searchAndCollectNewsletters(conn, s),
-    exitIfNoNewsletters,
-    confirmProcessing,
-    processNewsletters,
-    saveSummaries,
-    markAsProcessed(conn),
-    displayCompletion
-  )(state);
-};
+export const newsletterPipe =
+  (conn: IMAPConnection) =>
+  async (state: PatternsState): Promise<void> => {
+    await pipeAsync(
+      searchAndCollectNewsletters(conn),
+      exitIfNoNewsletters,
+      confirmProcessing,
+      processNewsletters,
+      saveSummaries,
+      markAsProcessed(conn),
+      displayCompletion
+    )(state);
+  };

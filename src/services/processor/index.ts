@@ -7,6 +7,6 @@ export { limitArticles } from "./limitArticles.js";
 export { applyContentFilters } from "./applyContentFilters.js";
 export { withErrorHandling, type Result } from "./withErrorHandling.js";
 export { withProgress, type ProgressCallback } from "./withProgress.js";
-export { processNewsletter } from "./processNewsletter.js";
+export { processNewsletterPipe } from "./pipeline/index.js";
 export { processAllNewsletters } from "./processAllNewsletters.js";
 export { markNewsletterAsProcessed } from "./markNewsletterAsProcessed.js";

@@ -263,7 +263,7 @@ With Phase 5 complete, we can now proceed to Phase 6:
    - `limitArticles(articles, max)`
 
 3. **Create orchestration functions**:
-   - `processNewsletter(newsletter, config)` - Main pipeline
+   - `processNewsletterPipe(newsletter, config)` - Main pipeline (modular architecture)
    - `processAllNewsletters(newsletters, config)` - Batch processing
 
 4. **Add higher-order functions**:

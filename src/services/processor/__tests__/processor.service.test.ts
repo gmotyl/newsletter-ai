@@ -9,7 +9,7 @@ import {
   applyContentFilters,
   withErrorHandling,
   withProgress,
-  processNewsletter,
+  processNewsletterPipe,
   processAllNewsletters,
   type ProgressCallback,
 } from "../index.js";
@@ -283,7 +283,7 @@ describe("processor.service - Higher-Order Functions", () => {
 // ============================================================================
 
 describe("processor.service - Integration Tests", () => {
-  describe("processNewsletter", () => {
+  describe("processNewsletterPipe", () => {
     beforeEach(() => {
       vi.clearAllMocks();
     });

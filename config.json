@@ -34,7 +34,7 @@
       "subject": [
         "TypeScript Weekly"
       ],
-      "enabled": false,
+      "enabled": true,
       "maxArticles": 10
     },
     {
@@ -47,19 +47,20 @@
       ],
       "enabled": true,
       "maxArticles": 12
+    },
+    {
+      "name": "InfoQ",
+      "from": "notifications@infoq.com",
+      "subject": [
+        "updates"
+      ],
+      "enabled": true,
+      "maxArticles": 15
     }
   ],
   "contentFilters": {
     "skipTopics": [],
-    "focusTopics": [
-      "frontend",
-      "react",
-      "TypeScript",
-      "AI",
-      "architecture",
-      "performance",
-      "testing"
-    ]
+    "focusTopics": []
   },
   "scraperOptions": {
     "timeout": 30000,

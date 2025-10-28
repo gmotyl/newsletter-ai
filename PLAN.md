@@ -162,7 +162,7 @@ newsletter-ai/
 
 ### Phase 6: Processing Orchestration (FP Style) ✅ COMPLETED
 - [x] Create **orchestration functions** in `src/services/processor.service.ts`:
-  - `processNewsletter(newsletter, urls, filters, llmConfig, options, onProgress): Promise<Summary>` - Main pipeline function
+  - `processNewsletterPipe(newsletter, urls, filters, llmConfig, options, onProgress): Promise<Summary>` - Main pipeline function (refactored into modular steps)
   - `processAllNewsletters(newsletters, urls, filters, llmConfig, options, onProgress): Promise<Summary[]>` - Process multiple
   - `markNewsletterAsProcessed(conn, uid, options): Promise<void>` - Mark as read/delete (isolated side effects)
 - [x] **Pipeline composition** using pure functions:

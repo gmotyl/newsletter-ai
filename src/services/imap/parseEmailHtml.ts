@@ -20,8 +20,6 @@ const isSponsoredLink = (html: string, linkIndex: number, url: string): boolean 
     'promoted',
     'partner content',
     'paid promotion',
-    'ad ',
-    'ads ',
   ];
 
   const isSponsored = sponsoredKeywords.some((keyword) => context.includes(keyword));
