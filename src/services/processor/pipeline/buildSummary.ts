@@ -10,12 +10,13 @@ import type { WithValidSummaries } from "./types.js";
  * @returns Summary - The final newsletter summary
  */
 export const buildSummary = (state: WithValidSummaries): Summary => {
-  const { newsletter, validSummaries, rawSummary } = state;
+  const { newsletter, validSummaries, rawSummary, llmConfig } = state;
 
   return {
     newsletter: newsletter.pattern.name,
     date: newsletter.date,
     articles: validSummaries,
     rawResponse: rawSummary, // Include raw LLM response for markdown output
+    model: llmConfig.model, // Include model name for disclaimer
   };
 };

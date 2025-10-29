@@ -11,8 +11,14 @@ export const deleteEmail = (
   return new Promise((resolve, reject) => {
     displayVerbose(`      → Setting \\Deleted flag on UID ${uid}...`);
 
+    // Set timeout to prevent hanging (30 seconds)
+    const timeout = setTimeout(() => {
+      reject(new Error(`Timeout while setting \\Deleted flag on UID ${uid} (operation took >30s)`));
+    }, 30000);
+
     conn.connection.addFlags(uid, ["\\Deleted"], (err: Error) => {
       if (err) {
+        clearTimeout(timeout);
         const errorMsg = `Failed to mark email for deletion (UID ${uid}): ${err.message}`;
         displayVerbose(`      ✗ ${errorMsg}`);
         reject(new Error(errorMsg));
@@ -25,6 +31,7 @@ export const deleteEmail = (
       // Expunge only this specific UID (requires UIDPLUS capability)
       // If UIDPLUS not supported, this will expunge all messages marked as Deleted
       conn.connection.expunge(uid, (expungeErr: Error) => {
+        clearTimeout(timeout);
         if (expungeErr) {
           const errorMsg = `Failed to expunge email (UID ${uid}): ${expungeErr.message}`;
           displayVerbose(`      ✗ ${errorMsg}`);

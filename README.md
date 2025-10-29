@@ -31,12 +31,14 @@ cp .env.example .env
 ```
 
 **For Gmail users:**
+
 - Create an app-specific password: https://myaccount.google.com/apppasswords
 - Use this password instead of your regular Gmail password
 
 ### 3. Configure Newsletters
 
 Edit `config.json` to customize:
+
 - Newsletter patterns to process
 - Content filters (skip/focus topics)
 - Scraper options
@@ -141,15 +143,16 @@ npm start -- --dry-run --model gpt-4-turbo-preview
 
 ## Command-Line Options
 
-| Flag | Description | Example |
-|------|-------------|---------|
-| `--help`, `-h` | Show help message with all options | `npm start -- --help` |
-| `--dry-run` | Process without marking as read or deleting | `npm start -- --dry-run` |
-| `--pattern <name>` | Process specific newsletter pattern | `npm start -- --pattern "daily.dev"` |
-| `--model <name>` | Override LLM model for this run | `npm start -- --model gpt-4` |
-| `--auto-delete` | Enable auto-delete (overrides config) | `npm start -- --auto-delete` |
+| Flag               | Description                                 | Example                              |
+| ------------------ | ------------------------------------------- | ------------------------------------ |
+| `--help`, `-h`     | Show help message with all options          | `npm start -- --help`                |
+| `--dry-run`        | Process without marking as read or deleting | `npm start -- --dry-run`             |
+| `--pattern <name>` | Process specific newsletter pattern         | `npm start -- --pattern "daily.dev"` |
+| `--model <name>`   | Override LLM model for this run             | `npm start -- --model gpt-4`         |
+| `--auto-delete`    | Enable auto-delete (overrides config)       | `npm start -- --auto-delete`         |
 
 Production mode:
+
 ```bash
 pnpm build
 pnpm start
@@ -173,8 +176,9 @@ Define which newsletters to process in `config.json`:
 
 ### Narrator Personas
 
-Available narrator styles:
-- `thePrimeagen` - Fast-paced, opinionated, vim enthusiast
+Narrator styles examples:
+
+- `thePrimeagen` - Fast-paced, opinionated,
 - `Fireship` - Quick, humorous, developer-focused
 - `TheoT3` - TypeScript-loving, React specialist
 - `Kent C. Dodds` - Teaching-focused, testing advocate
@@ -182,6 +186,7 @@ Available narrator styles:
 - `Scott Hanselman` - Enthusiastic, accessible explanations
 - `Casey Muratori` - Performance-focused, low-level insights
 - `Jon Blow` - Critical, game development perspective
+- `Martin Fowler` - Thoughtful, experienced insights
 
 ### Email Processing Options
 
@@ -214,6 +219,7 @@ newsletter-ai/
 ### Architecture
 
 This project follows **Functional Programming (FP) principles**:
+
 - **Pure Functions**: Stateless functions with no side effects
 - **Immutability**: Data structures are never modified
 - **Function Composition**: Complex behaviors built from smaller functions
@@ -225,10 +231,11 @@ This project follows **Functional Programming (FP) principles**:
 The application uses a single `PROMPT.md` file that supports **any language** through the `{OUTPUT_LANGUAGE}` placeholder. Simply set your desired language in `.env` or `config.json`:
 
 ```bash
-OUTPUT_LANGUAGE=polish    # or english, spanish, french, german, etc.
+OUTPUT_LANGUAGE=pl    # or en, es, de, etc.
 ```
 
 The following placeholders in `PROMPT.md` are automatically replaced:
+
 - `{NARRATOR_PERSONA}` - Replaced with configured narrator style
 - `{OUTPUT_LANGUAGE}` - Replaced with your chosen output language
 - `{NEWSLETTER_CONTENT}` - Replaced with the actual newsletter content
@@ -238,6 +245,7 @@ You can customize the prompt template by editing [PROMPT.md](PROMPT.md) to fit y
 ## Usage
 
 The script will:
+
 1. Connect to your email via IMAP
 2. Search for newsletters matching configured patterns
 3. For each newsletter:
@@ -254,31 +262,6 @@ The script will:
 - `--pattern <name>` - Process specific newsletter pattern
 - `--model <name>` - Override LLM model
 - `--auto-delete` - Enable auto-delete for this run
-
-## Development Status
-
-**Phase 1: Project Setup** ✅ COMPLETED
-- [x] Initialize Node.js project with TypeScript
-- [x] Install dependencies
-- [x] Set up TypeScript configuration
-- [x] Create project structure
-
-**Phase 2: Configuration Management** ✅ COMPLETED
-- [x] FP-style configuration module with pure functions
-- [x] Environment variable management
-- [x] Newsletter patterns configuration
-- [x] Multi-language prompt support
-
-**Next Steps:**
-- Phase 3: IMAP Email Integration
-- Phase 4: Web Scraping Service
-- Phase 5: LLM Integration (in progress)
-- Phase 6: Processing Orchestration
-- Phase 7: CLI Interface
-- Phase 8: Output Formatting
-- Phase 9: Testing & Polish
-
-See [PLAN.md](PLAN.md) for detailed implementation roadmap.
 
 ## License
 

@@ -57,6 +57,7 @@ const sampleSummary: Summary = {
   date: new Date("2024-01-15"),
   articles: sampleArticles,
   rawResponse: "---\ntitle: Test Newsletter\nslug: test-newsletter\n---\n\nTest content",
+  model: "gpt-4-turbo-preview",
 };
 
 const samplePattern: NewsletterPattern = {
@@ -232,6 +233,7 @@ describe("cli.service - Pure Formatting Functions", () => {
         date: new Date(),
         articles: [],
         rawResponse: "---\ntitle: Empty\nslug: empty\n---\n",
+        model: "gpt-4-turbo-preview",
       };
       const result = formatSummaryForDisplay(emptySummary);
       expect(result).toContain("Znaleziono artykułów: 0");

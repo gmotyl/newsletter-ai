@@ -10,7 +10,10 @@ import type {
 } from "../types/index.js";
 
 // Load environment variables
-loadEnv();
+// Don't load .env in test environment - tests should use vitest.setup.ts
+if (process.env.VITEST !== "true") {
+  loadEnv();
+}
 
 // Lazy-loaded cache for config.json
 let cachedAppConfig: AppConfig | null = null;

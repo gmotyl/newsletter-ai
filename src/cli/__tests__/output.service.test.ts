@@ -47,6 +47,7 @@ const sampleSummary: Summary = {
   date: new Date("2024-01-15"),
   articles: sampleArticles,
   rawResponse: "---\ntitle: Daily Dev Newsletter\nslug: daily-dev-newsletter\n---\n\nTest content",
+  model: "gpt-4-turbo-preview",
 };
 
 // ============================================================================
@@ -115,11 +116,13 @@ describe("output.service - Pure Formatting Functions", () => {
   });
 
   describe("formatSummaryForFile", () => {
-    it("should return raw LLM response", () => {
+    it("should return raw LLM response with disclaimer", () => {
       const result = formatSummaryForFile(sampleSummary);
-      expect(result).toBe(sampleSummary.rawResponse);
       expect(result).toContain("Daily Dev Newsletter");
       expect(result).toContain("slug: daily-dev-newsletter");
+      expect(result).toContain("**Disclaimer:**");
+      expect(result).toContain("newsletter-ai");
+      expect(result).toContain(sampleSummary.model);
     });
 
     it("should include frontmatter in markdown format", () => {
@@ -133,7 +136,6 @@ describe("output.service - Pure Formatting Functions", () => {
       const result1 = formatSummaryForFile(sampleSummary);
       const result2 = formatSummaryForFile(sampleSummary);
       expect(result1).toBe(result2);
-      expect(result1).toBe(sampleSummary.rawResponse);
     });
   });
 });

@@ -78,6 +78,7 @@ export interface Summary {
   date: Date;
   articles: ArticleSummary[];
   rawResponse: string; // Raw LLM response with frontmatter for markdown output
+  model: string; // LLM model used to generate the summary
 }
 
 export interface ArticleSummary {
