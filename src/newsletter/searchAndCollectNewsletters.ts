@@ -3,6 +3,7 @@ import {
   searchNewsletters,
   fetchEmailContent,
   extractArticleLinks,
+  withConnection,
 } from "../services/imap/index.js";
 import type { IMAPConnection } from "../types/index.js";
 import {
@@ -15,9 +16,11 @@ import type { Newsletter } from "../types/index.js";
 import type { PatternsState } from "../config/pipeline/types.js";
 import type { CollectedNewsletters } from "./types.js";
 
-export const searchAndCollectNewsletters =
-  (conn: IMAPConnection) =>
-  async (state: PatternsState): Promise<CollectedNewsletters> => {
+export const searchAndCollectNewsletters = async (
+  state: PatternsState
+): Promise<CollectedNewsletters> => {
+  // Manage connection internally
+  return await withConnection(state.emailCredentials, async (conn) => {
     const allNewsletters: Newsletter[] = [];
     const allUrls: string[][] = [];
     const allMetadata: any[] = [];
@@ -131,4 +134,5 @@ export const searchAndCollectNewsletters =
       config: state,
       contentFilters: state.appConfig.contentFilters,
     };
-  };
+  });
+};

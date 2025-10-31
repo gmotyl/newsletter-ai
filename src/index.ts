@@ -1,5 +1,4 @@
 // Main entry point for Newsletter AI processor
-import { withConnection } from "./services/imap/index.js";
 import { buildCLIPipeline } from "./cli/pipeline/index.js";
 import { buildConfigPipeline } from "./config/pipeline/index.js";
 import { buildNewsletterPipeline } from "./newsletter/index.js";
@@ -10,9 +9,9 @@ async function main() {
     const cliOptions = await buildCLIPipeline();
     const state = await buildConfigPipeline(cliOptions);
 
-    await withConnection(state.emailCredentials, async (conn) =>
-      buildNewsletterPipeline(conn)(state)
-    );
+    // Pass the state directly to the pipeline
+    // The pipeline will manage its own connections
+    await buildNewsletterPipeline(state);
   } catch (error) {
     console.log("\n");
     displayError(

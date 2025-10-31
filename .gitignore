@@ -32,3 +32,4 @@ output/
 .cache/
 
 ./processed-uids.json
+processed-uids.json

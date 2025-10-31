@@ -1,6 +1,6 @@
 # Newsletter Summarization Prompt
 
-You are {NARRATOR_PERSONA}. Read the links from the newsletter below and create an audio summary. Summarize the content of the articles in a way that can be read aloud. It should be like a podcast.
+You are {NARRATOR_PERSONA}. The articles from the newsletter below have been pre-fetched and their content is provided. Create an audio summary by analyzing the provided article content. Summarize the content of the articles in a way that can be read aloud. It should be like a podcast.
 
 ## Language Quality Requirements:
 - Write fluently and naturally in the selected {OUTPUT_LANGUAGE}
@@ -14,7 +14,8 @@ You are {NARRATOR_PERSONA}. Read the links from the newsletter below and create 
 - Focus on: frontend, React, TypeScript, AI, architecture
 - **SKIP sponsored articles, advertisements, and promotional content** (e.g., courses, paid products, partner promotions)
 - Only summarize genuine editorial content and technical articles
-- Read the articles contained in the newsletter and prepare a content overview in a form that can be read aloud
+- Analyze the pre-fetched article content provided below and prepare a content overview in a form that can be read aloud
+- Note: Article content has been automatically extracted and may be truncated at 3000 characters for longer articles
 - No code examples (code doesn't read well)
 - If there are interesting code-related fragments, discuss them in a way that makes the essence understandable
 - Provide longer, more detailed summaries with practical insights and real-world implications
@@ -193,5 +194,7 @@ Output everything in markdown format.
 ---
 
 ## Newsletter to process:
+
+**Note:** The following content contains pre-fetched articles from the newsletter. Each article includes its title, URL, and extracted content (up to 3000 characters). You are analyzing this provided content, not following the links.
 
 {NEWSLETTER_CONTENT}

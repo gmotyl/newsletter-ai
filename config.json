@@ -8,7 +8,7 @@
         "Daily Digest"
       ],
       "enabled": true,
-      "maxArticles": 15
+      "maxArticles": 20
     },
     {
       "name": "JavaScript Weekly",
@@ -17,7 +17,7 @@
         "JavaScript Weekly"
       ],
       "enabled": true,
-      "maxArticles": 15
+      "maxArticles": 20
     },
     {
       "name": "React Status",
@@ -26,7 +26,7 @@
         "React Status"
       ],
       "enabled": true,
-      "maxArticles": 12
+      "maxArticles": 20
     },
     {
       "name": "TypeScript Weekly",
@@ -35,7 +35,7 @@
         "TypeScript Weekly"
       ],
       "enabled": true,
-      "maxArticles": 10
+      "maxArticles": 20
     },
     {
       "name": "ui.dev",
@@ -46,7 +46,7 @@
         "React Newsletter"
       ],
       "enabled": true,
-      "maxArticles": 12
+      "maxArticles": 20
     },
     {
       "name": "InfoQ",
@@ -55,14 +55,14 @@
         "updates"
       ],
       "enabled": true,
-      "maxArticles": 15
+      "maxArticles": 20
     },
     {
       "name": "AI Maker",
       "from": "aimaker@substack.com",
       "subject": [],
       "enabled": true,
-      "maxArticles": 15
+      "maxArticles": 20
     }
   ],
   "contentFilters": {
