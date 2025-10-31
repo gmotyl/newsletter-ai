@@ -21,7 +21,8 @@
     "process:daily:dev": "npm run dev -- --pattern daily.dev",
     "process:auto-delete": "npm start -- --auto-delete",
     "process:gpt4": "npm start -- --model gpt-4-turbo-preview",
-    "process:claude": "npm start -- --model claude-3-5-sonnet-20241022"
+    "process:claude": "npm start -- --model claude-3-5-sonnet-20241022",
+    "clean:delete": "pnpm tsx scripts/cleanup-processed.ts delete"
   },
   "keywords": [
     "newsletter",

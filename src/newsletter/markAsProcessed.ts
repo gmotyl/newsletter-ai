@@ -3,6 +3,7 @@ import curry from "lodash-es/curry.js";
 import { markNewsletterAsProcessed } from "../services/processor/index.js";
 import { displayError, displayProgress, displayVerbose } from "../cli/utils/index.js";
 import { withRetry } from "../services/imap/withRetry.js";
+import { updateProcessedUID } from "../utils/updateProcessedUIDs.js";
 import type { IMAPConnection } from "../types/index.js";
 import type { ProcessedNewsletters } from "./types.js";
 
@@ -43,6 +44,10 @@ export const markAsProcessed = curry(
         );
 
         successCount++;
+
+        // Update processed-uids.json with successfully processed UID
+        await updateProcessedUID(metadata.uid);
+
         if (processed.config.finalOptions.autoDelete) {
           displayVerbose(`  ✓ Marked as read and deleted (UID: ${metadata.uid})`);
         } else {
