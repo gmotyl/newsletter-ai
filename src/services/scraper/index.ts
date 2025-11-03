@@ -11,3 +11,9 @@ export { filterArticles } from "./filterArticles.js";
 export { sortByContentLength } from "./sortByContentLength.js";
 export { limitArticles } from "./limitArticles.js";
 export { scrapeAndValidate } from "./scrapeAndValidate.js";
+
+// Nested scraping exports
+export { resolveUrl, resolveUrlWithCache, clearResolvedUrlCache } from "./resolveUrl.js";
+export { isIntermediateDomain } from "./isIntermediateDomain.js";
+export { followRedirect } from "./followRedirect.js";
+export { extractUrlFromMeta, extractUrlFromSelector } from "./extractUrlFromMeta.js";

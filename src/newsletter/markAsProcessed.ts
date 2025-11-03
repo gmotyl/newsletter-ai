@@ -1,5 +1,6 @@
 // Mark newsletters as processed in email system
 import { markNewsletterAsProcessed } from "../services/processor/index.js";
+import { withConnection } from "../services/imap/index.js";
 import { displayError, displayProgress, displayVerbose } from "../cli/utils/index.js";
 import { withRetry } from "../services/imap/withRetry.js";
 import { updateProcessedUID } from "../utils/updateProcessedUIDs.js";
@@ -24,41 +25,44 @@ export const markAsProcessed = async (
   let failureCount = 0;
   const failedUIDs: number[] = [];
 
-  for (const metadata of processed.metadata) {
-    displayVerbose(`  Processing email UID ${metadata.uid}...`);
+  // Use a single connection for all marking operations
+  await withConnection(processed.config.emailCredentials, async (conn) => {
+    for (const metadata of processed.metadata) {
+      displayVerbose(`  Processing email UID ${metadata.uid}...`);
 
-    try {
-      // Wrap the operation with retry logic
-      // markNewsletterAsProcessed will manage its own connection
-      await withRetry(
-        async () => markNewsletterAsProcessed(
-          metadata.uid,
-          processed.config.finalOptions,
-          processed.config.emailCredentials
-        ),
-        { maxAttempts: 3, initialDelayMs: 1000 },
-        `processing UID ${metadata.uid}`
-      );
+      try {
+        // Wrap the operation with retry logic
+        // Pass the existing connection instead of credentials
+        await withRetry(
+          async () => markNewsletterAsProcessed(
+            metadata.uid,
+            processed.config.finalOptions,
+            conn // Pass existing connection instead of credentials
+          ),
+          { maxAttempts: 3, initialDelayMs: 1000 },
+          `processing UID ${metadata.uid}`
+        );
 
-      successCount++;
+        successCount++;
 
-      // Update processed-uids.json with successfully processed UID
-      await updateProcessedUID(metadata.uid);
+        // Update processed-uids.json with successfully processed UID
+        await updateProcessedUID(metadata.uid);
 
-      if (processed.config.finalOptions.autoDelete) {
-        displayVerbose(`  ✓ Marked as read and deleted (UID: ${metadata.uid})`);
-      } else {
-        displayVerbose(`  ✓ Marked as read (UID: ${metadata.uid})`);
+        if (processed.config.finalOptions.autoDelete) {
+          displayVerbose(`  ✓ Marked as read and deleted (UID: ${metadata.uid})`);
+        } else {
+          displayVerbose(`  ✓ Marked as read (UID: ${metadata.uid})`);
+        }
+      } catch (error) {
+        failureCount++;
+        failedUIDs.push(metadata.uid);
+        displayError(
+          `  ✗ Failed to process UID ${metadata.uid}: ${error instanceof Error ? error.message : String(error)}`
+        );
+        // Continue processing remaining emails instead of stopping
       }
-    } catch (error) {
-      failureCount++;
-      failedUIDs.push(metadata.uid);
-      displayError(
-        `  ✗ Failed to process UID ${metadata.uid}: ${error instanceof Error ? error.message : String(error)}`
-      );
-      // Continue processing remaining emails instead of stopping
     }
-  }
+  });
 
   // Show final results
   if (failureCount === 0) {

@@ -8,7 +8,16 @@
         "Daily Digest"
       ],
       "enabled": true,
-      "maxArticles": 20
+      "maxArticles": 20,
+      "nestedScraping": {
+        "enabled": true,
+        "intermediateDomains": [
+          "app.daily.dev",
+          "api.daily.dev"
+        ],
+        "strategy": "auto",
+        "maxDepth": 1
+      }
     },
     {
       "name": "JavaScript Weekly",
@@ -16,7 +25,7 @@
       "subject": [
         "JavaScript Weekly"
       ],
-      "enabled": true,
+      "enabled": false,
       "maxArticles": 20
     },
     {
@@ -25,7 +34,7 @@
       "subject": [
         "React Status"
       ],
-      "enabled": true,
+      "enabled": false,
       "maxArticles": 20
     },
     {
@@ -34,7 +43,7 @@
       "subject": [
         "TypeScript Weekly"
       ],
-      "enabled": true,
+      "enabled": false,
       "maxArticles": 20
     },
     {
@@ -45,7 +54,7 @@
         "Bytes",
         "React Newsletter"
       ],
-      "enabled": true,
+      "enabled": false,
       "maxArticles": 20
     },
     {
@@ -55,13 +64,22 @@
         "updates"
       ],
       "enabled": true,
-      "maxArticles": 20
+      "maxArticles": 20,
+      "nestedScraping": {
+        "enabled": true,
+        "intermediateDomains": [
+          "www.infoq.com",
+          "infoq.com"
+        ],
+        "strategy": "redirect",
+        "maxDepth": 1
+      }
     },
     {
       "name": "AI Maker",
       "from": "aimaker@substack.com",
       "subject": [],
-      "enabled": true,
+      "enabled": false,
       "maxArticles": 20
     }
   ],
@@ -72,16 +90,20 @@
   "scraperOptions": {
     "timeout": 30000,
     "userAgent": "Mozilla/5.0 (compatible; NewsletterBot/1.0)",
-    "retryAttempts": 3
+    "retryAttempts": 3,
+    "nestedScraping": {
+      "followRedirects": true,
+      "maxRedirects": 5,
+      "timeout": 15000
+    }
   },
   "outputLanguage": "polish",
-  "narratorPersona": "thePrimeagen",
   "verbose": true,
   "interactive": false,
   "processingOptions": {
-    "autoDelete": true,
+    "autoDelete": false,
     "markAsRead": true,
     "processAllMessages": true,
-    "messageLimit": 10
+    "messageLimit": 1
   }
 }

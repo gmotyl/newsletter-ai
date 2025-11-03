@@ -1,6 +1,7 @@
 // Pipeline Step 1: Scrape article content from URLs
 import { scrapeAndValidate } from "../../scraper/index.js";
 import { displayVerbose } from "../../../cli/utils/index.js";
+import { getAppConfig } from "../../../config/config.js";
 import type { NewsletterPipelineInput, WithArticles } from "./types.js";
 
 /**
@@ -14,17 +15,23 @@ import type { NewsletterPipelineInput, WithArticles } from "./types.js";
 export const scrapeArticles = async (
   state: NewsletterPipelineInput
 ): Promise<WithArticles> => {
-  const { urls, onProgress } = state;
+  const { urls, newsletter, onProgress } = state;
 
   displayVerbose(`  Articles to scrape: ${urls.length}`);
 
   if (onProgress) onProgress("Scraping articles...", 1, 4);
 
+  // Get scraper options from config for nested scraping
+  const appConfig = getAppConfig();
+  const scraperOptions = appConfig.scraperOptions;
+
   const articles = await scrapeAndValidate(
     urls,
     3, // maxConcurrent
     100, // minContentLength
-    3 // retryAttempts
+    3, // retryAttempts
+    newsletter.pattern, // Pass the newsletter pattern for nested scraping
+    scraperOptions // Pass scraper options for resolution configuration
   );
 
   if (articles.length === 0) {

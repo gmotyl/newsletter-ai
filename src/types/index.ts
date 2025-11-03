@@ -13,6 +13,14 @@ export interface NewsletterPattern {
   subject: string[];
   enabled: boolean;
   maxArticles?: number;
+  // Nested scraping configuration for intermediate pages
+  nestedScraping?: {
+    enabled: boolean;
+    intermediateDomains: string[];  // e.g., ["app.daily.dev", "api.daily.dev"]
+    strategy: "redirect" | "meta-tags" | "dom-selector" | "auto";
+    selector?: string;  // Optional CSS selector for "dom-selector" strategy
+    maxDepth?: number;  // Default: 1 (only one level of nesting)
+  };
 }
 
 export interface ContentFilters {
@@ -24,6 +32,12 @@ export interface ScraperOptions {
   timeout: number;
   userAgent: string;
   retryAttempts: number;
+  // Global nested scraping settings
+  nestedScraping?: {
+    followRedirects: boolean;  // Default: true
+    maxRedirects: number;  // Default: 5
+    timeout: number;  // Timeout for nested requests
+  };
 }
 
 export interface AppConfig {
@@ -115,3 +129,11 @@ export interface IMAPConnection {
 export type Result<T, E = Error> =
   | { ok: true; value: T }
   | { ok: false; error: E };
+
+// Nested scraping types
+export interface ResolvedUrl {
+  originalUrl: string;
+  finalUrl: string;
+  isNested: boolean;
+  redirectChain?: string[];
+}
