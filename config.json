@@ -25,7 +25,7 @@
       "subject": [
         "JavaScript Weekly"
       ],
-      "enabled": false,
+      "enabled": true,
       "maxArticles": 20
     },
     {
@@ -34,7 +34,7 @@
       "subject": [
         "React Status"
       ],
-      "enabled": false,
+      "enabled": true,
       "maxArticles": 20
     },
     {
@@ -43,7 +43,7 @@
       "subject": [
         "TypeScript Weekly"
       ],
-      "enabled": false,
+      "enabled": true,
       "maxArticles": 20
     },
     {
@@ -54,7 +54,7 @@
         "Bytes",
         "React Newsletter"
       ],
-      "enabled": false,
+      "enabled": true,
       "maxArticles": 20
     },
     {
@@ -79,7 +79,14 @@
       "name": "AI Maker",
       "from": "aimaker@substack.com",
       "subject": [],
-      "enabled": false,
+      "enabled": true,
+      "maxArticles": 20
+    },
+    {
+      "name": "Frontend Focus",
+      "from": "frontend@cooperpress.com",
+      "subject": [],
+      "enabled": true,
       "maxArticles": 20
     }
   ],
@@ -97,13 +104,12 @@
       "timeout": 15000
     }
   },
-  "outputLanguage": "polish",
   "verbose": true,
   "interactive": false,
   "processingOptions": {
-    "autoDelete": false,
+    "autoDelete": true,
     "markAsRead": true,
     "processAllMessages": true,
-    "messageLimit": 1
+    "messageLimit": 10
   }
 }
