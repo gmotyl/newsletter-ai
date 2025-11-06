@@ -87,6 +87,14 @@
       "from": "frontend@cooperpress.com",
       "subject": [],
       "enabled": true,
+      "nestedScraping": {
+        "enabled": true,
+        "intermediateDomains": [
+          "frontendfoc.us"
+        ],
+        "strategy": "auto",
+        "maxDepth": 1
+      },
       "maxArticles": 20
     }
   ],
@@ -110,6 +118,6 @@
     "autoDelete": true,
     "markAsRead": true,
     "processAllMessages": true,
-    "messageLimit": 10
+    "messageLimit": 1
   }
 }

@@ -6,6 +6,7 @@ export interface CLIOptions {
   autoDelete: boolean;
   help: boolean;
   interactive?: boolean;
+  mode?: 'default' | 'prepare' | 'generate';
 }
 
 export interface ProgressHandle {

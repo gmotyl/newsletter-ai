@@ -6,6 +6,7 @@ export const parseCLIArgs = (args: string[]): CLIOptions => {
     dryRun: false,
     autoDelete: false,
     help: false,
+    mode: 'default',
     // interactive is undefined by default - will be set from config or flags
   };
 
@@ -34,6 +35,18 @@ export const parseCLIArgs = (args: string[]): CLIOptions => {
       case "--model":
         if (i + 1 < args.length) {
           options.model = args[i + 1];
+          i++; // Skip next arg
+        }
+        break;
+      case "--mode":
+        if (i + 1 < args.length) {
+          const mode = args[i + 1];
+          if (mode === 'default' || mode === 'prepare' || mode === 'generate') {
+            options.mode = mode;
+          } else {
+            console.error(`Invalid mode: ${mode}. Valid modes: default, prepare, generate`);
+            process.exit(1);
+          }
           i++; // Skip next arg
         }
         break;

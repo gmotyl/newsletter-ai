@@ -17,6 +17,9 @@ importers:
       '@extractus/article-extractor':
         specifier: ^8.0.20
         version: 8.0.20
+      '@types/js-yaml':
+        specifier: ^4.0.9
+        version: 4.0.9
       ai:
         specifier: ^5.0.76
         version: 5.0.76(zod@3.25.76)
@@ -32,6 +35,9 @@ importers:
       inquirer:
         specifier: ^12.10.0
         version: 12.10.0(@types/node@24.9.1)
+      js-yaml:
+        specifier: ^4.1.0
+        version: 4.1.0
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -569,6 +575,9 @@ packages:
 
   '@types/inquirer@9.0.9':
     resolution: {integrity: sha512-/mWx5136gts2Z2e5izdoRCo46lPp5TMs9R15GTSsgg/XnZyxDWVqoVU3R9lWnccKpqwsJLvRoxbCjoJtZB7DSw==}
+
+  '@types/js-yaml@4.0.9':
+    resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
 
   '@types/lodash-es@4.17.12':
     resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
@@ -1933,6 +1942,8 @@ snapshots:
     dependencies:
       '@types/through': 0.0.33
       rxjs: 7.8.2
+
+  '@types/js-yaml@4.0.9': {}
 
   '@types/lodash-es@4.17.12':
     dependencies:
