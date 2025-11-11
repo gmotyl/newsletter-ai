@@ -1,6 +1,7 @@
 /**
  * Checks if a URL matches intermediate domain patterns
  * Used to identify URLs that need nested resolution
+ * Supports wildcard patterns like *.daily.dev
  */
 export const isIntermediateDomain = (
   url: string,
@@ -12,7 +13,15 @@ export const isIntermediateDomain = (
 
     return intermediateDomains.some(domain => {
       const domainLower = domain.toLowerCase();
-      // Check exact match or subdomain match
+
+      // Handle wildcard patterns (e.g., *.daily.dev)
+      if (domainLower.startsWith('*.')) {
+        const baseDomain = domainLower.slice(2); // Remove "*."
+        // Match any subdomain of baseDomain
+        return hostname === baseDomain || hostname.endsWith(`.${baseDomain}`);
+      }
+
+      // Check exact match or subdomain match for non-wildcard patterns
       return hostname === domainLower ||
              hostname.endsWith(`.${domainLower}`);
     });

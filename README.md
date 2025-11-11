@@ -40,7 +40,7 @@ cp .env.example .env
 Edit `config.json` to customize:
 
 - Newsletter patterns to process
-- Content filters (skip/focus topics)
+- Content filters (skip/focus topics, blacklisted URLs)
 - Scraper options
 - Output language and narrator persona
 
@@ -173,6 +173,32 @@ Define which newsletters to process in `config.json`:
   "maxArticles": 10
 }
 ```
+
+### Content Filters
+
+Configure filters in the `contentFilters` section of `config.json`:
+
+```json
+{
+  "contentFilters": {
+    "skipTopics": [],
+    "focusTopics": [],
+    "blacklistedUrls": [
+      "https://app.daily.dev/plus",
+      "https://example.com/ads/*",
+      "*.tracking.com"
+    ]
+  }
+}
+```
+
+**Blacklisted URLs** - Filter out unwanted articles by URL:
+- **Exact match**: `"https://example.com/page"` - Matches this exact URL
+- **Prefix match**: `"https://example.com/premium"` - Matches any URL starting with this prefix
+- **Path wildcard**: `"https://example.com/ads/*"` - Matches any URL under `/ads/`
+- **Domain wildcard**: `"*.tracking.com"` - Matches any subdomain of tracking.com
+
+URLs matching any blacklist pattern will be filtered out before content processing.
 
 ### Narrator Personas
 

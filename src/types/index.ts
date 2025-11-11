@@ -26,6 +26,7 @@ export interface NewsletterPattern {
 export interface ContentFilters {
   skipTopics: string[];
   focusTopics: string[];
+  blacklistedUrls?: string[];  // URLs or URL patterns to filter out
 }
 
 export interface ScraperOptions {

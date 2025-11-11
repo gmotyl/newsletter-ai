@@ -23,7 +23,8 @@ export const followRedirect = async (
     while (redirectCount < maxRedirects) {
       displayVerbose(`      → Checking redirect for: ${currentUrl}`);
 
-      const response = await fetch(currentUrl, {
+      // Try HEAD first for efficiency, but fallback to GET if it fails
+      let response = await fetch(currentUrl, {
         method: 'HEAD', // HEAD is faster than GET for redirect checking
         redirect: 'manual', // Don't follow redirects automatically
         signal: controller.signal,
@@ -32,6 +33,20 @@ export const followRedirect = async (
           'Accept': '*/*',
         },
       });
+
+      // Some tracking links (like daily.dev) return 404 for HEAD but work with GET
+      if (response.status === 404 || response.status === 405) {
+        displayVerbose(`      ⚠ HEAD request failed (${response.status}), retrying with GET...`);
+        response = await fetch(currentUrl, {
+          method: 'GET',
+          redirect: 'manual',
+          signal: controller.signal,
+          headers: {
+            'User-Agent': userAgent,
+            'Accept': '*/*',
+          },
+        });
+      }
 
       // Check if it's a redirect (3xx status codes)
       if (response.status >= 300 && response.status < 400) {

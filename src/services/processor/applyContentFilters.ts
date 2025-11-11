@@ -11,6 +11,8 @@ import { limitArticles } from "./limitArticles.js";
  * @param filters - Content filters (focus/skip topics)
  * @param maxArticles - Maximum number of articles
  * @returns Filtered and limited array of articles
+ *
+ * Note: Blacklist filtering is done in the prepare step, not here
  */
 export const applyContentFilters = (
   articles: Article[],
