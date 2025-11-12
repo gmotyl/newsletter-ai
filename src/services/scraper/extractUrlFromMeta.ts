@@ -65,6 +65,7 @@ export const extractUrlFromMeta = async (
 
     // Fallback: Look for common article link patterns in the HTML
     const articleLinkSelectors = [
+      'a[data-tracking-control-name="external_url_click"]', // LinkedIn warning page
       'a[rel="external"]',
       'a.article-link',
       'a.external-link',

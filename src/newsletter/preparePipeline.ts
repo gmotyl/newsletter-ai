@@ -14,7 +14,32 @@ import { extract } from "@extractus/article-extractor";
 import pLimit from "p-limit";
 import type { PatternsState } from "../config/pipeline/types.js";
 import type { CollectedNewsletters } from "./types.js";
-import type { Newsletter, Article } from "../types/index.js";
+import type { Newsletter, Article, NewsletterPattern, ScraperOptions, AppConfig } from "../types/index.js";
+
+/**
+ * Get nested scraping configuration from newsletter pattern
+ * Returns defaults if not configured
+ */
+function getNestedScrapingConfig(pattern: NewsletterPattern) {
+  return {
+    strategy: pattern.nestedScraping?.strategy || ("redirect" as const),
+    maxDepth: pattern.nestedScraping?.maxDepth || 2,
+    selector: pattern.nestedScraping?.selector,
+  };
+}
+
+/**
+ * Resolve URL using newsletter pattern's nested scraping configuration
+ * Wrapper around resolveUrlWithCache that extracts config from pattern
+ */
+async function resolveWithPatternConfig(
+  url: string,
+  pattern: NewsletterPattern,
+  scraperOptions?: ScraperOptions
+) {
+  const { strategy, maxDepth, selector } = getNestedScrapingConfig(pattern);
+  return await resolveUrlWithCache(url, strategy, selector, maxDepth, scraperOptions);
+}
 
 /**
  * Try to decode tracking URLs that have base64-encoded actual URLs
@@ -148,7 +173,7 @@ const cleanAndEnrichLinks = async (
 
           try {
             // 1. Categorize the link
-            const category = categorizeLink(url);
+            const category = categorizeLink(url, state.config.appConfig);
 
             if (category === "tracking") {
               stats.tracking++;
@@ -173,11 +198,9 @@ const cleanAndEnrichLinks = async (
               displayVerbose(`  📚 Bonus resource: ${url}`);
 
               // Resolve and add to bonus collection
-              const resolved = await resolveUrlWithCache(
+              const resolved = await resolveWithPatternConfig(
                 url,
-                "redirect",
-                undefined,
-                2,
+                newsletter.pattern,
                 state.config.appConfig.scraperOptions
               );
               let finalUrl = resolved.finalUrl;
@@ -196,11 +219,9 @@ const cleanAndEnrichLinks = async (
               displayVerbose(`  📺 YouTube content: ${url}`);
 
               // Resolve and add to YouTube collection
-              const resolved = await resolveUrlWithCache(
+              const resolved = await resolveWithPatternConfig(
                 url,
-                "redirect",
-                undefined,
-                2,
+                newsletter.pattern,
                 state.config.appConfig.scraperOptions
               );
               let finalUrl = resolved.finalUrl;
@@ -225,11 +246,10 @@ const cleanAndEnrichLinks = async (
             }
 
             // 3. Resolve redirects to get final URL
-            const resolved = await resolveUrlWithCache(
+            // Use pattern's nestedScraping config if available, otherwise defaults
+            const resolved = await resolveWithPatternConfig(
               urlToResolve,
-              "redirect",
-              undefined,
-              2, // Allow 2 levels of redirect resolution
+              newsletter.pattern,
               state.config.appConfig.scraperOptions
             );
 
@@ -239,7 +259,7 @@ const cleanAndEnrichLinks = async (
             finalUrl = stripTrackingParams(finalUrl);
 
             // 4. Check final URL category too
-            const finalCategory = categorizeLink(finalUrl);
+            const finalCategory = categorizeLink(finalUrl, state.config.appConfig);
             if (finalCategory !== "keep") {
               if (finalCategory === "sponsored") stats.sponsored++;
               else if (finalCategory === "social") stats.social++;
@@ -255,11 +275,16 @@ const cleanAndEnrichLinks = async (
 
             // 4. Check for duplicates (same base URL without query params)
             const baseUrl = finalUrl.split("?")[0];
+            const originalBaseUrl = url.split("?")[0];
+
             if (seenUrls.has(baseUrl)) {
               displayVerbose(`  ⚠ Duplicate (skipping): ${finalUrl}`);
               continue;
             }
+
+            // Track both original and resolved URLs to prevent duplicates
             seenUrls.add(baseUrl);
+            seenUrls.add(originalBaseUrl);
 
             // 5. Fetch actual page title
             let title = extractTitleFromUrl(finalUrl); // Fallback
@@ -405,9 +430,12 @@ function stripTrackingParams(url: string): string {
 /**
  * Check if a URL should be filtered out
  * Returns: 'keep' | 'sponsored' | 'social' | 'tracking' | 'bonus' | 'youtube'
+ * @param url - The URL to categorize
+ * @param appConfig - The app configuration containing newsletter patterns
  */
 function categorizeLink(
-  url: string
+  url: string,
+  appConfig?: AppConfig
 ): "keep" | "sponsored" | "social" | "tracking" | "bonus" | "youtube" {
   try {
     const urlObj = new URL(url);
@@ -428,6 +456,28 @@ function categorizeLink(
     // API endpoints (reaction tracking, etc.)
     if (pathname.includes("/api/")) {
       return "tracking";
+    }
+
+    // Check if this URL is an intermediate domain (should be resolved, not filtered)
+    if (appConfig) {
+      const isIntermediateDomain = appConfig.newsletterPatterns.some(pattern => {
+        const domains = pattern.nestedScraping?.intermediateDomains || [];
+        return domains.some(domain => {
+          const domainLower = domain.toLowerCase();
+          // Handle wildcard patterns (e.g., *.daily.dev)
+          if (domainLower.startsWith('*.')) {
+            const baseDomain = domainLower.slice(2);
+            return hostname === baseDomain || hostname.endsWith(`.${baseDomain}`);
+          }
+          // Exact or subdomain match
+          return hostname === domainLower || hostname.endsWith(`.${domainLower}`);
+        });
+      });
+
+      // Skip social filtering for intermediate domains - they need resolution first
+      if (isIntermediateDomain) {
+        return "keep";
+      }
     }
 
     // 2. Social media links and author profiles
