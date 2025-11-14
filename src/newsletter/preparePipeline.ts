@@ -274,8 +274,12 @@ const cleanAndEnrichLinks = async (
             }
 
             // 4. Check for duplicates (same base URL without query params)
-            const baseUrl = finalUrl.split("?")[0];
-            const originalBaseUrl = url.split("?")[0];
+            // Special handling for daily.dev URLs to normalize different formats
+            const normalizedFinalUrl = normalizeDailyDevUrl(finalUrl);
+            const normalizedOriginalUrl = normalizeDailyDevUrl(url);
+
+            const baseUrl = normalizedFinalUrl.split("?")[0];
+            const originalBaseUrl = normalizedOriginalUrl.split("?")[0];
 
             if (seenUrls.has(baseUrl)) {
               displayVerbose(`  ⚠ Duplicate (skipping): ${finalUrl}`);
@@ -376,6 +380,48 @@ const cleanAndEnrichLinks = async (
     newsletters: enrichedNewsletters,
   };
 };
+
+/**
+ * Normalize daily.dev URLs for duplicate detection
+ * Both short IDs and slug-based URLs should be treated as potential duplicates
+ */
+function normalizeDailyDevUrl(url: string): string {
+  try {
+    const urlObj = new URL(url);
+
+    // Check if it's a daily.dev URL
+    if (!urlObj.hostname.includes('daily.dev')) {
+      return url;
+    }
+
+    const pathname = urlObj.pathname;
+
+    // Handle /posts/ URLs
+    // - https://app.daily.dev/posts/Lq7bXW0bV (short ID)
+    // - https://app.daily.dev/posts/i-use-ai-when-i-code-and-sometimes-it-makes-me-feel-like-i-m-cheating--lq7bxw0bv (slug with ID at end)
+    if (pathname.startsWith('/posts/')) {
+      const postSlug = pathname.split('/posts/')[1];
+
+      // Extract the ID from slug (usually last part after '--')
+      // e.g., "i-use-ai-when-i-code--lq7bxw0bv" -> "lq7bxw0bv"
+      const parts = postSlug.split('--');
+      const id = parts[parts.length - 1].toLowerCase();
+
+      // Return normalized form using just the ID
+      return `daily.dev/posts/${id}`;
+    }
+
+    // Handle /r/ redirect URLs (different format, keep as-is for now)
+    if (pathname.startsWith('/r/')) {
+      const redirectId = pathname.split('/r/')[1];
+      return `daily.dev/r/${redirectId}`;
+    }
+
+    return url;
+  } catch {
+    return url;
+  }
+}
 
 /**
  * Strip UTM and tracking parameters from URL
@@ -744,7 +790,13 @@ function checkBlacklist(url: string, blacklistedUrls: string[]): boolean {
 
       // Pattern with path wildcard (e.g., https://example.com/premium/*)
       if (pattern.endsWith("/*")) {
-        const basePattern = pattern.slice(0, -2);
+        const basePattern = pattern.slice(0, -1); // Remove only the * not the /
+        return url.startsWith(basePattern);
+      }
+
+      // Pattern with general wildcard (e.g., https://substack.com/@*)
+      if (pattern.endsWith("*") && !pattern.endsWith("/*")) {
+        const basePattern = pattern.slice(0, -1); // Remove only the *
         return url.startsWith(basePattern);
       }
 

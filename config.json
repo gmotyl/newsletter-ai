@@ -12,11 +12,10 @@
       "nestedScraping": {
         "enabled": true,
         "intermediateDomains": [
-          "app.daily.dev",
-          "api.daily.dev"
+          "*.daily.dev"
         ],
         "strategy": "auto",
-        "maxDepth": 1
+        "maxDepth": 2
       }
     },
     {
@@ -55,7 +54,15 @@
         "React Newsletter"
       ],
       "enabled": true,
-      "maxArticles": 20
+      "maxArticles": 20,
+      "nestedScraping": {
+        "enabled": true,
+        "intermediateDomains": [
+          "click.kit-mail6.com"
+        ],
+        "strategy": "auto",
+        "maxDepth": 2
+      }
     },
     {
       "name": "InfoQ",
@@ -79,8 +86,111 @@
       "name": "AI Maker",
       "from": "aimaker@substack.com",
       "subject": [],
+      "enabled": false,
+      "maxArticles": 20
+    },
+    {
+      "name": "Remix newsletter",
+      "from": "news@remix.run",
+      "subject": [],
       "enabled": true,
       "maxArticles": 20
+    },
+    {
+      "name": "Motyl.dev",
+      "from": "gmotyl@gmail.com",
+      "subject": [
+        "Link",
+        "link",
+        "links",
+        "linki"
+      ],
+      "enabled": true,
+      "nestedScraping": {
+        "enabled": true,
+        "intermediateDomains": [
+          "lnkd.in"
+        ],
+        "strategy": "dom-selector",
+        "selector": "a[data-tracking-control-name=\"external_url_click\"]",
+        "maxDepth": 2
+      },
+      "maxArticles": 200
+    },
+    {
+      "name": "The AI Break",
+      "from": "theaibreak@substack.com",
+      "subject": [],
+      "enabled": false,
+      "maxArticles": 20,
+      "nestedScraping": {
+        "enabled": true,
+        "intermediateDomains": [
+          "substack.com"
+        ],
+        "strategy": "auto",
+        "maxDepth": 1
+      }
+    },
+    {
+      "name": "AI Supremacy",
+      "from": "aisupremacy@substack.com",
+      "subject": [],
+      "enabled": false,
+      "maxArticles": 20,
+      "nestedScraping": {
+        "enabled": true,
+        "intermediateDomains": [
+          "substack.com"
+        ],
+        "strategy": "auto",
+        "maxDepth": 1
+      }
+    },
+    {
+      "name": "Decoding AI",
+      "from": "decodingml@substack.com",
+      "subject": [],
+      "enabled": false,
+      "maxArticles": 20,
+      "nestedScraping": {
+        "enabled": true,
+        "intermediateDomains": [
+          "substack.com"
+        ],
+        "strategy": "auto",
+        "maxDepth": 1
+      }
+    },
+    {
+      "name": "Pragmatic engineer",
+      "from": "pragmaticengineer@substack.com",
+      "subject": [],
+      "enabled": false,
+      "maxArticles": 20,
+      "nestedScraping": {
+        "enabled": true,
+        "intermediateDomains": [
+          "newsletter.pragmaticengineer.com"
+        ],
+        "strategy": "auto",
+        "maxDepth": 2
+      }
+    },
+    {
+      "name": "Substac",
+      "from": "@substack.com",
+      "subject": [],
+      "enabled": true,
+      "maxArticles": 20,
+      "nestedScraping": {
+        "enabled": true,
+        "intermediateDomains": [
+          "newsletter.pragmaticengineer.com"
+        ],
+        "strategy": "auto",
+        "maxDepth": 2
+      }
     },
     {
       "name": "Frontend Focus",
@@ -100,7 +210,56 @@
   ],
   "contentFilters": {
     "skipTopics": [],
-    "focusTopics": []
+    "focusTopics": [],
+    "blacklistedUrls": [
+      "https://app.daily.dev/",
+      "https://app.daily.dev/plus",
+      "https://docs.daily.dev/",
+      "https://www.tiktok.com/@dailydotdev",
+      "https://github.com/dailydotdev/daily",
+      "https://app.daily.dev/tags",
+      "https://app.daily.dev/tags/*",
+      "https://app.daily.dev/sources",
+      "https://app.daily.dev/sources/*",
+      "https://app.daily.dev/users",
+      "https://app.daily.dev/users/*",
+      "https://app.daily.dev/squads/*",
+      "https://app.daily.dev/settings/notifications",
+      "https://app.daily.dev/settings/profile",
+      "https://app.daily.dev/settings/*",
+      "https://aimaker.substack.com/t/thinking-mastery",
+      "https://www.gov.uk/",
+      "https://www.tiktok.com/@dailydotdev",
+      "https://apps.apple.com/us/app/*",
+      "https://app.daily.dev/posts",
+      "https://play.google.com/store/*",
+      "https://app.daily.dev/discussed",
+      "https://fonts.googleapis.com/*",
+      "https://danq.me/*",
+      "https://tutorialkit.dev/",
+      "https://frontendfoc.us/leave/*",
+      "https://frontendfoc.us/edit_subscription/*",
+      "https://substack.com/redirect/*",
+      "https://substack.com/profile/*",
+      "https://www.amazon.com/*",
+      "https://website.cdn.speechify.com/*",
+      "https://directus.hume.ai/*",
+      "https://open.substack.com/users/*",
+      "https://open.substack.com/*",
+      "https://remix.run/",
+      "https://discord.com/*",
+      "https://v2.remix.run/docs/",
+      "https://remix.run/blog",
+      "https://www.meetup.com/*",
+      "https://github.com/remix-run/remix",
+      "https://open.substack.com/pub/pragmaticengineer/*",
+      "https://shoutout.io/GergelyOrosz/",
+      "https://substack.com/@*",
+      "https://www.qawolf.com/*",
+      "https://substack.com/app",
+      "https://substack.com/home",
+      "https://bsky.app/profile/*"
+    ]
   },
   "scraperOptions": {
     "timeout": 30000,
@@ -112,12 +271,12 @@
       "timeout": 15000
     }
   },
-  "verbose": true,
+  "verbose": false,
   "interactive": false,
   "processingOptions": {
     "autoDelete": true,
     "markAsRead": true,
     "processAllMessages": true,
-    "messageLimit": 1
+    "messageLimit": 100
   }
 }

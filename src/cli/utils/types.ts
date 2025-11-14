@@ -3,10 +3,11 @@ export interface CLIOptions {
   dryRun: boolean;
   pattern?: string;
   model?: string;
-  autoDelete: boolean;
+  autoDelete?: boolean; // Optional - undefined means use config.json value
   help: boolean;
   interactive?: boolean;
   mode?: 'default' | 'prepare' | 'generate';
+  messageLimit?: number;
 }
 
 export interface ProgressHandle {

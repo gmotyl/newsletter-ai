@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "newsletter-ai": {
+      "command": "pnpm",
+      "args": ["run:mcp"],
+      "env": {}
+    }
+  }
+}

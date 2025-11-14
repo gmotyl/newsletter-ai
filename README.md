@@ -2,17 +2,135 @@
 
 AI-powered newsletter processor that automatically reads newsletters from Gmail, extracts article links, reads their content, and generates audio-friendly summaries in any language using Vercel AI SDK.
 
+## 🚀 Quick Start (Recommended)
+
+The easiest way to use Newsletter AI is through the **Claude Code slash command**, which provides an interactive workflow with **no API costs** (uses Claude Code's built-in LLM).
+
+### Prerequisites
+
+1. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+
+2. Configure your environment (see [Configuration](#configuration) section below)
+
+3. **Add MCP Server to Claude Code** (one-time setup):
+
+   From your newsletter-ai project directory, run:
+   ```bash
+   claude mcp add newsletter-ai pnpm run:mcp
+   ```
+
+   Or if you don't have `pnpm`:
+   ```bash
+   claude mcp add newsletter-ai npm run run:mcp
+   ```
+
+   Then restart Claude Code for the changes to take effect.
+
+   📖 **See [CLAUDE_CODE_SETUP.md](CLAUDE_CODE_SETUP.md) for detailed setup instructions and troubleshooting.**
+
+4. Initialize project slash commands:
+   ```bash
+   npm run init:claude
+   ```
+
+   This copies the `/generate-article` command to your project's `.claude/commands/` directory.
+
+### Usage with Claude Code
+
+1. **Open Claude Code** in your newsletter-ai project directory
+
+2. **Run the slash command**:
+   ```
+   /generate-article           # Process 1 newsletter (respects config autoDelete)
+   /generate-article 1 safe    # Process 1 newsletter (safe mode - no deletion)
+   /generate-article 5         # Process 5 newsletters
+   /generate-article all       # Process all newsletters
+   /generate-article 3 daily.dev      # Process 3 from daily.dev pattern
+   /generate-article all daily.dev safe  # Process all daily.dev, safe mode
+   ```
+
+3. **Watch the automatic processing**:
+   - Claude automatically:
+     - Fetches newsletters from IMAP
+     - Extracts and cleans article links
+     - Scrapes article content
+     - Generates article summaries using the same PROMPT.md template
+     - Saves articles to your configured OUTPUT_PATH
+     - Deletes processed emails (unless safe mode is enabled or config.json has autoDelete=false)
+
+**Note:** The MCP server runs automatically when Claude Code needs it. You don't need to manually start it in a terminal!
+
+### How It Works
+
+The MCP (Model Context Protocol) server exposes Newsletter AI functionality as tools that Claude Code can use:
+
+**Available MCP Tools:**
+- `get_newsletters_count` - Count unprocessed newsletters in mailbox
+- `prepare_newsletters` - Fetch emails and extract links
+- `get_newsletter_links` - Get links for a newsletter
+- `scrape_article` - Scrape article content
+- `get_config` - Get configuration settings
+- `get_prompt_template` - Get PROMPT.md template
+- `save_article` - Save generated article
+
+**Benefits:**
+- ✅ **No API costs** - Uses Claude Code's built-in LLM instead of paid APIs
+- ✅ **Interactive** - User controls how many newsletters to process
+- ✅ **Flexible** - Process all newsletters or filter by pattern
+- ✅ **Same quality** - Uses your existing PROMPT.md and configuration
+- ✅ **Same output** - Articles saved to OUTPUT_PATH with proper formatting
+
+### Configuration Files
+
+**Global Configuration (one-time setup):**
+- `~/.claude/config.json` - Claude Code's global MCP server registry
+
+**Project Templates (version controlled):**
+- [commands/mcp.json](commands/mcp.json) - Reference for MCP server configuration
+- [commands/generate-article.md](commands/generate-article.md) - Slash command template
+
+**Project Files (generated, gitignored):**
+After running `npm run init:claude`:
+- `.claude/commands/generate-article.md` - Project slash command
+
+📖 **For detailed setup instructions, see [CLAUDE_CODE_SETUP.md](CLAUDE_CODE_SETUP.md)**
+
+---
+
+## Alternative: CLI Workflow
+
+If you prefer traditional CLI usage with paid API access (OpenAI, Anthropic), you can use the standalone commands:
+
+```bash
+# Build the project
+npm run build
+
+# Run the full pipeline (uses paid API)
+npm start
+
+# Or run in development mode
+npm run dev
+```
+
+See [NPM Scripts Reference](#npm-scripts-reference) below for all available CLI commands.
+
+---
+
 ## Features
 
 - 📧 Connects to email via IMAP (Gmail, Outlook, custom servers)
 - 🔍 Searches for newsletters matching configured patterns
 - 🔗 Extracts article links from newsletter emails
 - 🌐 Scrapes article content from web pages
-- 🤖 Generates audio-friendly summaries using LLM (OpenAI, Anthropic, etc.)
+- 🤖 Generates audio-friendly summaries using LLM (OpenAI, Anthropic, Claude Code)
 - 🎭 Configurable narrator persona (thePrimeagen, Fireship, TheoT3, etc.)
 - 🌍 Multi-language support - generate summaries in any language
 - 📝 Marks processed emails as read (optional)
 - 🗑️ Optional automated email deletion after processing
+- 🔌 **MCP Server** - Exposes functionality for Claude Code integration
 
 ## Setup
 
@@ -65,6 +183,12 @@ pnpm start
 ### Basic Commands
 
 ```bash
+# Initialize Claude Code configuration (run once after cloning)
+npm run init:claude
+
+# Start MCP server (for Claude Code integration - RECOMMENDED)
+npm run run:mcp
+
 # Show help with all CLI options
 npm run help
 
