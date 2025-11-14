@@ -8,16 +8,25 @@ import { updateProcessedUID } from "../../utils/updateProcessedUIDs.js";
 import { loadLinksFromYaml } from "../../utils/yaml.js";
 import type { Newsletter } from "../../types/index.js";
 
+interface ProcessedNewsletter {
+  name: string;
+  subject?: string;
+  uid: string;
+  deleted: boolean;
+}
+
 interface MarkAsProcessedResult {
   success: boolean;
   message: string;
   successCount: number;
   failureCount: number;
   deletedCount: number;
+  processedNewsletters: ProcessedNewsletter[];
 }
 
 interface NewsletterWithUID {
   name: string;
+  subject?: string;
   uid: string;
 }
 
@@ -29,6 +38,7 @@ async function getNewslettersFromYaml(): Promise<NewsletterWithUID[]> {
 
   return newsletters.map((newsletter) => ({
     name: newsletter.pattern.name,
+    subject: newsletter.subject, // Email subject line
     uid: newsletter.id, // The UID is stored in the id field
   }));
 }
@@ -54,6 +64,7 @@ export async function markNewslettersAsProcessed(
         successCount: 0,
         failureCount: 0,
         deletedCount: 0,
+        processedNewsletters: [],
       };
     }
 
@@ -63,6 +74,7 @@ export async function markNewslettersAsProcessed(
     let successCount = 0;
     let failureCount = 0;
     let deletedCount = 0;
+    const processedNewsletters: ProcessedNewsletter[] = [];
 
     try {
       // Process each newsletter
@@ -88,6 +100,14 @@ export async function markNewslettersAsProcessed(
 
           // Update processed UIDs file
           await updateProcessedUID(uid);
+
+          // Track processed newsletter with details
+          processedNewsletters.push({
+            name: newsletter.name,
+            subject: newsletter.subject,
+            uid: newsletter.uid,
+            deleted: shouldDelete,
+          });
 
           successCount++;
           if (shouldDelete) {
@@ -117,6 +137,7 @@ export async function markNewslettersAsProcessed(
         successCount,
         failureCount,
         deletedCount,
+        processedNewsletters,
       };
     } finally {
       // Close IMAP connection

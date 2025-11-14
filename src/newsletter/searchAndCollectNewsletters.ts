@@ -110,6 +110,7 @@ export const searchAndCollectNewsletters = async (
           id: String(email.uid),
           pattern,
           date: email.date,
+          subject: email.subject || undefined, // Store email subject
           articles: [],
         });
         allUrls.push(urls);

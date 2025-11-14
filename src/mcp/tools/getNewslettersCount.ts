@@ -57,9 +57,12 @@ export async function getNewslettersCount(
     const matchedPatternNames: string[] = [];
 
     // Search for newsletters matching each pattern
+    // Use processAllMessages from config to respect user settings
+    const processAllMessages = appConfig.processingOptions?.processAllMessages ?? false;
+
     for (const pat of patterns) {
       try {
-        const emails = await searchNewsletters(conn, pat, false);
+        const emails = await searchNewsletters(conn, pat, processAllMessages);
 
         // Filter out already processed emails
         const unprocessedEmails = emails.filter(

@@ -75,6 +75,7 @@ export interface Newsletter {
   id: string;
   pattern: NewsletterPattern;
   date: Date;
+  subject?: string; // Email subject line (optional for manual entries)
   articles: Article[];
 }
 

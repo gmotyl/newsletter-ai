@@ -46,6 +46,20 @@
       "maxArticles": 20
     },
     {
+      "name": "The Batch",
+      "from": "thebatch@deeplearning.ai",
+      "subject": [],
+      "enabled": true,
+      "maxArticles": 20
+    },
+    {
+      "name": "Git nation",
+      "from": "no-reply@email.gitnation.org",
+      "subject": [],
+      "enabled": true,
+      "maxArticles": 20
+    },
+    {
       "name": "ui.dev",
       "from": "tyler@ui.dev",
       "subject": [

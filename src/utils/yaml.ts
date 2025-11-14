@@ -10,6 +10,7 @@ interface YAMLNewsletter {
   date: string;
   uid?: string; // Optional - auto-generated for manual entries
   patternName?: string; // Optional - defaults to name
+  subject?: string; // Email subject line
   links: {
     title: string;
     url: string;
@@ -36,6 +37,7 @@ export async function saveLinksToYaml(
     date: newsletter.date.toISOString(),
     uid: newsletter.id,
     patternName: newsletter.pattern.name,
+    subject: newsletter.subject, // Include email subject
     links: newsletter.articles.map(article => ({
       title: article.title || 'Untitled',
       url: article.url,
@@ -70,6 +72,7 @@ export async function saveLinksToYaml(
     '# - date: ISO date string (required, defaults to current date if invalid)',
     '# - uid: Email UID for marking as processed (optional - omit for manual entries)',
     '# - patternName: Pattern name from config (optional - defaults to name)',
+    '# - subject: Email subject line (optional - for tracking)',
     '# - links: Array of articles with title and url (required)',
     '#',
     '# Then run: npm run generate',
@@ -177,10 +180,11 @@ export async function loadLinksFromYaml(
       pattern: {
         name: yamlNewsletter.patternName || yamlNewsletter.name,
         from: '', // Not available from YAML
-        subject: [], // Not available from YAML
+        subject: [], // Not available from YAML (this is pattern subjects, not email subject)
         enabled: true,
       },
       date,
+      subject: yamlNewsletter.subject, // Email subject line
       articles,
     };
 

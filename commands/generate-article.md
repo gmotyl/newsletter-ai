@@ -77,6 +77,12 @@ Generate newsletter articles using the MCP server workflow.
 
 7. **Display summary**
    - Show list of all generated articles with file paths
+   - **Show processed emails with subjects** (from mark_newsletters_as_processed result):
+     - For each processed email, display: subject line (or pattern name if no subject), UID, and deletion status
+     - Example format:
+       - "📧 [DELETED] 'Your Weekly Newsletter - Nov 14' (UID: 87914)"
+       - "📧 [READ ONLY] 'Tech Updates for Today' (UID: 87729)"
+     - This helps identify which emails were deleted for potential recovery
    - Confirm save location
    - Display total time taken
    - If safe mode: Display reminder that emails were NOT deleted
