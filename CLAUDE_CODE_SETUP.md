@@ -2,10 +2,6 @@
 
 This guide will help you set up the Newsletter AI MCP server to work with Claude Code.
 
-## Important: MCP Server Configuration Location
-
-The MCP server needs to be configured in **Claude Code's global settings**, not in the project directory. Claude Code doesn't automatically detect MCP servers from `.claude/mcp.json` files in your project.
-
 ## Setup Steps
 
 ### 1. Install Dependencies
@@ -18,20 +14,32 @@ pnpm install
 
 Make sure your `.env` file is properly configured with IMAP credentials and other settings.
 
-### 3. Add MCP Server to Claude Code
-
-**Option A: Automatic setup (recommended)**
+### 3. Initialize Slash Commands
 
 From your newsletter-ai project directory, run:
 ```bash
 npm run init:claude
 ```
 
-This will display the exact configuration you need to add to `~/.claude/config.json`. Copy the displayed configuration and add it to the `mcpServers` section of your global config file.
+This copies the `/generate-article` slash command to your project's `.claude/commands/` directory and displays MCP setup instructions.
 
-**Option B: Manual setup**
+### 4. Add MCP Server to Claude Code
 
-Edit `~/.claude/config.json` and add this to the `mcpServers` section:
+Choose **ONE** of these options:
+
+#### Option A: Local Setup (Recommended - Simpler)
+
+From your newsletter-ai project directory, run:
+```bash
+claude mcp add newsletter-ai pnpm run:mcp
+```
+
+**Pros:** Simple one-command setup, easier to maintain
+**Cons:** Only works when Claude Code is opened in the newsletter-ai project directory
+
+#### Option B: Global Setup (Works from Any Directory)
+
+Edit your global Claude Code config at `~/.claude/config.json` and add this to the `mcpServers` section:
 
 ```json
 "newsletter-ai": {
@@ -46,13 +54,12 @@ Edit `~/.claude/config.json` and add this to the `mcpServers` section:
 }
 ```
 
-Replace `/absolute/path/to/newsletter-ai` with the actual absolute path to your project.
+**Replace `/absolute/path/to/newsletter-ai`** with your actual project path. You can get this by running `pwd` in the newsletter-ai directory.
+
+**Pros:** Works from any directory in Claude Code
+**Cons:** Requires manual path configuration, must update if project moves
 
 **Important:** The `PROJECT_DIR` environment variable is required! It tells the MCP server where to find your project files (`config.json`, `.env`, `PROMPT.md`, etc.) regardless of which directory Claude Code is running from.
-
-**Then restart Claude Code** for the changes to take effect.
-
-**Note:** The `npm run init:claude` command also copies the `/generate-article` slash command to your project's `.claude/commands/` directory.
 
 ### 5. Verify MCP Server Connection
 

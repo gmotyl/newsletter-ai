@@ -49,23 +49,29 @@ async function initClaude() {
   }
 
   console.log("\n✨ Claude Code slash commands initialized!\n");
-  console.log("Next steps:");
-  console.log(
-    "  1. Add MCP server to global Claude Code config (~/.claude/config.json):"
-  );
-  console.log('     Add this entry to the "mcpServers" section:\n');
-  console.log('     "newsletter-ai": {');
-  console.log('       "type": "stdio",');
-  console.log(`       "command": "${rootDir}/node_modules/.bin/tsx",`);
-  console.log('       "args": [');
-  console.log(`         "${rootDir}/src/mcp/index.ts"`);
-  console.log("       ],");
-  console.log('       "env": {');
-  console.log(`         "PROJECT_DIR": "${rootDir}"`);
-  console.log("       }");
-  console.log("     }\n");
-  console.log("  2. Restart Claude Code");
-  console.log("  3. Open Claude Code and run: /generate-article\n");
+  console.log("Next steps - Choose ONE of these options:\n");
+
+  console.log("📍 OPTION 1: Local Setup (Recommended - simpler)");
+  console.log("  Run this command from the newsletter-ai project directory:");
+  console.log("    claude mcp add newsletter-ai pnpm run:mcp\n");
+
+  console.log("📍 OPTION 2: Global Setup (Works from any directory)");
+  console.log("  Add this to your global Claude Code config (~/.claude/config.json):");
+  console.log('  Add this entry to the "mcpServers" section:\n');
+  console.log('  "newsletter-ai": {');
+  console.log('    "type": "stdio",');
+  console.log(`    "command": "${rootDir}/node_modules/.bin/tsx",`);
+  console.log('    "args": [');
+  console.log(`      "${rootDir}/src/mcp/index.ts"`);
+  console.log("    ],");
+  console.log('    "env": {');
+  console.log(`      "PROJECT_DIR": "${rootDir}"`);
+  console.log("    }");
+  console.log("  }\n");
+
+  console.log("After setup:");
+  console.log("  1. Restart Claude Code");
+  console.log("  2. Open Claude Code and run: /generate-article\n");
 }
 
 initClaude().catch((error) => {
