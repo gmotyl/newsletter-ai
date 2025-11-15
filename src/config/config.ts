@@ -2,7 +2,7 @@
 
 import { readFileSync } from "fs";
 import { config as loadEnv } from "dotenv";
-import { join } from "path";
+import { join, isAbsolute } from "path";
 import type {
   AppConfig,
   EmailCredentials,
@@ -143,10 +143,13 @@ export const getInteractiveMode = (): boolean => {
 /**
  * Gets output path from environment variable with default fallback
  * Returns absolute path resolved from project root
+ * If OUTPUT_PATH is already absolute, returns it as-is
  */
 export const getOutputPath = (): string => {
   const outputPath = process.env.OUTPUT_PATH || "./output";
-  return join(getProjectRoot(), outputPath);
+  // If the path is already absolute, use it as-is
+  // Otherwise, resolve it relative to the project root
+  return isAbsolute(outputPath) ? outputPath : join(getProjectRoot(), outputPath);
 };
 
 /**

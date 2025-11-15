@@ -37,6 +37,13 @@
       "maxArticles": 20
     },
     {
+      "name": "Ona newsletter",
+      "from": "newsletter@ona.com",
+      "subject": [],
+      "enabled": true,
+      "maxArticles": 20
+    },
+    {
       "name": "TypeScript Weekly",
       "from": "typescript@cooperpress.com",
       "subject": [
