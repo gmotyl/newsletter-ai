@@ -2,6 +2,7 @@
 import * as yaml from 'js-yaml';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { getProjectRoot } from '../config/config.js';
 import type { Newsletter, Article } from '../types/index.js';
 
 // YAML structure for LINKS.yaml
@@ -31,6 +32,10 @@ export async function saveLinksToYaml(
   newsletters: Newsletter[],
   outputPath: string = 'LINKS.yaml'
 ): Promise<void> {
+  // Resolve path relative to project root
+  const resolvedPath = path.isAbsolute(outputPath)
+    ? outputPath
+    : path.resolve(getProjectRoot(), outputPath);
   // Convert Newsletter objects to YAML-friendly structure
   const yamlNewsletters: YAMLNewsletter[] = newsletters.map(newsletter => ({
     name: newsletter.pattern.name,
@@ -85,13 +90,13 @@ export async function saveLinksToYaml(
   ].join('\n');
 
   // Ensure the directory exists
-  const dir = path.dirname(outputPath);
+  const dir = path.dirname(resolvedPath);
   if (dir !== '.') {
     await fs.mkdir(dir, { recursive: true });
   }
 
   // Write to file
-  await fs.writeFile(outputPath, yamlContent, 'utf8');
+  await fs.writeFile(resolvedPath, yamlContent, 'utf8');
 }
 
 /**
@@ -100,17 +105,22 @@ export async function saveLinksToYaml(
 export async function loadLinksFromYaml(
   inputPath: string = 'LINKS.yaml'
 ): Promise<Newsletter[]> {
+  // Resolve path relative to project root
+  const resolvedPath = path.isAbsolute(inputPath)
+    ? inputPath
+    : path.resolve(getProjectRoot(), inputPath);
+
   // Check if file exists
   try {
-    await fs.access(inputPath);
+    await fs.access(resolvedPath);
   } catch (error) {
     throw new Error(
-      `LINKS.yaml not found at ${inputPath}. Please run "npm run prepare" first to generate the file.`
+      `LINKS.yaml not found at ${resolvedPath}. Please run "npm run prepare" first to generate the file.`
     );
   }
 
   // Read and parse YAML
-  const yamlContent = await fs.readFile(inputPath, 'utf8');
+  const yamlContent = await fs.readFile(resolvedPath, 'utf8');
 
   let parsed: any;
   try {
@@ -198,8 +208,13 @@ export async function loadLinksFromYaml(
  * Check if LINKS.yaml exists
  */
 export async function linksYamlExists(filePath: string = 'LINKS.yaml'): Promise<boolean> {
+  // Resolve path relative to project root
+  const resolvedPath = path.isAbsolute(filePath)
+    ? filePath
+    : path.resolve(getProjectRoot(), filePath);
+
   try {
-    await fs.access(filePath);
+    await fs.access(resolvedPath);
     return true;
   } catch {
     return false;

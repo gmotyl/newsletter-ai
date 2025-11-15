@@ -2,6 +2,7 @@
 
 import { readFileSync } from "fs";
 import { config as loadEnv } from "dotenv";
+import { join } from "path";
 import type {
   AppConfig,
   EmailCredentials,
@@ -9,10 +10,17 @@ import type {
   ProcessingOptions,
 } from "../types/index.js";
 
+// Get project root directory
+// When running as MCP server, PROJECT_DIR env variable should point to the project root
+// Otherwise, use current working directory (for CLI usage)
+const getProjectRoot = (): string => {
+  return process.env.PROJECT_DIR || process.cwd();
+};
+
 // Load environment variables
 // Don't load .env in test environment - tests should use vitest.setup.ts
 if (process.env.VITEST !== "true") {
-  loadEnv();
+  loadEnv({ path: join(getProjectRoot(), ".env") });
 }
 
 // Lazy-loaded cache for config.json
@@ -27,7 +35,7 @@ const loadAppConfig = (): AppConfig => {
   }
 
   try {
-    const configPath = "./config.json";
+    const configPath = join(getProjectRoot(), "config.json");
     const configFile = readFileSync(configPath, "utf-8");
     cachedAppConfig = JSON.parse(configFile) as AppConfig;
     return cachedAppConfig;
@@ -134,7 +142,15 @@ export const getInteractiveMode = (): boolean => {
 
 /**
  * Gets output path from environment variable with default fallback
+ * Returns absolute path resolved from project root
  */
 export const getOutputPath = (): string => {
-  return process.env.OUTPUT_PATH || "./output";
+  const outputPath = process.env.OUTPUT_PATH || "./output";
+  return join(getProjectRoot(), outputPath);
 };
+
+/**
+ * Gets the project root directory
+ * Returns PROJECT_DIR env variable if set (for MCP server), otherwise current working directory
+ */
+export { getProjectRoot };

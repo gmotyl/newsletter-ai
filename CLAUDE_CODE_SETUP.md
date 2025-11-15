@@ -20,37 +20,39 @@ Make sure your `.env` file is properly configured with IMAP credentials and othe
 
 ### 3. Add MCP Server to Claude Code
 
-Use the Claude Code CLI to register the MCP server:
+**Option A: Automatic setup (recommended)**
 
-```bash
-# Navigate to your newsletter-ai project directory
-cd /path/to/newsletter-ai
-
-# Add the MCP server using Claude Code's CLI
-claude mcp add newsletter-ai pnpm run:mcp
-```
-
-This command will:
-- Register the MCP server with Claude Code globally
-- Use your current directory as the working directory (`cwd`)
-- Set the command to `pnpm run:mcp`
-
-**Alternative: If you don't have `pnpm`:**
-```bash
-claude mcp add newsletter-ai npm run run:mcp
-```
-
-**Then restart Claude Code** for the changes to take effect.
-
-### 4. Install Project Commands
-
-Initialize the slash commands in your project:
-
+From your newsletter-ai project directory, run:
 ```bash
 npm run init:claude
 ```
 
-This copies the `/generate-article` command template to your project's `.claude/commands/` directory.
+This will display the exact configuration you need to add to `~/.claude/config.json`. Copy the displayed configuration and add it to the `mcpServers` section of your global config file.
+
+**Option B: Manual setup**
+
+Edit `~/.claude/config.json` and add this to the `mcpServers` section:
+
+```json
+"newsletter-ai": {
+  "type": "stdio",
+  "command": "/absolute/path/to/newsletter-ai/node_modules/.bin/tsx",
+  "args": [
+    "/absolute/path/to/newsletter-ai/src/mcp/index.ts"
+  ],
+  "env": {
+    "PROJECT_DIR": "/absolute/path/to/newsletter-ai"
+  }
+}
+```
+
+Replace `/absolute/path/to/newsletter-ai` with the actual absolute path to your project.
+
+**Important:** The `PROJECT_DIR` environment variable is required! It tells the MCP server where to find your project files (`config.json`, `.env`, `PROMPT.md`, etc.) regardless of which directory Claude Code is running from.
+
+**Then restart Claude Code** for the changes to take effect.
+
+**Note:** The `npm run init:claude` command also copies the `/generate-article` slash command to your project's `.claude/commands/` directory.
 
 ### 5. Verify MCP Server Connection
 
@@ -84,19 +86,19 @@ Or filter by pattern:
 3. Restart Claude Code after adding the server
 4. Check that `pnpm` is in your PATH
 
-### Command Not Found: pnpm
+### Config File Not Found Errors
 
-**Problem:** Error about pnpm not being found
+**Problem:** MCP server reports errors like "Failed to load config.json: ENOENT: no such file or directory"
 
-**Solution:** Remove the MCP server and re-add it using `npm`:
+**Solution:** Make sure the `PROJECT_DIR` environment variable is set in your MCP configuration:
 
-```bash
-# Remove the existing MCP server
-claude mcp remove newsletter-ai
-
-# Add it again using npm
-claude mcp add newsletter-ai npm run run:mcp
+```json
+"env": {
+  "PROJECT_DIR": "/absolute/path/to/newsletter-ai"
+}
 ```
+
+Without `PROJECT_DIR`, the MCP server won't know where to find your project files when Claude Code runs from a different directory.
 
 ### MCP Server Crashes
 

@@ -17,26 +17,38 @@ The easiest way to use Newsletter AI is through the **Claude Code slash command*
 
 3. **Add MCP Server to Claude Code** (one-time setup):
 
+   **Option A: Automatic setup (recommended)**
+
    From your newsletter-ai project directory, run:
    ```bash
-   claude mcp add newsletter-ai pnpm run:mcp
+   npm run init:claude
    ```
 
-   Or if you don't have `pnpm`:
-   ```bash
-   claude mcp add newsletter-ai npm run run:mcp
+   This will display the exact configuration you need to add to `~/.claude/config.json`.
+
+   **Option B: Manual setup**
+
+   Add this to your `~/.claude/config.json` in the `mcpServers` section:
+   ```json
+   "newsletter-ai": {
+     "type": "stdio",
+     "command": "/absolute/path/to/newsletter-ai/node_modules/.bin/tsx",
+     "args": [
+       "/absolute/path/to/newsletter-ai/src/mcp/index.ts"
+     ],
+     "env": {
+       "PROJECT_DIR": "/absolute/path/to/newsletter-ai"
+     }
+   }
    ```
+
+   Replace `/absolute/path/to/newsletter-ai` with the actual absolute path to your project.
 
    Then restart Claude Code for the changes to take effect.
 
    📖 **See [CLAUDE_CODE_SETUP.md](CLAUDE_CODE_SETUP.md) for detailed setup instructions and troubleshooting.**
 
-4. Initialize project slash commands:
-   ```bash
-   npm run init:claude
-   ```
-
-   This copies the `/generate-article` command to your project's `.claude/commands/` directory.
+   **Note:** The `npm run init:claude` command also copies the `/generate-article` slash command to your project's `.claude/commands/` directory.
 
 ### Usage with Claude Code
 

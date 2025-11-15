@@ -8,14 +8,14 @@
  * claude mcp add newsletter-ai pnpm run:mcp
  */
 
-import { promises as fs } from 'fs';
-import { join } from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { promises as fs } from "fs";
+import { join } from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const rootDir = join(__dirname, '..');
+const rootDir = join(__dirname, "..");
 
 async function fileExists(path) {
   try {
@@ -27,31 +27,48 @@ async function fileExists(path) {
 }
 
 async function initClaude() {
-  console.log('🚀 Initializing Claude Code configuration...\n');
+  console.log("🚀 Initializing Claude Code configuration...\n");
 
   // Create .claude directory structure
-  await fs.mkdir(join(rootDir, '.claude', 'commands'), { recursive: true });
+  await fs.mkdir(join(rootDir, ".claude", "commands"), { recursive: true });
 
   // Copy slash command
-  const commandSrc = join(rootDir, 'commands', 'generate-article.md');
-  const commandDest = join(rootDir, '.claude', 'commands', 'generate-article.md');
+  const commandSrc = join(rootDir, "commands", "generate-article.md");
+  const commandDest = join(
+    rootDir,
+    ".claude",
+    "commands",
+    "generate-article.md"
+  );
 
   if (await fileExists(commandSrc)) {
     await fs.copyFile(commandSrc, commandDest);
-    console.log('✅ Copied generate-article.md to .claude/commands/');
+    console.log("✅ Copied generate-article.md to .claude/commands/");
   } else {
-    console.log('⚠️  Warning: commands/generate-article.md not found');
+    console.log("⚠️  Warning: commands/generate-article.md not found");
   }
 
-  console.log('\n✨ Claude Code slash commands initialized!\n');
-  console.log('Next steps:');
-  console.log('  1. Add MCP server to Claude Code (if not already done):');
-  console.log('     claude mcp add newsletter-ai pnpm run:mcp');
-  console.log('  2. Restart Claude Code');
-  console.log('  3. Open Claude Code and run: /generate-article\n');
+  console.log("\n✨ Claude Code slash commands initialized!\n");
+  console.log("Next steps:");
+  console.log(
+    "  1. Add MCP server to global Claude Code config (~/.claude/config.json):"
+  );
+  console.log('     Add this entry to the "mcpServers" section:\n');
+  console.log('     "newsletter-ai": {');
+  console.log('       "type": "stdio",');
+  console.log(`       "command": "${rootDir}/node_modules/.bin/tsx",`);
+  console.log('       "args": [');
+  console.log(`         "${rootDir}/src/mcp/index.ts"`);
+  console.log("       ],");
+  console.log('       "env": {');
+  console.log(`         "PROJECT_DIR": "${rootDir}"`);
+  console.log("       }");
+  console.log("     }\n");
+  console.log("  2. Restart Claude Code");
+  console.log("  3. Open Claude Code and run: /generate-article\n");
 }
 
-initClaude().catch(error => {
-  console.error('❌ Error initializing Claude Code configuration:', error);
+initClaude().catch((error) => {
+  console.error("❌ Error initializing Claude Code configuration:", error);
   process.exit(1);
 });

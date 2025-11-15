@@ -3,12 +3,13 @@
 
 import { promises as fs } from "fs";
 import path from "path";
+import { getProjectRoot } from "../../config/config.js";
 
 export async function getPromptTemplate(
   promptPath: string = "PROMPT.md"
 ): Promise<string> {
   try {
-    const fullPath = path.resolve(process.cwd(), promptPath);
+    const fullPath = path.resolve(getProjectRoot(), promptPath);
     const content = await fs.readFile(fullPath, "utf-8");
 
     if (!content) {
