@@ -36,7 +36,7 @@ export const fetchEmailContent = (
               from: emailData.from?.text || "",
               subject: emailData.subject || "",
               date: emailData.date || new Date(),
-              html: emailData.html?.toString() || "",
+              html: emailData.html && typeof emailData.html !== 'boolean' ? String(emailData.html) : "",
               text: emailData.text || "",
             });
           }
@@ -64,7 +64,7 @@ export const fetchEmailContent = (
             from: emailData.from?.text || "",
             subject: emailData.subject || "",
             date: emailData.date || new Date(),
-            html: emailData.html?.toString() || "",
+            html: emailData.html && typeof emailData.html !== 'boolean' ? String(emailData.html) : "",
             text: emailData.text || "",
           });
         }
