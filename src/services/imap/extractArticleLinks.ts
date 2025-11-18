@@ -5,13 +5,20 @@ import type { EmailContent } from "../../types/index.js";
 import { parseEmailHtml } from "./parseEmailHtml.js";
 
 export const extractArticleLinks = (email: EmailContent): string[] => {
-  if (email.html) {
-    return parseEmailHtml(email.html);
+  // Try HTML first
+  if (email.html && email.html.trim()) {
+    try {
+      return parseEmailHtml(email.html);
+    } catch (error) {
+      // If HTML parsing fails, fall through to text parsing
+      console.warn(`HTML parsing failed: ${error instanceof Error ? error.message : String(error)}`);
+    }
   }
 
   // Fallback: extract URLs from plain text
   const urlRegex = /(https?:\/\/[^\s]+)/g;
-  const urls = email.text.match(urlRegex) || [];
+  const textContent = email.text || '';
+  const urls = textContent.match(urlRegex) || [];
 
   return urls.filter(
     (url) =>
