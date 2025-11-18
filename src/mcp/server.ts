@@ -77,7 +77,7 @@ const TOOLS: Tool[] = [
   },
   {
     name: "get_newsletter_links",
-    description: "Returns links for a specific newsletter from LINKS.yaml",
+    description: "Returns links for a specific newsletter from LINKS.yaml. When multiple newsletters have the same name, use the 'uid' parameter to specify which one to retrieve.",
     inputSchema: {
       type: "object",
       properties: {
@@ -88,6 +88,10 @@ const TOOLS: Tool[] = [
         yamlPath: {
           type: "string",
           description: "Path to LINKS.yaml (defaults to 'LINKS.yaml')",
+        },
+        uid: {
+          type: "string",
+          description: "Optional UID to identify a specific newsletter when multiple newsletters share the same name. Use get_newsletters_list to see available UIDs.",
         },
       },
       required: ["newsletterName"],
@@ -149,13 +153,20 @@ const TOOLS: Tool[] = [
   {
     name: "mark_newsletters_as_processed",
     description:
-      "Marks newsletters from LINKS.yaml as read and optionally deletes them. Respects config.json autoDelete unless safeMode=true.",
+      "Marks newsletters from LINKS.yaml as read and optionally deletes them. Respects config.json autoDelete unless safeMode=true. Can mark all newsletters or specific ones by UID.",
     inputSchema: {
       type: "object",
       properties: {
         safeMode: {
           type: "boolean",
           description: "If true, prevents email deletion (overrides config.json autoDelete setting)",
+        },
+        uids: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+          description: "Optional array of UIDs to mark as processed. If omitted, all newsletters in LINKS.yaml will be processed.",
         },
       },
     },
@@ -215,7 +226,8 @@ export async function createMCPServer() {
           }
           result = await getNewsletterLinks(
             args.newsletterName as string,
-            args?.yamlPath as string | undefined
+            args?.yamlPath as string | undefined,
+            args?.uid as string | undefined
           );
           break;
 
@@ -246,7 +258,8 @@ export async function createMCPServer() {
 
         case "mark_newsletters_as_processed":
           result = await markNewslettersAsProcessed(
-            args?.safeMode as boolean | undefined
+            args?.safeMode as boolean | undefined,
+            args?.uids as string[] | undefined
           );
           break;
 

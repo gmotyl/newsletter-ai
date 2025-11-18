@@ -46,16 +46,36 @@ async function getNewslettersFromYaml(): Promise<NewsletterWithUID[]> {
 /**
  * Mark newsletters as processed (read + optionally delete)
  * @param safeMode - If true, prevents deletion (overrides config)
+ * @param uids - Optional array of UIDs to process. If provided, only these newsletters will be marked as processed.
  */
 export async function markNewslettersAsProcessed(
-  safeMode?: boolean
+  safeMode?: boolean,
+  uids?: string[]
 ): Promise<MarkAsProcessedResult> {
   try {
     const emailCredentials = getEmailCredentials();
     const processingOptions = getProcessingOptions();
 
     // Load newsletters from YAML to get UIDs
-    const newsletters = await getNewslettersFromYaml();
+    let newsletters = await getNewslettersFromYaml();
+
+    // If specific UIDs are provided, filter to only those newsletters
+    if (uids && uids.length > 0) {
+      const requestedNewsletters = newsletters.filter((n) => uids.includes(n.uid));
+
+      // Check if any requested UIDs were not found
+      const foundUIDs = requestedNewsletters.map((n) => n.uid);
+      const notFoundUIDs = uids.filter((uid) => !foundUIDs.includes(uid));
+
+      if (notFoundUIDs.length > 0) {
+        throw new Error(
+          `The following UIDs were not found in LINKS.yaml: ${notFoundUIDs.join(", ")}. ` +
+          `Available UIDs: ${newsletters.map((n) => n.uid).join(", ")}`
+        );
+      }
+
+      newsletters = requestedNewsletters;
+    }
 
     if (newsletters.length === 0) {
       return {
