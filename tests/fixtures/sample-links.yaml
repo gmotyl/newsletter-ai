@@ -1,0 +1,29 @@
+newsletters:
+  - name: Daily Dev Newsletter
+    date: '2025-01-15T10:00:00Z'
+    uid: '12345'
+    subject: Daily Dev Newsletter - January 15, 2025
+    links:
+      - url: https://example.com/article1
+        title: Understanding TypeScript Generics
+        category: article
+      - url: https://example.com/article2
+        title: Building Scalable APIs
+        category: article
+      - url: https://example.com/article3
+        title: Advanced Testing Strategies
+        category: article
+  - name: Tech Weekly Digest
+    date: '2025-01-16T08:00:00Z'
+    uid: '12346'
+    subject: Tech Weekly Digest - Issue #42
+    links:
+      - url: https://example.com/article4
+        title: JavaScript Performance Tips
+        category: article
+      - url: https://example.com/article5
+        title: Docker Best Practices
+        category: article
+      - url: https://youtube.com/watch?v=abc123
+        title: Watch our tutorial
+        category: youtube

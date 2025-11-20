@@ -28,6 +28,7 @@ vi.mock("fs");
 vi.mock("../../../config/config.js", () => ({
   getNarratorPersona: () => "Tech enthusiast narrator",
   getOutputLanguage: () => "Polish",
+  getVerboseMode: () => false,
 }));
 
 vi.mock("ai", () => ({

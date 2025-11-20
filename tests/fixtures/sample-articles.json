@@ -1,0 +1,32 @@
+{
+  "https://example.com/article1": {
+    "title": "Understanding TypeScript Generics",
+    "content": "TypeScript generics provide a way to create reusable components that work with multiple types. They allow you to write flexible, type-safe code that can be used across different data types while maintaining strong typing. Generics are denoted using angle brackets and can be applied to functions, classes, and interfaces.",
+    "author": "Jane Developer",
+    "publishDate": "2025-01-10"
+  },
+  "https://example.com/article2": {
+    "title": "Building Scalable APIs",
+    "content": "When building APIs at scale, several key principles must be considered: proper versioning strategies, rate limiting, caching mechanisms, and efficient database queries. Use pagination for large datasets, implement proper error handling, and ensure your API is well-documented with OpenAPI specifications.",
+    "author": "John Engineer",
+    "publishDate": "2025-01-12"
+  },
+  "https://example.com/article3": {
+    "title": "Advanced Testing Strategies",
+    "content": "Modern testing approaches go beyond simple unit tests. Integration tests validate entire workflows, end-to-end tests simulate real user scenarios, and property-based testing explores edge cases automatically. The testing pyramid suggests more unit tests at the base, fewer integration tests in the middle, and minimal E2E tests at the top.",
+    "author": "Alice Tester",
+    "publishDate": "2025-01-14"
+  },
+  "https://example.com/article4": {
+    "title": "JavaScript Performance Tips",
+    "content": "Optimizing JavaScript performance involves several techniques: debouncing and throttling event handlers, using Web Workers for CPU-intensive tasks, lazy loading resources, minimizing DOM manipulations, and leveraging browser caching. Modern bundlers like Vite and esbuild can significantly reduce build times.",
+    "author": "Bob Frontend",
+    "publishDate": "2025-01-15"
+  },
+  "https://example.com/article5": {
+    "title": "Docker Best Practices",
+    "content": "Docker containerization best practices include: using multi-stage builds to reduce image size, avoiding running containers as root, properly handling secrets with environment variables or secrets management tools, and using .dockerignore to exclude unnecessary files. Keep images minimal and scan for security vulnerabilities regularly.",
+    "author": "Carol DevOps",
+    "publishDate": "2025-01-16"
+  }
+}

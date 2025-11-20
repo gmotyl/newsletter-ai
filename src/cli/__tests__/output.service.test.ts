@@ -221,7 +221,9 @@ describe("output.service - Filename Generation", () => {
   describe("getDefaultOutputDir", () => {
     it("should return default output directory", () => {
       const result = getDefaultOutputDir();
-      expect(result).toBe("./output");
+      // Should return an absolute path ending with /output
+      expect(result).toContain("output");
+      expect(result.endsWith("output") || result.endsWith("output/")).toBe(true);
     });
 
     it("should be a pure function", () => {

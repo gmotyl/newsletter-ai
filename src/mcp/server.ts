@@ -14,6 +14,7 @@ import { getNewslettersCount } from "./tools/getNewslettersCount.js";
 import { prepareNewsletters } from "./tools/prepareNewsletters.js";
 import { getNewslettersList } from "./tools/getNewslettersList.js";
 import { getNewsletterLinks } from "./tools/getNewsletterLinks.js";
+import { getNewsletterBody } from "./tools/getNewsletterBody.js";
 import { scrapeArticle } from "./tools/scrapeArticle.js";
 import { getConfig } from "./tools/getConfig.js";
 import { getPromptTemplate } from "./tools/getPromptTemplate.js";
@@ -95,6 +96,24 @@ const TOOLS: Tool[] = [
         },
       },
       required: ["newsletterName"],
+    },
+  },
+  {
+    name: "get_newsletter_body",
+    description: "Returns the raw email body (HTML and text) for a specific newsletter from LINKS.yaml. Use this when link scraping fails or returns no content.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        uid: {
+          type: "string",
+          description: "UID of the newsletter to retrieve body for",
+        },
+        yamlPath: {
+          type: "string",
+          description: "Path to LINKS.yaml (defaults to 'LINKS.yaml')",
+        },
+      },
+      required: ["uid"],
     },
   },
   {
@@ -228,6 +247,16 @@ export async function createMCPServer() {
             args.newsletterName as string,
             args?.yamlPath as string | undefined,
             args?.uid as string | undefined
+          );
+          break;
+
+        case "get_newsletter_body":
+          if (!args?.uid) {
+            throw new Error("Missing required parameter: uid");
+          }
+          result = await getNewsletterBody(
+            args.uid as string,
+            args?.yamlPath as string | undefined
           );
           break;
 

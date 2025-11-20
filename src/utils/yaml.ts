@@ -12,6 +12,8 @@ interface YAMLNewsletter {
   uid?: string; // Optional - auto-generated for manual entries
   patternName?: string; // Optional - defaults to name
   subject?: string; // Email subject line
+  bodyHtml?: string; // Raw HTML body of the email
+  bodyText?: string; // Raw text body of the email
   links: {
     title: string;
     url: string;
@@ -43,6 +45,8 @@ export async function saveLinksToYaml(
     uid: newsletter.id,
     patternName: newsletter.pattern.name,
     subject: newsletter.subject, // Include email subject
+    bodyHtml: newsletter.bodyHtml, // Include raw HTML body
+    bodyText: newsletter.bodyText, // Include raw text body
     links: newsletter.articles.map(article => ({
       title: article.title || 'Untitled',
       url: article.url,
@@ -78,6 +82,8 @@ export async function saveLinksToYaml(
     '# - uid: Email UID for marking as processed (optional - omit for manual entries)',
     '# - patternName: Pattern name from config (optional - defaults to name)',
     '# - subject: Email subject line (optional - for tracking)',
+    '# - bodyHtml: Raw HTML body of the email (optional - fallback content)',
+    '# - bodyText: Raw text body of the email (optional - fallback content)',
     '# - links: Array of articles with title and url (required)',
     '#',
     '# Then run: npm run generate',
@@ -195,6 +201,8 @@ export async function loadLinksFromYaml(
       },
       date,
       subject: yamlNewsletter.subject, // Email subject line
+      bodyHtml: yamlNewsletter.bodyHtml, // Raw HTML body
+      bodyText: yamlNewsletter.bodyText, // Raw text body
       articles,
     };
 

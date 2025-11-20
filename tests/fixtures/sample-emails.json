@@ -1,0 +1,18 @@
+[
+  {
+    "uid": "12345",
+    "subject": "Daily Dev Newsletter - January 15, 2025",
+    "from": "newsletter@daily.dev",
+    "date": "2025-01-15T10:00:00Z",
+    "html": "<html><body><h1>Top Articles This Week</h1><p>Check out these great articles:</p><ul><li><a href=\"https://example.com/article1\">Understanding TypeScript Generics</a></li><li><a href=\"https://example.com/article2\">Building Scalable APIs</a></li><li><a href=\"https://tracking.redirect.com?url=aHR0cHM6Ly9leGFtcGxlLmNvbS9hcnRpY2xlMw==\">Advanced Testing Strategies</a></li></ul><p>Sponsored: <a href=\"https://sponsor.com/ad\">Check out our sponsor</a></p><p>Follow us: <a href=\"https://twitter.com/dailydev\">Twitter</a></p></body></html>",
+    "text": "Top Articles This Week\n\nUnderstanding TypeScript Generics: https://example.com/article1\nBuilding Scalable APIs: https://example.com/article2\nAdvanced Testing Strategies: https://tracking.redirect.com?url=aHR0cHM6Ly9leGFtcGxlLmNvbS9hcnRpY2xlMw==\n\nSponsored: https://sponsor.com/ad\nFollow us: https://twitter.com/dailydev"
+  },
+  {
+    "uid": "12346",
+    "subject": "Tech Weekly Digest - Issue #42",
+    "from": "digest@techweekly.com",
+    "date": "2025-01-16T08:00:00Z",
+    "html": "<html><body><h2>This Week's Highlights</h2><div><a href=\"https://example.com/article4\">JavaScript Performance Tips</a></div><div><a href=\"https://example.com/article5\">Docker Best Practices</a></div><div>YouTube: <a href=\"https://youtube.com/watch?v=abc123\">Watch our tutorial</a></div></body></html>",
+    "text": "This Week's Highlights\n\nJavaScript Performance Tips: https://example.com/article4\nDocker Best Practices: https://example.com/article5\nYouTube: https://youtube.com/watch?v=abc123"
+  }
+]

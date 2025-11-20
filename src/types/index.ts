@@ -77,6 +77,8 @@ export interface Newsletter {
   date: Date;
   subject?: string; // Email subject line (optional for manual entries)
   articles: Article[];
+  bodyHtml?: string; // Raw HTML body of the email (optional)
+  bodyText?: string; // Raw text body of the email (optional)
 }
 
 export interface ProcessingOptions {

@@ -111,6 +111,8 @@ export const searchAndCollectNewsletters = async (
           pattern,
           date: email.date,
           subject: email.subject || undefined, // Store email subject
+          bodyHtml: content.html || undefined, // Store raw HTML body
+          bodyText: content.text || undefined, // Store raw text body
           articles: [],
         });
         allUrls.push(urls);

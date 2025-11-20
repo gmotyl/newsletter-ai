@@ -77,6 +77,7 @@ describe("cli.service - CLI Argument Parsing", () => {
     it("should parse empty arguments", () => {
       const result = parseCLIArgs([]);
       expect(result).toEqual({
+        mode: "default",
         dryRun: false,
         autoDelete: false,
         help: false,
@@ -122,6 +123,7 @@ describe("cli.service - CLI Argument Parsing", () => {
         "gpt-4",
       ]);
       expect(result).toEqual({
+        mode: "default",
         dryRun: true,
         autoDelete: false,
         help: false,
@@ -133,6 +135,7 @@ describe("cli.service - CLI Argument Parsing", () => {
     it("should ignore unknown flags", () => {
       const result = parseCLIArgs(["--unknown-flag", "value"]);
       expect(result).toEqual({
+        mode: "default",
         dryRun: false,
         autoDelete: false,
         help: false,
