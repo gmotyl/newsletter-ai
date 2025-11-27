@@ -8,6 +8,7 @@ export const formatNewsletterForLLM = (newsletter: {
   name: string;
   date: Date;
   articles: Article[];
+  hashtags?: string[];
 }): string => {
   const dateStr = newsletter.date.toLocaleDateString("en-US", {
     year: "numeric",
@@ -15,7 +16,11 @@ export const formatNewsletterForLLM = (newsletter: {
     day: "numeric",
   });
 
-  return `# ${newsletter.name} - ${dateStr}
+  const hashtagsStr = newsletter.hashtags && newsletter.hashtags.length > 0
+    ? `Newsletter Hashtags: ${newsletter.hashtags.join(' ')}\n`
+    : '';
 
+  return `# ${newsletter.name} - ${dateStr}
+${hashtagsStr}
 ${formatArticlesForLLM(newsletter.articles)}`;
 };

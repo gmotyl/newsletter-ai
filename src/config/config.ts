@@ -23,11 +23,13 @@ if (process.env.VITEST !== "true") {
   loadEnv({ path: join(getProjectRoot(), ".env") });
 }
 
-// Lazy-loaded cache for config.json
+import { load } from "js-yaml";
+
+// Lazy-loaded cache for config.yaml
 let cachedAppConfig: AppConfig | null = null;
 
 /**
- * Internal helper: Loads and caches the app config from config.json
+ * Internal helper: Loads and caches the app config from config.yaml
  */
 const loadAppConfig = (): AppConfig => {
   if (cachedAppConfig) {
@@ -35,12 +37,12 @@ const loadAppConfig = (): AppConfig => {
   }
 
   try {
-    const configPath = join(getProjectRoot(), "config.json");
+    const configPath = join(getProjectRoot(), "config.yaml");
     const configFile = readFileSync(configPath, "utf-8");
-    cachedAppConfig = JSON.parse(configFile) as AppConfig;
+    cachedAppConfig = load(configFile) as AppConfig;
     return cachedAppConfig;
   } catch (error) {
-    throw new Error(`Failed to load config.json: ${error}`);
+    throw new Error(`Failed to load config.yaml: ${error}`);
   }
 };
 

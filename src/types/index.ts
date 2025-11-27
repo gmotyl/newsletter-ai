@@ -21,6 +21,7 @@ export interface NewsletterPattern {
     selector?: string;  // Optional CSS selector for "dom-selector" strategy
     maxDepth?: number;  // Default: 1 (only one level of nesting)
   };
+  hashtags?: string[];
 }
 
 export interface ContentFilters {
@@ -79,6 +80,7 @@ export interface Newsletter {
   articles: Article[];
   bodyHtml?: string; // Raw HTML body of the email (optional)
   bodyText?: string; // Raw text body of the email (optional)
+  hashtags?: string[];
 }
 
 export interface ProcessingOptions {

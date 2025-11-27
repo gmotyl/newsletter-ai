@@ -46,15 +46,36 @@ title: "<create a descriptive title based on the newsletter content>"
 excerpt: "<brief 1-sentence description of the newsletter content>"
 publishedAt: "YYYY-MM-DD"
 slug: "descriptive-slug-based-on-title"
-hashtags: "#generated #language-code #topic1 #topic2 #specific-tech #tool-name"
+hashtags: "#newsletter-level-hashtags #article-specific-hashtags #generated #language-code"
 ---
 ```
 
 Example for an article about React Query, Biome, and ESLint:
 
 ```yaml
-hashtags: "#generated #en #react #typescript #frontend #react-query #biome #eslint #pnpm #sonarqube"
+hashtags: "#dailydev #frontend #react #servercomponents #nextjs #generated #en"
 ```
+
+### Newsletter Hashtags
+
+You will be provided with newsletter-level hashtags (e.g., `#dailydev #frontend`). These hashtags:
+- Identify the source newsletter
+- Provide broad topic categorization
+- Should be included in your output
+
+**Instructions:**
+1. **Start with the provided newsletter hashtags** (e.g., `#dailydev #frontend`)
+2. When you find `#agregate` hastag it means there are many diffrent possible newsletters, you have to figure out newsletter name and replace `#agregate` with newsletter name hashtag
+2. **Then add 3-5 article-specific technical hashtags** based on content analysis
+3. **Finally add `#generated` and language code** (e.g., `#en`, `#pl`)
+4. Follow the existing hashtag guidelines below
+5. Ensure hashtags are relevant, specific, and useful for discovery
+
+**Example:**
+- Provided newsletter hashtags: `#dailydev #frontend`
+- Article about React Server Components
+- Output: `hashtags: "#dailydev #frontend #react #servercomponents #nextjs #generated #en"`
+- Order: newsletter tags → article-specific tags → required tags
 
 ### Hashtag Guidelines (CRITICAL - READ CAREFULLY):
 

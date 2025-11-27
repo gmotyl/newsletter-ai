@@ -11,7 +11,7 @@ export const getEnabledPatterns = (state: ConfiguredState): PatternsState => {
   );
 
   if (enabledPatterns.length === 0) {
-    displayError("No enabled newsletter patterns found in config.json");
+    displayError("No enabled newsletter patterns found in config.yaml");
     process.exit(1);
   }
 

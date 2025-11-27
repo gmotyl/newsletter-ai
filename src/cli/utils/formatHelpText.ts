@@ -48,7 +48,7 @@ ${chalk.bold("Environment Variables:")}
   See .env.example for required configuration
 
 ${chalk.bold("Configuration:")}
-  Edit config.json for newsletter patterns and filters
+  Edit config.yaml for newsletter patterns and filters
   Edit PROMPT.md for custom LLM prompts
 `;
 };

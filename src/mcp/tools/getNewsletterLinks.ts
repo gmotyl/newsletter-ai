@@ -13,6 +13,7 @@ interface NewsletterLinksResult {
   date: string;
   uid: string;
   subject?: string;
+  hashtags?: string[];
   links: NewsletterLink[];
 }
 
@@ -77,6 +78,7 @@ export async function getNewsletterLinks(
       date: newsletter.date.toISOString(),
       uid: newsletter.id,
       subject: newsletter.subject,
+      hashtags: newsletter.hashtags || [],
       links: newsletter.articles.map((article) => ({
         title: article.title,
         url: article.url,

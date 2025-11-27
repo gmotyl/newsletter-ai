@@ -23,6 +23,7 @@ export const formatForLLM = (
     name: newsletter.pattern.name,
     date: newsletter.date,
     articles: filteredArticles,
+    hashtags: newsletter.pattern.hashtags,
   });
 
   const prompt = loadPrompt(formattedContent);

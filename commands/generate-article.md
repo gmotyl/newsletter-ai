@@ -12,6 +12,22 @@ Generate newsletter articles using the MCP server workflow.
 - Second argument (optional): pattern - filter by newsletter pattern (e.g., "daily.dev") OR "safe" keyword
 - If "safe" is included anywhere in arguments, emails will NOT be deleted (safe mode)
 
+## Hashtags
+
+Newsletters can have default hashtags configured in `config.yaml`:
+
+```yaml
+newsletterPatterns:
+  - name: "daily.dev"
+    hashtags: ["#dailydev", "#frontend", "#webdev"]
+```
+
+When preparing newsletters:
+- Default hashtags are copied from `config.yaml` to `LINKS.yaml`
+- You can manually edit hashtags in `LINKS.yaml` before generation
+- During article generation, newsletter hashtags are provided to the LLM
+- The LLM combines newsletter hashtags with article-specific tags
+
 **Examples:**
 
 - `/generate-article` → Process 1 newsletter, respects config.json autoDelete
@@ -67,6 +83,7 @@ Generate newsletter articles using the MCP server workflow.
          - Display: "✓ Using newsletter body content as fallback"
          - Use the bodyText or bodyHtml as content for article generation
          - Mark this as a "body-based" article (different prompt approach)
+         - **IMPORTANT**: Extract any URLs from the newsletter body and add them as proper `**Link:**` entries after each topic section
        - If body is NOT available:
          - Display: "✗ Newsletter body not available. Skipping this newsletter."
          - Continue to next newsletter
@@ -81,13 +98,17 @@ Generate newsletter articles using the MCP server workflow.
      - If using newsletter body (fallback):
        - Replace `{NEWSLETTER_CONTENT}` with the raw newsletter body
        - Adapt the prompt to handle body-based content (extract key topics, summarize sections, etc.)
+       - **CRITICAL**: Ensure each topic section ends with a proper `**Link:** [Title](URL)` line extracted from the newsletter body
      - Generate markdown article with frontmatter following PROMPT.md format:
        - Include `---` frontmatter with: title, excerpt, publishedAt, slug, hashtags
        - Include TLDR section
        - Include detailed summary for each article (or sections from body)
        - Include key takeaways
        - Include tradeoffs/considerations
+       - **Each topic section MUST end with `**Link:** [Title](URL)` line**
        - Include disclaimer at the end
+       - **IMPORTANT**: Do NOT include any "Co-Authored-By" attribution lines - these scare readers
+       - **IMPORTANT**: Do NOT include any "Generated with [Tool Name]" marketing lines - keep it clean and professional
    - Call `mcp__newsletter-ai__save_article` with generated content and newsletter name
    - Display: "✅ Saved article to [filepath]"
 
@@ -99,6 +120,7 @@ Generate newsletter articles using the MCP server workflow.
    - Display: "✅ Marked X newsletter(s) as read [and deleted Y]"
 
 7. **Display summary**
+
    - Show list of all generated articles with file paths
    - **Show processed emails with subjects** (from mark_newsletters_as_processed result):
      - For each processed email, display: subject line (or pattern name if no subject), UID, and deletion status
@@ -109,6 +131,8 @@ Generate newsletter articles using the MCP server workflow.
    - Confirm save location
    - Display total time taken
    - If safe mode: Display reminder that emails were NOT deleted
+
+8. commit new articles and push to remote
 
 **Important:**
 

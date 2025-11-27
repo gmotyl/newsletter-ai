@@ -14,6 +14,7 @@ interface YAMLNewsletter {
   subject?: string; // Email subject line
   bodyHtml?: string; // Raw HTML body of the email
   bodyText?: string; // Raw text body of the email
+  hashtags?: string[]; // Newsletter-level hashtags
   links: {
     title: string;
     url: string;
@@ -47,6 +48,7 @@ export async function saveLinksToYaml(
     subject: newsletter.subject, // Include email subject
     bodyHtml: newsletter.bodyHtml, // Include raw HTML body
     bodyText: newsletter.bodyText, // Include raw text body
+    hashtags: newsletter.pattern.hashtags || [], // Include newsletter hashtags
     links: newsletter.articles.map(article => ({
       title: article.title || 'Untitled',
       url: article.url,
@@ -84,6 +86,7 @@ export async function saveLinksToYaml(
     '# - subject: Email subject line (optional - for tracking)',
     '# - bodyHtml: Raw HTML body of the email (optional - fallback content)',
     '# - bodyText: Raw text body of the email (optional - fallback content)',
+    '# - hashtags: List of default hashtags for this newsletter (optional)',
     '# - links: Array of articles with title and url (required)',
     '#',
     '# Then run: npm run generate',
@@ -198,11 +201,13 @@ export async function loadLinksFromYaml(
         from: '', // Not available from YAML
         subject: [], // Not available from YAML (this is pattern subjects, not email subject)
         enabled: true,
+        hashtags: yamlNewsletter.hashtags || [],
       },
       date,
       subject: yamlNewsletter.subject, // Email subject line
       bodyHtml: yamlNewsletter.bodyHtml, // Raw HTML body
       bodyText: yamlNewsletter.bodyText, // Raw text body
+      hashtags: yamlNewsletter.hashtags || [], // Newsletter hashtags
       articles,
     };
 
