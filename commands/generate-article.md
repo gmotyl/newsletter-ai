@@ -10,7 +10,7 @@ Generate newsletter articles using the MCP server workflow.
 
 - First argument: limit - number of newsletters to process or "all" (default: 1)
 - Second argument (optional): pattern - filter by newsletter pattern (e.g., "daily.dev") OR "safe" keyword
-- If "safe" is included anywhere in arguments, emails will NOT be deleted (safe mode)
+- If "safe" is included anywhere in arguments, emails will NOT be deleted (safe mode is off by default)
 
 ## Hashtags
 
@@ -23,6 +23,7 @@ newsletterPatterns:
 ```
 
 When preparing newsletters:
+
 - Default hashtags are copied from `config.yaml` to `LINKS.yaml`
 - You can manually edit hashtags in `LINKS.yaml` before generation
 - During article generation, newsletter hashtags are provided to the LLM
@@ -143,3 +144,5 @@ When preparing newsletters:
 - Show clear progress indicators for each step
 - Handle errors gracefully and continue with remaining newsletters/articles if one fails
 - Skip articles that fail to scrape rather than stopping the entire process
+- do not mention persona in generated articles
+- do not mention {NARRATOR_PERSONA} in generated articles
