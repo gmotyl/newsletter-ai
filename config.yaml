@@ -166,6 +166,30 @@ newsletterPatterns:
       strategy: "auto"
       maxDepth: 1
     maxArticles: 20
+  - name: "Kilo Code"
+    from: "hi@kilocode.ai"
+    subject: ["Kilo Newsletter"]
+    enabled: true
+    maxArticles: 20
+    hashtags: ["#kilocode", "#ai"]
+  - name: "Frontend Masters"
+    from: "marc@frontendmasters.com"
+    subject: []
+    enabled: true
+    maxArticles: 20
+    hashtags: ["#frontendmasters", "#frontend"]
+  - name: "Frontend Forward"
+    from: "tools@blazity.com"
+    subject: ["Frontend Forward"]
+    enabled: true
+    maxArticles: 20
+    hashtags: ["#frontendforward", "#frontend"]
+  - name: "Sentry Newsletter"
+    from: "learn@sentry.io"
+    subject: []
+    enabled: true
+    maxArticles: 20
+    hashtags: ["#sentry", "#devtools"]
 
 contentFilters:
   skipTopics: []
