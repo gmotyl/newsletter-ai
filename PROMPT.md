@@ -74,7 +74,7 @@ You will be provided with newsletter-level hashtags (e.g., `#dailydev #frontend`
 **Example:**
 - Provided newsletter hashtags: `#dailydev #frontend`
 - Article about React Server Components
-- Output: `hashtags: "#dailydev #frontend #react #servercomponents #nextjs #generated #en"`
+- Output: `hashtags: "#dailydev #frontend #react #server-components #nextjs #generated #en"`
 - Order: newsletter tags → article-specific tags → required tags
 
 ### Hashtag Guidelines (CRITICAL - READ CAREFULLY):
@@ -112,13 +112,13 @@ You will be provided with newsletter-level hashtags (e.g., `#dailydev #frontend`
 
    **Tier 3 - Growing/Established:**
 
-   - React ecosystem: `#react-query`, `#react-router`, `#react-compiler`, `#tanstack-query`, `#tanstack-router`, `#tanstack-form`, `#react-server-components`, `#react-19`, `#zustand`, `#jotai`, `#redux`, `#redux-toolkit`, `#recoil`, `#xstate`
+   - React ecosystem: `#react-query`, `#react-router`, `#react-compiler`, `#tanstack-router`, `#tanstack-form`, `#react-19`, `#zustand`, `#jotai`, `#redux`, `#redux-toolkit`, `#recoil`, `#xstate`
    - Vue ecosystem: `#pinia`, `#vuex`, `#vue-router`, `#nuxt-modules`, `#vueuse`
    - State Management: `#mobx`, `#effector`, `#nanostores`
    - Databases: `#database`, `#planetscale`, `#turso`, `#convex`, `#neon`, `#cockroachdb`, `#fauna`, `#dynamodb`, `#cassandra`, `#elasticsearch`, `#clickhouse`
    - Tools: `#hono`, `#zod`, `#valibot`, `#effect`, `#arktype`, `#yup`, `#ajv`
    - UI Libraries: `#htmx`, `#alpine-js`, `#shadcn`, `#radix`, `#headlessui`, `#chakra`, `#mantine`, `#antd`, `#material-ui`, `#primereact`, `#daisyui`, `#flowbite`
-   - Concepts: `#ssr`, `#ssg`, `#isr`, `#spa`, `#mpa`, `#server-components`, `#server-actions`, `#islands`, `#partial-hydration`, `#streaming`, `#caching`, `#cdn`, `#edge`, `#accessibility`, `#a11y`, `#ux`, `#dx`, `#seo`, `#web-performance`, `#core-web-vitals`, `#wcag`, `#aria`, `#i18n`, `#l10n`
+   - Concepts: `#ssr`, `#ssg`, `#isr`, `#spa`, `#mpa`, `#server-components`, `#server-actions`, `#islands`, `#partial-hydration`, `#streaming`, `#caching`, `#cdn`, `#edge`, `#accessibility`, `#ux`, `#dx`, `#seo`, `#wcag`, `#aria`, `#i18n`, `#l10n`
    - Auth/Cloud: `#auth`, `#oauth`, `#jwt`, `#saml`, `#amplify`, `#clerk`, `#auth0`, `#okta`, `#keycloak`, `#lucia`
    - CMS: `#contentful`, `#sanity`, `#strapi`, `#payload`, `#directus`, `#ghost`, `#wordpress`
 
@@ -135,7 +135,7 @@ You will be provided with newsletter-level hashtags (e.g., `#dailydev #frontend`
 5. **Standardization Rules:**
 
    - Use lowercase for all hashtags
-   - Use hyphens for multi-word names: `#react-query`, `#next-js`, `#web-components`
+   - Use hyphens for multi-word names: `#react-query`, `#web-components`, `#open-source`
    - Unified spellings (DO NOT create variations):
      - Node.js → `#nodejs` (NOT `#node` or `#node-js`)
      - Next.js → `#nextjs`
@@ -145,6 +145,33 @@ You will be provided with newsletter-level hashtags (e.g., `#dailydev #frontend`
      - UX → `#ux`
    - Separate all hashtags with spaces
    - Aim for 8-15 hashtags total (don't over-tag)
+
+   **CONSOLIDATED HASHTAGS (use the target, NOT the alternatives):**
+
+   | Use This | NOT These |
+   |----------|-----------|
+   | `#productivity` | `#developer-productivity`, `#team-productivity`, `#employee-productivity` |
+   | `#performance` | `#web-performance`, `#core-web-vitals`, `#web-vitals` |
+   | `#architecture` | `#software-architecture`, `#system-design`, `#clean-architecture` |
+   | `#engineering` | `#software-engineering`, `#ai-engineering` |
+   | `#management` | `#engineering-management`, `#project-management`, `#team-management` |
+   | `#leadership` | `#engineering-leadership`, `#team-leadership` |
+   | `#teams` | `#team-collaboration`, `#team-development` |
+   | `#dx` | `#developer-experience`, `#devex` |
+   | `#devtools` | `#developer-tools`, `#dev-tools` |
+   | `#agents` | `#ai-agents`, `#coding-agents`, `#agentic-ai`, `#agentic` |
+   | `#ml` | `#machine-learning`, `#deep-learning`, `#neural-networks` |
+   | `#prompt-engineering` | `#promptengineering`, `#prompting` |
+   | `#server-components` | `#react-server-components`, `#rsc`, `#servercomponents` |
+   | `#react-query` | `#tanstack-query` |
+   | `#accessibility` | `#a11y` |
+   | `#refactoring` | `#technical-debt`, `#techdebt` |
+   | `#open-source` | `#opensource` |
+   | `#workflow` | `#workflows`, `#workflow-optimization` |
+   | `#startup` | `#startups` |
+   | `#animation` | `#animations`, `#scroll-driven-animations` |
+   | `#career` | `#professional-development`, `#personal-growth` |
+   | `#product` | `#productmanagement`, `#product-engineering` |
 
 6. **Examples:**
 

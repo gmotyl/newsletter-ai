@@ -190,6 +190,24 @@ newsletterPatterns:
     enabled: true
     maxArticles: 20
     hashtags: ["#sentry", "#devtools"]
+  - name: "Tailwind Weekly"
+    from: "vivian@mail.tailwindweekly.com"
+    subject: []
+    enabled: true
+    maxArticles: 20
+    hashtags: ["#tailwindweekly", "#tailwindcss", "#css"]
+  - name: "This Week In React"
+    from: "sebastien@thisweekinreact.com"
+    subject: []
+    enabled: true
+    maxArticles: 20
+    hashtags: ["#thisweekinreact", "#react", "#reactnative"]
+  - name: "AI Adopters Club"
+    from: "newsletter@aiadoptersclub.com"  # TODO: Update with correct sender email
+    subject: []
+    enabled: true
+    maxArticles: 20
+    hashtags: ["#aiadopters", "#ai"]
 
 contentFilters:
   skipTopics: []

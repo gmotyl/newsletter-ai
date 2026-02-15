@@ -10,6 +10,8 @@ export const mergeConfigWithCLI = (state: AppState): ConfiguredState => ({
     autoDelete: state.cliOptions.autoDelete ?? state.processingOptions.autoDelete,
     interactive: state.cliOptions.interactive ?? getInteractiveMode(),
     messageLimit: state.cliOptions.messageLimit ?? state.processingOptions.messageLimit,
+    processAllMessages: state.processingOptions.processAllMessages,
+    markAsRead: state.processingOptions.markAsRead,
   },
   finalLLMConfig: {
     ...state.llmConfig,
