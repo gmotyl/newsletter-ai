@@ -54,6 +54,7 @@ export const getEmailCredentials = (): EmailCredentials => ({
   port: parseInt(process.env.IMAP_PORT || "993", 10),
   user: process.env.IMAP_USER || "",
   password: process.env.IMAP_PASSWORD || "",
+  mailbox: process.env.IMAP_MAILBOX || "INBOX",
 });
 
 /**

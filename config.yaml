@@ -1,9 +1,7 @@
 newsletterPatterns:
   - name: "daily.dev"
     from: "informer@daily.dev"
-    subject:
-      - "Greg, your personal update from daily.dev is ready"
-      - "Daily Digest"
+    subject: []
     enabled: true
     maxArticles: 20
     hashtags: ["#dailydev"]

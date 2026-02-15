@@ -5,6 +5,7 @@ export interface EmailCredentials {
   port: number;
   user: string;
   password: string;
+  mailbox: string;
 }
 
 export interface NewsletterPattern {

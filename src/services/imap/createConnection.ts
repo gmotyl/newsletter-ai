@@ -52,7 +52,8 @@ export const createConnection = (
       // Start keep-alive after connection is ready
       startKeepAlive();
 
-      imap.openBox("INBOX", false, (err, mailbox) => {
+      const mailboxName = credentials.mailbox || "INBOX";
+      imap.openBox(mailboxName, false, (err, mailbox) => {
         if (err) {
           stopKeepAlive();
           if (!isResolved) {
@@ -61,7 +62,7 @@ export const createConnection = (
           }
           return;
         }
-        displayVerbose(`Mailbox opened: INBOX (${mailbox.messages.total} total messages)`);
+        displayVerbose(`Mailbox opened: ${mailboxName} (${mailbox.messages.total} total messages)`);
 
         if (!isResolved) {
           isResolved = true;
@@ -69,7 +70,7 @@ export const createConnection = (
           // Store keep-alive timer reference in the connection for cleanup
           const connection: IMAPConnection = {
             connection: imap,
-            mailbox: "INBOX",
+            mailbox: mailboxName,
           };
 
           // Add cleanup method to stop keep-alive when connection is closed
