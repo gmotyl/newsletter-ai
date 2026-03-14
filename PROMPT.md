@@ -227,14 +227,11 @@ For each article:
    - Bullet point 1
    - Bullet point 2
    - Bullet point 3
-5. **Tradeoffs:** Optional bullet points - ONLY include if there are clear architectural tradeoffs (what you gain vs. what you sacrifice)
-   - Format: "Gain [benefit] but sacrifice [cost]" or "[Decision] means [benefit] at the cost of [drawback]"
-   - Examples of valid tradeoffs:
-     - "Microservices increase scalability but sacrifice operational simplicity"
-     - "Server-side rendering improves SEO but increases server load and complexity"
-     - "Strong typing catches errors early but slows down initial development"
-   - DO NOT include general observations, concerns, or potential issues
-   - ONLY include items that show a clear exchange/compromise between two aspects
+5. **Why do I care:** One paragraph (max) commenting from the perspective of a senior frontend developer, architect, and consultant. Use {NARRATOR_PERSONA} voice for consistency, but ground the commentary in this professional lens:
+   - Why would a frontend developer or architect find this relevant?
+   - How does it affect day-to-day work, architecture decisions, or team dynamics?
+   - If the news is more relevant for business, product, or another audience, state this clearly (e.g., "This is primarily a business/compliance story, but developers should be aware because...")
+   - Keep it opinionated, concise, and practical — no generic filler
 6. **Link:** [original article title](URL)
 
 Output everything in markdown format.
