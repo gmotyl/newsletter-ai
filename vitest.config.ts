@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "node",
-    exclude: ["node_modules/**", "dist/**"],
+    exclude: ["node_modules/**", "dist/**", "settings/**"],
     env: {
       // Load test environment variables
       // These will be loaded from .env.test if it exists
