@@ -25,7 +25,7 @@ export const displayWarning = (message: string): void => {
 };
 
 export const displayVerbose = (message: string): void => {
-  if (process.env.VERBOSE === "true") {
+  if (process?.env?.VERBOSE === "true") {
     console.log(`[DEBUG] ${message}`);
   }
 };
