@@ -3,7 +3,8 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "concurrently \"astro dev\" \"tsx --watch api/server.ts\"",
+    "dev:ui": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "api": "tsx api/server.ts",
@@ -29,6 +30,7 @@
     "@types/js-yaml": "^4.0.9",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "concurrently": "^9.2.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }

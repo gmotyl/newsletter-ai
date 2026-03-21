@@ -13,7 +13,7 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
-    "settings": "cd settings && pnpm run dev:api & cd settings && pnpm dev"
+    "settings": "cd settings && pnpm dev"
   },
   "keywords": [
     "newsletter",

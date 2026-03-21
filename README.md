@@ -14,7 +14,7 @@ MCP server for Claude Code that connects to your email, fetches newsletters, scr
 
 1. Clone and install:
    ```bash
-   git clone <repo-url>
+   git clone https://github.com/gmotyl/newsletter-ai.git
    cd newsletter-ai
    pnpm install
    ```

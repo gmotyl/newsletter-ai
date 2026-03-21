@@ -106,7 +106,7 @@ function fetchRecentEmails(
       host: credentials.host,
       port: credentials.port,
       tls: true,
-      tlsOptions: { rejectUnauthorized: false },
+      tlsOptions: {},
       connTimeout: 30000,
       authTimeout: 10000,
     });
@@ -201,7 +201,7 @@ function searchEmails(
       host: credentials.host,
       port: credentials.port,
       tls: true,
-      tlsOptions: { rejectUnauthorized: false },
+      tlsOptions: {},
       connTimeout: 30000,
       authTimeout: 10000,
     });
