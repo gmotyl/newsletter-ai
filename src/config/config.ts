@@ -6,7 +6,6 @@ import { join, isAbsolute } from "path";
 import type {
   AppConfig,
   EmailCredentials,
-  LLMConfig,
   ProcessingOptions,
 } from "../types/index.js";
 
@@ -58,25 +57,6 @@ export const getEmailCredentials = (): EmailCredentials => ({
 });
 
 /**
- * Gets LLM configuration from environment variables
- */
-export const getLLMConfig = (): LLMConfig => {
-  const provider = process.env.LLM_PROVIDER || "openai";
-  const apiKey =
-    provider === "openai"
-      ? process.env.OPENAI_API_KEY || ""
-      : process.env.ANTHROPIC_API_KEY || "";
-
-  return {
-    provider,
-    model: process.env.LLM_MODEL || "gpt-4-turbo-preview",
-    apiKey,
-    temperature: parseFloat(process.env.LLM_TEMPERATURE || "0.7"),
-    maxTokens: parseInt(process.env.LLM_MAX_TOKENS || "4000", 10),
-  };
-};
-
-/**
  * Gets processing options from config.json with environment variable fallback
  */
 export const getProcessingOptions = (): ProcessingOptions => {
@@ -119,28 +99,6 @@ export const getNarratorPersona = (): string => {
   return (
     process.env.NARRATOR_PERSONA || appConfig.narratorPersona || "thePrimeagen"
   );
-};
-
-/**
- * Gets verbose flag with env variable priority over config.json
- */
-export const getVerboseMode = (): boolean => {
-  const appConfig = loadAppConfig();
-  if (process.env.VERBOSE !== undefined) {
-    return process.env.VERBOSE === "true";
-  }
-  return appConfig.verbose ?? false;
-};
-
-/**
- * Gets interactive flag with env variable priority over config.json
- */
-export const getInteractiveMode = (): boolean => {
-  const appConfig = loadAppConfig();
-  if (process.env.INTERACTIVE !== undefined) {
-    return process.env.INTERACTIVE === "true";
-  }
-  return appConfig.interactive ?? false;
 };
 
 /**

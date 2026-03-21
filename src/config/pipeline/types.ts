@@ -1,24 +1,27 @@
 // Configuration Pipeline Types
-import type { CLIOptions } from "../../cli/utils/index.js";
 import type {
   ProcessingOptions,
-  LLMConfig,
   NewsletterPattern,
   AppConfig,
 } from "../../types/index.js";
 import { getEmailCredentials } from "../config.js";
 
+export interface PrepareOptions {
+  pattern?: string;
+  messageLimit?: number;
+  dryRun?: boolean;
+  autoDelete?: boolean;
+}
+
 export interface AppState {
-  cliOptions: CLIOptions;
+  prepareOptions: PrepareOptions;
   emailCredentials: ReturnType<typeof getEmailCredentials>;
-  llmConfig: LLMConfig;
   processingOptions: ProcessingOptions;
   appConfig: AppConfig;
 }
 
 export interface ConfiguredState extends AppState {
   finalOptions: ProcessingOptions;
-  finalLLMConfig: LLMConfig;
 }
 
 export interface PatternsState extends ConfiguredState {

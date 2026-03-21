@@ -12,3 +12,4 @@ export { deleteEmail } from "./deleteEmail.js";
 export { parseEmailHtml } from "./parseEmailHtml.js";
 export { extractArticleLinks } from "./extractArticleLinks.js";
 export { withRetry } from "./withRetry.js";
+export { markNewsletterAsProcessed } from "./markAsProcessed.js";
