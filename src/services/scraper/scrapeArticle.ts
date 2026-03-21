@@ -31,7 +31,7 @@ async function scrapeWithAgentBrowser(url: string): Promise<Article> {
     // Get the main text content
     const { stdout: text } = await execFileAsync(
       "agent-browser",
-      ["eval", "document.querySelector('article')?.innerText || document.body.innerText"],
+      ["eval", "(document.querySelector('article') || document.querySelector('main') || document.querySelector('[role=main]') || document.body).innerText"],
       { timeout: 10000 }
     );
 
