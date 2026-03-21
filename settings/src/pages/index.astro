@@ -1,9 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { NewsletterList } from "../components/NewsletterList";
 ---
-<Layout title="Settings">
-  <main>
-    <h1>Newsletter AI Settings</h1>
-    <p>Settings UI loading...</p>
-  </main>
+<Layout title="Newsletters">
+  <NewsletterList client:load />
 </Layout>
