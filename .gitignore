@@ -30,6 +30,7 @@ output/
 
 # Cache
 .cache/
+.astro/
 
 # Claude Code configuration (generated from commands/)
 .claude/
