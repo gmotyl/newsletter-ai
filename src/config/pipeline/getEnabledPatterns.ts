@@ -1,6 +1,6 @@
 // Get enabled newsletter patterns from configuration
 import filter from "lodash-es/filter.js";
-import { displayError } from "../../cli/utils/index.js";
+import { displayError } from "../../utils/logger.js";
 import type { NewsletterPattern } from "../../types/index.js";
 import type { ConfiguredState, PatternsState } from "./types.js";
 

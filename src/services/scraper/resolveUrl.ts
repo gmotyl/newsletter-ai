@@ -1,7 +1,7 @@
 import type { ResolvedUrl, ScraperOptions } from "../../types/index.js";
 import { followRedirect } from "./followRedirect.js";
 import { extractUrlFromMeta, extractUrlFromSelector } from "./extractUrlFromMeta.js";
-import { displayVerbose } from "../../cli/utils/index.js";
+import { displayVerbose } from "../../utils/logger.js";
 
 /**
  * Resolves a potentially nested URL to the actual article URL

@@ -4,7 +4,7 @@
 
 import { promises as fs } from 'fs';
 import { join } from 'path';
-import { displayVerbose, displayError } from '../cli/utils/index.js';
+import { displayVerbose, displayError } from './logger.js';
 
 interface ProcessedUIDsData {
   processedUIDs: number[];

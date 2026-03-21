@@ -1,20 +1,30 @@
 // Prepare Pipeline - Collect newsletters and save links to YAML
-import { pipeAsync } from "../utils/index.js";
+import { pipeAsync, exitIf } from "../utils/index.js";
 import { searchAndCollectNewsletters } from "./searchAndCollectNewsletters.js";
-import { exitIfNoNewsletters } from "./exitIfNoNewsletters.js";
 import { saveLinksToYaml } from "../utils/yaml.js";
 import {
   displaySuccess,
   displayInfo,
   displayProgress,
   displayVerbose,
-} from "../cli/utils/index.js";
+} from "../utils/logger.js";
 import { resolveUrlWithCache } from "../services/scraper/resolveUrl.js";
 import { extract } from "@extractus/article-extractor";
 import pLimit from "p-limit";
 import type { PatternsState } from "../config/pipeline/types.js";
 import type { CollectedNewsletters } from "./types.js";
 import type { Newsletter, Article, NewsletterPattern, ScraperOptions, AppConfig } from "../types/index.js";
+
+/**
+ * Exit if no newsletters were collected
+ */
+const exitIfNoNewsletters = exitIf((collected: CollectedNewsletters) => {
+  const hasNoNewsletters = collected.newsletters.length === 0;
+  if (hasNoNewsletters) {
+    displayInfo("No newsletters to process. Exiting.");
+  }
+  return hasNoNewsletters;
+}, 0);
 
 /**
  * Get nested scraping configuration from newsletter pattern

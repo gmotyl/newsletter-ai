@@ -1,6 +1,6 @@
-// Display selected newsletter patterns to user
+// Display selected newsletter patterns (simple log in MCP mode)
 import { tapAsync } from "../../utils/index.js";
-import { displayInfo, formatNewsletterPattern } from "../../cli/utils/index.js";
+import { displayInfo } from "../../utils/logger.js";
 import type { PatternsState } from "./types.js";
 
 export const displayPatterns = tapAsync((state: PatternsState) => {
@@ -8,7 +8,6 @@ export const displayPatterns = tapAsync((state: PatternsState) => {
     `Found ${state.patternsToProcess.length} newsletter pattern(s) to process:`
   );
   state.patternsToProcess.forEach((pattern) => {
-    console.log(`  ${formatNewsletterPattern(pattern)}`);
+    console.log(`  ${pattern.name} (from: ${pattern.from}) [${pattern.enabled ? "enabled" : "disabled"}]`);
   });
-  console.log("\n");
 });

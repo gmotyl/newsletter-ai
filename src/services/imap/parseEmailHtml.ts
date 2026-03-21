@@ -1,7 +1,7 @@
 // Pure function: Extracts article links from HTML content
 // Returns array of unique URLs
 
-import { displayVerbose } from "../../cli/utils/index.js";
+import { displayVerbose } from "../../utils/logger.js";
 
 /**
  * Checks if a link context contains sponsored/ad indicators

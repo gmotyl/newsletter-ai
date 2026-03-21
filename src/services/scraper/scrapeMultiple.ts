@@ -4,7 +4,7 @@
 import pLimit from "p-limit";
 import type { Article, NewsletterPattern, ScraperOptions } from "../../types/index.js";
 import { scrapeArticleWithRetry } from "./scrapeArticleWithRetry.js";
-import { displayVerbose } from "../../cli/utils/index.js";
+import { displayVerbose } from "../../utils/logger.js";
 
 /**
  * @param urls - Array of article URLs to scrape

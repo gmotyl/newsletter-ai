@@ -59,14 +59,6 @@ export interface AppConfig {
   };
 }
 
-export interface LLMConfig {
-  provider: string;
-  model: string;
-  apiKey: string;
-  temperature?: number;
-  maxTokens?: number;
-}
-
 export interface Article {
   title: string;
   url: string;
@@ -92,21 +84,6 @@ export interface ProcessingOptions {
   messageLimit: number;
   dryRun?: boolean;
   interactive?: boolean;
-}
-
-export interface Summary {
-  newsletter: string;
-  date: Date;
-  articles: ArticleSummary[];
-  rawResponse: string; // Raw LLM response with frontmatter for markdown output
-  model: string; // LLM model used to generate the summary
-}
-
-export interface ArticleSummary {
-  title: string;
-  summary: string;
-  keyTakeaways: string[];
-  url: string;
 }
 
 // IMAP-specific types

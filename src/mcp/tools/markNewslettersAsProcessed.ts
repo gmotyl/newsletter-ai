@@ -3,7 +3,7 @@
 
 import { getEmailCredentials, getProcessingOptions } from "../../config/config.js";
 import { createConnection, closeConnection } from "../../services/imap/index.js";
-import { markNewsletterAsProcessed } from "../../services/processor/markNewsletterAsProcessed.js";
+import { markNewsletterAsProcessed } from "../../services/imap/markAsProcessed.js";
 import { updateProcessedUID } from "../../utils/updateProcessedUIDs.js";
 import { loadLinksFromYaml } from "../../utils/yaml.js";
 import type { Newsletter } from "../../types/index.js";

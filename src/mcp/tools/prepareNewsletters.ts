@@ -4,7 +4,7 @@
 
 import { buildConfigPipeline } from "../../config/pipeline/index.js";
 import { preparePipe } from "../../newsletter/preparePipeline.js";
-import type { CLIOptions } from "../../cli/utils/index.js";
+import type { PrepareOptions } from "../../config/pipeline/types.js";
 
 interface PrepareResult {
   success: boolean;
@@ -24,19 +24,15 @@ export async function prepareNewsletters(
   safeMode?: boolean
 ): Promise<PrepareResult> {
   try {
-    // Build CLI options programmatically
-    const cliOptions: CLIOptions = {
-      mode: "prepare",
+    const prepareOptions: PrepareOptions = {
       messageLimit: limit === "all" ? undefined : limit,
       pattern: pattern || undefined,
       dryRun: false,
-      autoDelete: safeMode ? false : undefined, // undefined = use config.json value
-      help: false,
-      interactive: false,
+      autoDelete: safeMode ? false : undefined,
     };
 
-    // Build config pipeline (loads config, applies CLI options)
-    const state = await buildConfigPipeline(cliOptions);
+    // Build config pipeline (loads config, applies options)
+    const state = await buildConfigPipeline(prepareOptions);
 
     // Run the prepare pipeline (reuses existing logic)
     await preparePipe(state);

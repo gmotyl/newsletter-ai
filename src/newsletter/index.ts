@@ -1,3 +1,5 @@
 // Newsletter Pipeline - Public API
-export { newsletterPipe as buildNewsletterPipeline } from "./pipeline.js";
-export type { CollectedNewsletters, ProcessedNewsletters } from "./types.js";
+export { preparePipe } from "./preparePipeline.js";
+export { searchAndCollectNewsletters } from "./searchAndCollectNewsletters.js";
+export { markAsProcessed } from "./markAsProcessed.js";
+export type { CollectedNewsletters } from "./types.js";

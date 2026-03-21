@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio';
-import { displayVerbose } from "../../cli/utils/index.js";
+import { displayVerbose } from "../../utils/logger.js";
 
 /**
  * Extracts the actual article URL from meta tags
