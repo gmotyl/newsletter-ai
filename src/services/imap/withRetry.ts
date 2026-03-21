@@ -1,7 +1,7 @@
 // Retry wrapper for IMAP operations with exponential backoff
 // Pure utility function for handling transient failures
 
-import { displayVerbose } from "../../cli/utils/index.js";
+import { displayVerbose } from "../../utils/logger.js";
 
 export interface RetryOptions {
   maxAttempts?: number;

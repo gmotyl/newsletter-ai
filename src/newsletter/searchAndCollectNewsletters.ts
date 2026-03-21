@@ -11,7 +11,7 @@ import {
   displayWarning,
   displayProgress,
   displayVerbose,
-} from "../cli/utils/index.js";
+} from "../utils/logger.js";
 import type { Newsletter } from "../types/index.js";
 import type { PatternsState } from "../config/pipeline/types.js";
 import type { CollectedNewsletters } from "./types.js";

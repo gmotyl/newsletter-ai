@@ -1,7 +1,7 @@
 // Closes the IMAP connection with proper cleanup and timeout
 
 import type { IMAPConnection } from "../../types/index.js";
-import { displayVerbose } from "../../cli/utils/index.js";
+import { displayVerbose } from "../../utils/logger.js";
 
 const CLOSE_TIMEOUT = 5000; // 5 seconds timeout for closing connection
 

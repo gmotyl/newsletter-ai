@@ -7,7 +7,7 @@ import type { Article, NewsletterPattern, ScraperOptions } from "../../types/ind
 import { cleanContent } from "./cleanContent.js";
 import { resolveUrlWithCache } from "./resolveUrl.js";
 import { isIntermediateDomain } from "./isIntermediateDomain.js";
-import { displayVerbose } from "../../cli/utils/index.js";
+import { displayVerbose } from "../../utils/logger.js";
 
 /**
  * @param url - The article URL to scrape

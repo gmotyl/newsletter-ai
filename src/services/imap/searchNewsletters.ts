@@ -8,7 +8,7 @@ import type {
   NewsletterPattern,
 } from "../../types/index.js";
 import { buildSearchCriteria } from "./buildSearchCriteria.js";
-import { displayVerbose } from "../../cli/utils/index.js";
+import { displayVerbose } from "../../utils/logger.js";
 
 export const searchNewsletters = (
   conn: IMAPConnection,

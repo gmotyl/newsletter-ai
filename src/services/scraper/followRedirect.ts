@@ -1,4 +1,4 @@
-import { displayVerbose } from "../../cli/utils/index.js";
+import { displayVerbose } from "../../utils/logger.js";
 
 /**
  * Follows HTTP redirects and returns the final URL

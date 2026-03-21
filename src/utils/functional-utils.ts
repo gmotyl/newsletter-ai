@@ -1,6 +1,6 @@
 // Functional utilities for composable pipelines
 import curry from "lodash-es/curry.js";
-import { displayError } from "../cli/utils/index.js";
+import { displayError } from "./logger.js";
 
 export const tapAsync = curry(
   <T>(fn: (arg: T) => void | Promise<void>, arg: T): Promise<T> => {
