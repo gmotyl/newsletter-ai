@@ -19,7 +19,7 @@ const getProjectRoot = (): string => {
 // Load environment variables
 // Don't load .env in test environment - tests should use vitest.setup.ts
 if (process.env.VITEST !== "true") {
-  loadEnv({ path: join(getProjectRoot(), ".env") });
+  loadEnv({ path: join(getProjectRoot(), ".env"), quiet: true });
 }
 
 import { load } from "js-yaml";
