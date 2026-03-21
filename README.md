@@ -6,7 +6,7 @@ MCP server for Claude Code that connects to your email, fetches newsletters, scr
 
 - Connects to Gmail/IMAP and fetches newsletter emails
 - Extracts and resolves article links (handles tracking URLs, redirects, nested scraping)
-- Scrapes full article content using @extractus/article-extractor
+- Scrapes full article content using @extractus/article-extractor (falls back to [agent-browser](https://www.npmjs.com/package/agent-browser) CLI when extraction fails)
 - Provides everything to Claude Code via MCP tools
 - Claude handles the summarization (no API keys needed)
 
@@ -123,6 +123,15 @@ src/
 ```
 
 See [SCRAPING_README.md](SCRAPING_README.md) for details on the nested scraping and URL resolution system.
+
+## External Dependencies
+
+The scraper uses `agent-browser` as a fallback when `@extractus/article-extractor` fails (e.g. JS-heavy pages, paywalls, anti-bot protections):
+
+```bash
+npm install -g agent-browser
+agent-browser install  # download Chrome binary (first time)
+```
 
 ## Development
 

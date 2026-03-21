@@ -1,8 +1,13 @@
+import { config } from "dotenv";
+import { resolve } from "path";
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import { configRoutes } from "./routes/config.js";
 import { promptRoutes } from "./routes/prompt.js";
 import { newsletterRoutes } from "./routes/newsletters.js";
+
+// Load .env from project root
+config({ path: resolve(import.meta.dirname, "../../.env") });
 
 const server = Fastify({ logger: true });
 
