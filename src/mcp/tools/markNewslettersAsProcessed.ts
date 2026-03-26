@@ -151,6 +151,39 @@ export async function markNewslettersAsProcessed(
         message += `. ${failureCount} failed.`;
       }
 
+      // Report processing stats to motyl-dev
+      try {
+        const { getStatsUrl, getStatsApiKey } = await import("../../config/config.js");
+        const statsUrl = getStatsUrl();
+        const statsApiKey = getStatsApiKey();
+
+        if (statsUrl && statsApiKey) {
+          // Aggregate by pattern name
+          const patternCounts = new Map<string, { processed: number; extracted: number }>();
+          for (const nl of processedNewsletters) {
+            const existing = patternCounts.get(nl.name) || { processed: 0, extracted: 0 };
+            existing.processed += 1;
+            patternCounts.set(nl.name, existing);
+          }
+
+          const entries = Array.from(patternCounts.entries()).map(
+            ([patternName, counts]) => ({ patternName, ...counts })
+          );
+
+          await fetch(`${statsUrl}/api/stats/processed`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": statsApiKey,
+            },
+            body: JSON.stringify({ entries }),
+          });
+        }
+      } catch (statsError) {
+        console.error("Failed to report stats:", statsError);
+        // Non-fatal — don't fail the main operation
+      }
+
       return {
         success: failureCount === 0,
         message,
