@@ -54,6 +54,7 @@ excerpt: "<brief 1-sentence description of the newsletter content>"
 publishedAt: "YYYY-MM-DD"
 slug: "descriptive-slug-based-on-title"
 hashtags: "#newsletter-level-hashtags #article-specific-hashtags #generated #language-code"
+source_pattern: "<exact pattern name from the newsletter source, e.g. daily.dev, TLDR>"
 ---
 ```
 
