@@ -118,3 +118,7 @@ export const getOutputPath = (): string => {
  * Returns PROJECT_DIR env variable if set (for MCP server), otherwise current working directory
  */
 export { getProjectRoot };
+
+export const getStatsUrl = (): string | undefined => process.env.MOTYL_STATS_URL;
+
+export const getStatsApiKey = (): string | undefined => process.env.MOTYL_STATS_API_KEY;

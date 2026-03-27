@@ -1,7 +1,7 @@
 // MCP Tool: mark_newsletters_as_processed
 // Marks processed newsletters as read and optionally deletes them
 
-import { getEmailCredentials, getProcessingOptions } from "../../config/config.js";
+import { getEmailCredentials, getProcessingOptions, getStatsUrl, getStatsApiKey } from "../../config/config.js";
 import { createConnection, closeConnection } from "../../services/imap/index.js";
 import { markNewsletterAsProcessed } from "../../services/imap/markAsProcessed.js";
 import { updateProcessedUID } from "../../utils/updateProcessedUIDs.js";
@@ -13,6 +13,7 @@ interface ProcessedNewsletter {
   subject?: string;
   uid: string;
   deleted: boolean;
+  articleCount: number;
 }
 
 interface MarkAsProcessedResult {
@@ -28,6 +29,7 @@ interface NewsletterWithUID {
   name: string;
   subject?: string;
   uid: string;
+  articleCount: number;
 }
 
 /**
@@ -40,6 +42,7 @@ async function getNewslettersFromYaml(): Promise<NewsletterWithUID[]> {
     name: newsletter.pattern.name,
     subject: newsletter.subject, // Email subject line
     uid: newsletter.id, // The UID is stored in the id field
+    articleCount: newsletter.articles.length,
   }));
 }
 
@@ -127,6 +130,7 @@ export async function markNewslettersAsProcessed(
             subject: newsletter.subject,
             uid: newsletter.uid,
             deleted: shouldDelete,
+            articleCount: newsletter.articleCount,
           });
 
           successCount++;
@@ -149,6 +153,39 @@ export async function markNewslettersAsProcessed(
       }
       if (failureCount > 0) {
         message += `. ${failureCount} failed.`;
+      }
+
+      // Report processing stats to motyl-dev
+      try {
+        const statsUrl = getStatsUrl();
+        const statsApiKey = getStatsApiKey();
+
+        if (statsUrl && statsApiKey) {
+          // Aggregate by pattern name
+          const patternCounts = new Map<string, { processed: number; extracted: number }>();
+          for (const nl of processedNewsletters) {
+            const existing = patternCounts.get(nl.name) || { processed: 0, extracted: 0 };
+            existing.processed += 1;
+            existing.extracted += nl.articleCount;
+            patternCounts.set(nl.name, existing);
+          }
+
+          const entries = Array.from(patternCounts.entries()).map(
+            ([patternName, counts]) => ({ patternName, ...counts })
+          );
+
+          await fetch(`${statsUrl}/api/stats/processed`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": statsApiKey,
+            },
+            body: JSON.stringify({ entries }),
+          });
+        }
+      } catch (statsError) {
+        console.error("Failed to report stats:", statsError);
+        // Non-fatal — don't fail the main operation
       }
 
       return {
