@@ -1,7 +1,7 @@
 // MCP Tool: mark_newsletters_as_processed
 // Marks processed newsletters as read and optionally deletes them
 
-import { getEmailCredentials, getProcessingOptions } from "../../config/config.js";
+import { getEmailCredentials, getProcessingOptions, getStatsUrl, getStatsApiKey } from "../../config/config.js";
 import { createConnection, closeConnection } from "../../services/imap/index.js";
 import { markNewsletterAsProcessed } from "../../services/imap/markAsProcessed.js";
 import { updateProcessedUID } from "../../utils/updateProcessedUIDs.js";
@@ -157,7 +157,6 @@ export async function markNewslettersAsProcessed(
 
       // Report processing stats to motyl-dev
       try {
-        const { getStatsUrl, getStatsApiKey } = await import("../../config/config.js");
         const statsUrl = getStatsUrl();
         const statsApiKey = getStatsApiKey();
 
