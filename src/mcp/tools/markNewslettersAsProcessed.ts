@@ -13,6 +13,7 @@ interface ProcessedNewsletter {
   subject?: string;
   uid: string;
   deleted: boolean;
+  articleCount: number;
 }
 
 interface MarkAsProcessedResult {
@@ -28,6 +29,7 @@ interface NewsletterWithUID {
   name: string;
   subject?: string;
   uid: string;
+  articleCount: number;
 }
 
 /**
@@ -40,6 +42,7 @@ async function getNewslettersFromYaml(): Promise<NewsletterWithUID[]> {
     name: newsletter.pattern.name,
     subject: newsletter.subject, // Email subject line
     uid: newsletter.id, // The UID is stored in the id field
+    articleCount: newsletter.articles.length,
   }));
 }
 
@@ -127,6 +130,7 @@ export async function markNewslettersAsProcessed(
             subject: newsletter.subject,
             uid: newsletter.uid,
             deleted: shouldDelete,
+            articleCount: newsletter.articleCount,
           });
 
           successCount++;
@@ -163,6 +167,7 @@ export async function markNewslettersAsProcessed(
           for (const nl of processedNewsletters) {
             const existing = patternCounts.get(nl.name) || { processed: 0, extracted: 0 };
             existing.processed += 1;
+            existing.extracted += nl.articleCount;
             patternCounts.set(nl.name, existing);
           }
 
