@@ -30,6 +30,7 @@ interface NestedScraping {
   intermediateDomains: string[];
   strategy: string;
   maxDepth?: number;
+  selector?: string;
 }
 
 interface NewsletterPattern {
@@ -112,6 +113,7 @@ function NewsletterListInner() {
     if (!config) return;
     const updated = structuredClone(config);
     updated.newsletterPatterns[index].enabled = enabled;
+    setConfig(updated); // optimistic update so Switch doesn't revert during API call
     await saveConfig(updated);
   };
 
@@ -157,6 +159,7 @@ function NewsletterListInner() {
         : [],
     };
     if (values.nestedScrapingEnabled) {
+      const existing = config.newsletterPatterns[editIndex]?.nestedScraping;
       pattern.nestedScraping = {
         enabled: true,
         intermediateDomains: values.intermediateDomains
@@ -167,6 +170,7 @@ function NewsletterListInner() {
           : [],
         strategy: values.strategy,
         maxDepth: values.maxDepth,
+        ...(existing?.selector ? { selector: existing.selector } : {}),
       };
     }
     updated.newsletterPatterns[editIndex] = pattern;

@@ -297,6 +297,12 @@ newsletterPatterns:
     enabled: true
     maxArticles: 20
     hashtags: []
+  - name: VercelMonthly
+    from: ship@info.vercel.com
+    subject: []
+    enabled: true
+    maxArticles: 20
+    hashtags: []
 contentFilters:
   skipTopics: []
   focusTopics: []
